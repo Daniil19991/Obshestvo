@@ -1,0 +1,2183 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Цели и прогресс</title>
+<meta name="description" content="Цели учеников: тьюторство, обществознание, история">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233F7A5F'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Commissioner:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F1EA; --surface:#FFFDF9; --surface2:#EFE8DE; --border:#E4DACB; --border2:#CDBFAB;
+  --ink:#231D17; --ink2:#554B40; --muted:#877B6D;
+  --ok:#4E6B34; --ok-soft:#E4ECD6; --bad:#A4412E; --bad-soft:#F6DFD8;
+  --warn:#8F5E12; --warn-soft:#F7E8CB;
+  --c-tutor:#3F7A5F; --c-obsh:#7A3452; --c-hist:#9A4A24;
+  --dir:#3F7A5F; --dir-soft:#E2EEE7;
+  --shadow:0 1px 2px rgba(60,40,20,.06), 0 8px 24px -14px rgba(60,40,20,.25);
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --sans:"Commissioner","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16130F; --surface:#201B16; --surface2:#2A241D; --border:#382F26; --border2:#4E4335;
+    --ink:#F1E9DF; --ink2:#CDBFAE; --muted:#9A8C7C;
+    --ok:#9DBE72; --ok-soft:#242C1A; --bad:#E58A74; --bad-soft:#35201A;
+    --warn:#E0AC5A; --warn-soft:#33260F;
+    --c-tutor:#6FC3A0; --c-obsh:#D08AA8; --c-hist:#E0956A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16130F; --surface:#201B16; --surface2:#2A241D; --border:#382F26; --border2:#4E4335;
+  --ink:#F1E9DF; --ink2:#CDBFAE; --muted:#9A8C7C;
+  --ok:#9DBE72; --ok-soft:#242C1A; --bad:#E58A74; --bad-soft:#35201A;
+  --warn:#E0AC5A; --warn-soft:#33260F;
+  --c-tutor:#6FC3A0; --c-obsh:#D08AA8; --c-hist:#E0956A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+body.d-tutor{--dir:var(--c-tutor)}
+body.d-obsh{--dir:var(--c-obsh)}
+body.d-hist{--dir:var(--c-hist)}
+body{--dir-soft:color-mix(in srgb, var(--dir) 14%, var(--surface))}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.5;
+  -webkit-font-smoothing:antialiased; -webkit-tap-highlight-color:transparent; overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600; letter-spacing:-.01em; text-wrap:balance}
+h1{font-size:clamp(26px,5vw,38px); line-height:1.15}
+h2{font-size:clamp(19px,2.6vw,23px); line-height:1.25}
+h3{font-size:16px; line-height:1.3}
+p{margin:0}
+button{font:inherit; color:inherit}
+a{color:inherit}
+.mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+
+/* ---------- шапка ---------- */
+.topnav{position:sticky; top:0; z-index:30; background:var(--bg);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:saturate(1.4) blur(10px); -webkit-backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--border)}
+.topnav-in{max-width:1080px; margin:0 auto; padding:0 20px; height:54px; display:flex; align-items:center; gap:14px}
+.brand{font-family:var(--serif); font-size:16px; font-weight:600; text-decoration:none; white-space:nowrap; display:flex; align-items:center; gap:9px}
+.brand i{width:22px; height:22px; border-radius:7px; background:var(--dir); display:inline-block; position:relative}
+.brand i::after{content:""; position:absolute; inset:6px; border:2px solid var(--surface); border-radius:50%}
+.navlinks{display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:var(--muted); text-decoration:none; font-size:14px; white-space:nowrap; padding:7px 11px; border-radius:8px}
+.navlinks a.on{color:var(--ink); background:var(--surface2); font-weight:600}
+@media (hover:hover){ .navlinks a:hover{color:var(--ink); background:var(--surface2)} }
+@media (max-width:620px){ #subnav{display:none} .brand span{display:none} .topnav-in{padding:0 12px; gap:8px} .navlinks a{padding:8px 10px} }
+
+.wrap{max-width:1080px; margin:0 auto; padding:24px 20px 80px; display:flex; flex-direction:column; gap:32px}
+@media (max-width:620px){ .wrap{padding:18px 16px 64px; gap:26px} }
+
+.section{display:flex; flex-direction:column; gap:14px; scroll-margin-top:70px}
+.section-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.note{font-size:13px; color:var(--muted)}
+.panel{background:var(--surface); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow)}
+.pad{padding:20px 22px}
+@media (max-width:620px){ .pad{padding:16px} }
+
+/* ---------- кнопки и поля ---------- */
+.btn{font-weight:500; font-size:14px; padding:8px 15px; border-radius:9px; background:var(--dir); color:var(--surface);
+  border:1px solid transparent; cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap}
+.btn.ghost{background:none; color:var(--ink2); border-color:var(--border)}
+.btn.small{padding:5px 10px; font-size:13px}
+.btn.danger{background:none; color:var(--bad); border-color:var(--bad-soft)}
+@media (hover:hover){ .btn:hover{filter:brightness(1.1)} .btn.ghost:hover{background:var(--surface2); filter:none} }
+.btn:active{filter:brightness(.94)}
+.iconbtn{background:none; border:1px solid transparent; border-radius:8px; width:32px; height:32px; cursor:pointer; color:var(--muted);
+  display:inline-flex; align-items:center; justify-content:center; font-size:15px; flex:none}
+@media (hover:hover){ .iconbtn:hover{background:var(--surface2); color:var(--ink)} }
+.field{display:flex; flex-direction:column; gap:5px; min-width:0}
+.field>label{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+input[type=text],input[type=number],input[type=date],input[type=search],select,textarea{
+  font:inherit; font-size:15px; padding:8px 10px; border:1px solid var(--border); border-radius:9px;
+  background:var(--surface); color:var(--ink); width:100%; min-width:0}
+textarea{resize:vertical; min-height:70px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--dir); outline-offset:-1px; border-color:transparent}
+@media (max-width:620px){ input[type=text],input[type=number],input[type=date],input[type=search],select,textarea{font-size:16px} }
+.row{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end}
+.row>.field{flex:1 1 130px}
+.chk{display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:14px}
+
+/* ---------- главная ---------- */
+.hero{padding:26px 26px 24px; display:flex; flex-direction:column; gap:10px}
+.hero .sub{color:var(--ink2); max-width:62ch}
+.dirs{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+@media (max-width:860px){ .dirs{grid-template-columns:1fr} }
+.dir{--d:var(--c-tutor); padding:18px 18px 14px; display:flex; flex-direction:column; gap:12px; border-top:4px solid var(--d)}
+.dir.obsh{--d:var(--c-obsh)} .dir.hist{--d:var(--c-hist)}
+.dir h2{display:flex; align-items:center; gap:10px}
+.dir h2 b{font-family:var(--mono); font-size:12px; color:var(--d); font-weight:600; letter-spacing:.08em}
+.stlist{display:flex; flex-direction:column}
+.st{display:grid; grid-template-columns:1fr auto; gap:4px 12px; align-items:center; padding:10px 8px; border-radius:10px; text-decoration:none}
+.st+.st{border-top:1px solid var(--border)}
+@media (hover:hover){ .st:hover{background:var(--surface2)} }
+.st .nm{font-weight:600}
+.st .gr{font-size:12.5px; color:var(--muted)}
+.st .pc{font-family:var(--mono); font-size:13px; font-weight:600; color:var(--d)}
+.st .bar{grid-column:1/-1}
+.bar{height:6px; border-radius:4px; background:var(--surface2); overflow:hidden}
+.bar>i{display:block; height:100%; background:var(--d, var(--dir)); border-radius:4px; transition:width .3s ease}
+.upcoming{display:flex; flex-direction:column}
+.up{display:grid; grid-template-columns:86px 1fr auto; gap:12px; padding:10px 4px; align-items:baseline; text-decoration:none}
+.up+.up{border-top:1px solid var(--border)}
+.up .dt{font-family:var(--mono); font-size:12.5px; color:var(--muted)}
+.up .who{font-size:13px; color:var(--muted); white-space:nowrap}
+.tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:5px;
+  background:var(--surface2); color:var(--ink2); white-space:nowrap; display:inline-block}
+.tag.q{background:var(--warn-soft); color:var(--warn)}
+.tag.m{background:var(--dir-soft); color:var(--dir)}
+.tag.ok{background:var(--ok-soft); color:var(--ok)}
+.tag.bad{background:var(--bad-soft); color:var(--bad)}
+@media (max-width:620px){ .up{grid-template-columns:70px 1fr} .up .who{grid-column:2} }
+
+/* ---------- страница ученика: шапка ---------- */
+.shead{display:grid; grid-template-columns:1.5fr 1fr; gap:16px}
+@media (max-width:760px){ .shead{grid-template-columns:1fr} }
+.shead .main{padding:22px 24px; display:flex; flex-direction:column; gap:12px}
+.goaltext{color:var(--ink2); font-size:15px; max-width:64ch}
+.countdown{display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap}
+.cd-num{font-family:var(--mono); font-weight:600; font-size:clamp(34px,6vw,48px); line-height:.95; letter-spacing:-.03em; color:var(--warn)}
+.cd-cap{font-size:13px; color:var(--muted); padding-bottom:4px}
+.ringbox{padding:18px; display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap}
+.ringbox .lbl{font-size:13px; color:var(--muted); line-height:1.4; max-width:22ch}
+.ringbox .lbl b{color:var(--ink); display:block; font-size:15px}
+
+.kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border-radius:12px; overflow:hidden; border:1px solid var(--border)}
+@media (max-width:620px){ .kpis{grid-template-columns:1fr} }
+.kpi{background:var(--surface); padding:14px 16px; display:flex; flex-direction:column; gap:4px}
+.kpi .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.kpi .v{font-family:var(--mono); font-size:24px; font-weight:600; letter-spacing:-.02em}
+.kpi .v small{font-size:14px; color:var(--muted); font-weight:500}
+.kpi .d{font-size:13px; color:var(--ink2)}
+
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{font-family:var(--mono); font-size:13px; min-width:38px; padding:6px 8px; border-radius:8px; border:1.5px solid var(--border);
+  background:var(--surface); cursor:pointer; text-align:center; color:var(--muted); position:relative}
+.chip.tgt{border-color:var(--dir); color:var(--ink)}
+.chip.on{background:var(--ok); border-color:var(--ok); color:var(--surface)}
+.chip.on.tgt{box-shadow:0 0 0 2px var(--surface), 0 0 0 3.5px var(--dir)}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--muted)}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.sw{width:12px; height:12px; border-radius:3px; display:inline-block; border:1.5px solid var(--border)}
+
+/* ---------- контрольные точки ---------- */
+.cps{display:flex; flex-direction:column; gap:10px}
+.qcard{display:grid; grid-template-columns:150px 1fr; border-left:4px solid var(--border2)}
+.qcard.cur{border-left-color:var(--warn)}
+.qcard.ok{border-left-color:var(--ok)}
+.qcard.miss{border-left-color:var(--bad)}
+.qcard .qh{padding:14px 16px; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:4px}
+.qcard .qh .ql{font-family:var(--serif); font-weight:600; font-size:16px}
+.qcard .qb{padding:14px 16px; display:flex; flex-direction:column; gap:10px; min-width:0}
+@media (max-width:620px){ .qcard{grid-template-columns:1fr} .qcard .qh{border-right:0; border-bottom:1px solid var(--border); flex-direction:row; flex-wrap:wrap; gap:4px 12px; align-items:baseline} }
+.cpline{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; font-size:14px; padding:6px 0}
+.cpline+.cpline{border-top:1px dashed var(--border)}
+.cpline .lb{min-width:0}
+.cpline .lb small{display:block; color:var(--muted); font-size:12.5px}
+.score{font-family:var(--mono); font-weight:600; font-size:14px; white-space:nowrap; text-align:right}
+.score small{display:block; font-weight:400; color:var(--muted); font-size:11.5px}
+.dot{width:10px; height:10px; border-radius:50%; background:var(--border2); display:inline-block}
+.dot.ok{background:var(--ok)} .dot.miss{background:var(--bad)} .dot.cur{background:var(--warn)}
+.modchips{display:flex; flex-wrap:wrap; gap:6px}
+.modchip{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; border:1px solid var(--border); border-radius:999px; padding:2px 10px 2px 8px; color:var(--ink2)}
+.modchip i{width:8px; height:8px; border-radius:50%; background:var(--m); display:inline-block}
+.modchip b{font-family:var(--mono); font-weight:600; color:var(--ink)}
+
+/* ---------- графики ---------- */
+.chartbox{padding:16px 14px 10px}
+.chartbox svg{display:block; max-width:100%}
+.chartbox .legend{padding:6px 8px 4px}
+.lg-line{width:20px; height:0; border-top:2.5px solid var(--dir); display:inline-block}
+.lg-dash{width:20px; height:0; border-top:2px dashed var(--muted); display:inline-block}
+.charts2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:860px){ .charts2{grid-template-columns:1fr} }
+
+/* ---------- темы ---------- */
+.blocks{display:flex; flex-direction:column; gap:10px}
+.block{--m:var(--dir); overflow:hidden}
+.bhead{width:100%; display:flex; align-items:center; gap:12px; padding:13px 16px; background:none; border:0; border-left:4px solid var(--m); cursor:pointer; text-align:left}
+@media (hover:hover){ .bhead:hover{background:var(--surface2)} }
+.bhead .chev{color:var(--muted); font-size:11px; transition:transform .2s; width:12px}
+.block.open .chev{transform:rotate(90deg)}
+.bhead .bt{flex:1; min-width:0}
+.bhead .bt b{font-family:var(--serif); font-size:16.5px; display:block}
+.bhead .bt small{font-size:12.5px; color:var(--muted)}
+.bhead .cnt{font-family:var(--mono); font-size:13px; font-weight:600; color:var(--m); white-space:nowrap}
+.bhead .bar{width:70px; flex:none}
+.bhead .bar>i{background:var(--m)}
+@media (max-width:620px){ .bhead .bar{display:none} }
+.bbody{display:none; padding:4px 14px 12px 18px}
+.block.open .bbody{display:block}
+.topic{display:flex; gap:11px; padding:9px 4px; align-items:flex-start; cursor:pointer; border-radius:8px}
+@media (hover:hover){ .topic:hover{background:var(--surface2)} }
+.topic input{appearance:none; -webkit-appearance:none; flex:none; width:20px; height:20px; margin:1px 0 0; cursor:pointer; border:1.5px solid var(--border2); border-radius:6px; background:var(--surface); position:relative}
+.topic input:checked{background:var(--m); border-color:var(--m)}
+.topic input:checked::after{content:""; position:absolute; left:6px; top:2px; width:5px; height:10px; border:solid var(--surface); border-width:0 2px 2px 0; transform:rotate(43deg)}
+.topic .tx{font-size:14.5px; line-height:1.45; flex:1}
+.topic .dt{font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap; padding-top:3px}
+.topic.done .tx{color:var(--muted); text-decoration:line-through; text-decoration-color:var(--border2)}
+
+/* ---------- результаты ---------- */
+.results{display:flex; flex-direction:column}
+.res{display:grid; grid-template-columns:84px 1fr 130px auto; gap:12px; align-items:center; padding:9px 2px; font-size:14px}
+.res+.res{border-top:1px solid var(--border)}
+.res .rd{font-family:var(--mono); font-size:12.5px; color:var(--muted)}
+.res .rl small{display:block; color:var(--muted); font-size:12.5px}
+.rbar{height:18px; border-radius:5px; background:var(--surface2); position:relative; overflow:hidden}
+.rbar>i{display:block; height:100%; background:var(--ok); opacity:.85}
+.rbar>u{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--warn)}
+@media (max-width:620px){ .res{grid-template-columns:70px 1fr auto} .res .rbar{grid-column:1/-1; order:5} }
+.empty{font-size:14px; color:var(--muted); padding:6px 0}
+
+/* ---------- тьюторство ---------- */
+.lvl{padding:18px 20px; display:flex; flex-direction:column; gap:12px; justify-content:center}
+.lvl .big{display:flex; align-items:baseline; gap:10px}
+.lvl .big b{font-family:var(--mono); font-size:44px; line-height:1; color:var(--dir)}
+.lvl .big span{font-size:14px; color:var(--muted)}
+.lvl .bar{height:9px}
+.lvl .xp{font-family:var(--mono); font-size:12px; color:var(--muted)}
+.badges{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px}
+.badge{padding:12px; display:flex; gap:10px; align-items:center; border-radius:12px; border:1px solid var(--border); background:var(--surface)}
+.badge .ic{width:38px; height:38px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; background:var(--surface2); filter:grayscale(1); opacity:.5}
+.badge.got .ic{background:var(--dir-soft); filter:none; opacity:1}
+.badge b{font-size:13.5px; display:block; line-height:1.25}
+.badge small{font-size:12px; color:var(--muted); line-height:1.3; display:block}
+.badge:not(.got) b{color:var(--muted)}
+
+.spheres{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start}
+@media (max-width:900px){ .spheres{grid-template-columns:1fr} }
+.sphere{display:flex; flex-direction:column; gap:10px}
+.sphere-h{display:flex; align-items:center; gap:10px; padding:0 2px}
+.sphere-h .ic{width:30px; height:30px; border-radius:9px; background:var(--s); color:var(--surface); display:flex; align-items:center; justify-content:center; font-size:15px}
+.sphere-h h3{flex:1; font-size:17px}
+.goal{--s:var(--dir); padding:14px 15px; display:flex; flex-direction:column; gap:11px; border-top:3px solid var(--s)}
+.goal.done{opacity:.8}
+.goal .gt{display:flex; gap:8px; align-items:flex-start}
+.goal .gt h3{flex:1; font-size:15.5px}
+.goal .gmeta{display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:12.5px; color:var(--muted)}
+.goal .gnote{font-size:13px; color:var(--ink2)}
+.goal .bar>i{background:var(--s)}
+.goal .pc{font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--s)}
+.gsec{border-top:1px solid var(--border); padding-top:10px; display:flex; flex-direction:column; gap:8px}
+.gsec .gsh{display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:12px; font-family:var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.metric-now{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--muted)}
+.metric-now b{font-family:var(--mono); font-size:22px; color:var(--ink)}
+.minirow{display:flex; gap:6px}
+.minirow input{flex:1}
+.week{display:grid; grid-template-columns:repeat(7,1fr); gap:4px}
+.wd{display:flex; flex-direction:column; align-items:center; gap:3px; font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase}
+.mark{width:100%; aspect-ratio:1; max-width:38px; min-height:30px; border-radius:8px; border:1.5px solid var(--border); background:var(--surface); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:var(--muted)}
+.mark.y{background:var(--ok); border-color:var(--ok); color:var(--surface)}
+.mark.n{background:var(--bad-soft); border-color:var(--bad); color:var(--bad)}
+.mark.today{outline:2px solid var(--warn); outline-offset:1px}
+.mark.off{opacity:.35}
+.hstat{font-size:12.5px; color:var(--muted)}
+.tasks{display:flex; flex-direction:column; gap:2px}
+.task{display:flex; gap:9px; align-items:flex-start; padding:5px 2px; font-size:14px}
+.task input{appearance:none; -webkit-appearance:none; flex:none; width:18px; height:18px; margin:1px 0 0; border:1.5px solid var(--border2); border-radius:5px; background:var(--surface); position:relative; cursor:pointer}
+.task input:checked{background:var(--s); border-color:var(--s)}
+.task input:checked::after{content:""; position:absolute; left:5px; top:1px; width:4px; height:9px; border:solid var(--surface); border-width:0 2px 2px 0; transform:rotate(43deg)}
+.task .tx{flex:1; min-width:0; word-break:break-word}
+.task.done .tx{color:var(--muted); text-decoration:line-through}
+.task .due{font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap; padding-top:2px}
+.task .due.late{color:var(--bad)}
+.task .iconbtn{width:24px; height:24px; font-size:12px; opacity:.6}
+.addgoal{border:1.5px dashed var(--border2); border-radius:14px; background:none; padding:16px; color:var(--muted); cursor:pointer; font-size:14px; text-align:center}
+@media (hover:hover){ .addgoal:hover{color:var(--ink); border-color:var(--s); background:var(--surface)} }
+
+/* календарь */
+.calwrap{display:grid; grid-template-columns:minmax(280px,380px) 1fr; gap:14px; align-items:start}
+@media (max-width:820px){ .calwrap{grid-template-columns:1fr} }
+.cal{padding:14px 16px 16px; display:flex; flex-direction:column; gap:10px}
+.cal-head{display:flex; align-items:center; justify-content:space-between}
+.cal-title{font-family:var(--serif); font-weight:600; font-size:17px}
+.grid7{display:grid; grid-template-columns:repeat(7,1fr); gap:3px}
+.dow{font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--muted); text-align:center; padding-bottom:2px}
+.day{min-height:44px; border-radius:9px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-family:var(--mono); font-size:13px; color:var(--ink2); cursor:pointer; position:relative; border:1.5px solid transparent}
+.day.out{visibility:hidden}
+.day.today{border-color:var(--warn)}
+.day.sel{background:var(--surface2); border-color:var(--dir)}
+.day .dots{display:flex; gap:2px; height:6px}
+.day .dots i{width:6px; height:6px; border-radius:50%}
+.day.dl::before{content:""; position:absolute; top:4px; right:5px; width:5px; height:5px; background:var(--warn); transform:rotate(45deg)}
+.dayp{padding:16px 18px; display:flex; flex-direction:column; gap:10px}
+.dayp .hrow{display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--border)}
+.dayp .hrow .nm{flex:1; font-size:14px}
+.dayp .hrow .nm small{display:block; color:var(--muted); font-size:12px}
+.tri{display:flex; gap:4px}
+.tri button{width:36px; height:32px; border-radius:8px; border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-weight:700; color:var(--muted)}
+.tri button.y.on{background:var(--ok); border-color:var(--ok); color:var(--surface)}
+.tri button.n.on{background:var(--bad-soft); border-color:var(--bad); color:var(--bad)}
+
+/* ---------- понятия ---------- */
+.tools{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+.tools input[type=search]{flex:1 1 220px}
+.tools select{flex:0 1 220px; width:auto}
+.seg{display:inline-flex; border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--surface)}
+.seg button{border:0; background:none; padding:7px 13px; font-size:14px; cursor:pointer; color:var(--muted)}
+.seg button.on{background:var(--surface2); color:var(--ink); font-weight:600}
+.terms{display:flex; flex-direction:column}
+.term{display:grid; grid-template-columns:1fr auto; gap:4px 10px; padding:12px 4px; align-items:start}
+.term+.term{border-top:1px solid var(--border)}
+.term .tt{font-weight:600; font-size:15px}
+.term .tt .modchip{margin-left:6px; vertical-align:1px; font-weight:400}
+.term .td{grid-column:1/-1; font-size:14.5px; color:var(--ink2); line-height:1.5}
+.term .ta{display:flex; gap:2px; align-items:center}
+.term.known .tt{color:var(--ok)}
+.flash{padding:26px 22px; min-height:260px; display:flex; flex-direction:column; gap:16px; align-items:center; justify-content:center; text-align:center; cursor:pointer}
+.flash .ft{font-family:var(--serif); font-size:clamp(22px,4vw,30px); font-weight:600}
+.flash .fd{font-size:16px; color:var(--ink2); max-width:60ch; line-height:1.55}
+.flash .fh{font-size:12.5px; color:var(--muted)}
+.fctl{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
+
+/* ---------- модалка ---------- */
+.modal{position:fixed; inset:0; z-index:100; background:rgba(20,14,8,.45); display:flex; align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto}
+.modal[hidden]{display:none}
+.mbox{width:100%; max-width:560px; background:var(--surface); border-radius:16px; border:1px solid var(--border); box-shadow:0 20px 60px -20px rgba(0,0,0,.5); padding:20px 22px; display:flex; flex-direction:column; gap:14px}
+.mbox .mh{display:flex; align-items:center; gap:10px}
+.mbox .mh h2{flex:1; font-size:20px}
+.mbox fieldset{border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:0; display:flex; flex-direction:column; gap:10px}
+.mbox legend{padding:0 6px; font-size:13px}
+.mfoot{display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap}
+.mfoot .sp{flex:1}
+@media (max-width:620px){ .modal{padding:12px 8px} .mbox{padding:16px} }
+
+.toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--bg); padding:10px 16px; border-radius:10px; font-size:14px; opacity:0; transition:all .25s; z-index:200; pointer-events:none; max-width:90vw; text-align:center}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+.foot{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); align-items:center}
+.foot .btns{display:flex; gap:8px; flex-wrap:wrap}
+.failnote{font-size:13px; color:var(--warn); background:var(--warn-soft); border-radius:9px; padding:11px 13px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important} }
+
+.minirow input[type=date]{flex:0 0 118px!important; width:118px!important; font-size:13px; padding:8px 6px}
+mark{background:var(--warn-soft); color:inherit; border-radius:3px; padding:0 1px}
+
+.up2{grid-template-columns:70px 1fr!important; font-size:14px; line-height:1.4}
+.up2 .who2{font-weight:600}
+.dir h3{font-size:17px}
+.nexttopic{border-left:4px solid var(--dir)}
+.ntrow{display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-top:6px}
+.ntnum{font-family:var(--mono); font-size:28px; font-weight:600; color:var(--dir)}
+.nttx{flex:1 1 240px; font-family:var(--serif); font-size:18px; font-weight:600; line-height:1.3}
+.nttx small{display:block; font-family:var(--sans); font-size:13px; font-weight:400; color:var(--muted); margin-top:3px}
+.tlist2{display:flex; flex-direction:column}
+.modhead{display:flex; align-items:center; gap:8px; padding:14px 4px 6px; font-size:13px; color:var(--ink2); border-bottom:1px solid var(--border)}
+.modhead:first-child{padding-top:0}
+.modhead i{width:9px; height:9px; border-radius:50%; background:var(--m)}
+.modhead b{flex:1; font-family:var(--serif); font-size:15px; color:var(--ink)}
+.trow2{display:flex; align-items:center; gap:10px; border-radius:9px; --m:var(--dir)}
+.trow2 .topic{flex:1; min-width:0}
+.trow2 .num{font-family:var(--mono); font-size:12.5px; color:var(--muted); min-width:22px; text-align:right; padding-top:2px}
+.trow2.next{background:var(--dir-soft)}
+.trow2.next .num{color:var(--dir); font-weight:700}
+.trow2.done .tx{color:var(--muted); text-decoration:line-through; text-decoration-color:var(--border2)}
+.trow2 .dt{font-family:var(--mono); font-size:12px; color:var(--ok); white-space:nowrap; padding-right:6px}
+.tdate{flex:0 0 132px!important; width:132px!important; font-size:13px!important; padding:5px 6px!important; font-family:var(--mono)}
+.tdate.late{color:var(--bad); border-color:var(--bad-soft)}
+@media (max-width:620px){ .trow2{flex-wrap:wrap; gap:0 10px; padding-bottom:6px} .trow2 .topic{flex:1 1 100%} .trow2 .dt{margin-left:36px} .trow2 .tdate{margin-left:36px; flex:0 0 150px!important; width:150px!important} }
+
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="topnav-in">
+  <a class="brand" href="#/"><i></i><span>Цели и прогресс</span></a>
+  <div class="navlinks" id="subnav"></div>
+  <div class="navlinks" style="margin-left:0">
+    <a href="#/" data-r="home">Ученики</a>
+    <a href="#/terms" data-r="terms">Понятия</a>
+  </div>
+</div></nav>
+<main class="wrap" id="app"></main>
+<div class="modal" id="modal" hidden><div class="mbox" id="mbox" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+window.addEventListener("error", function(ev){
+  if (document.getElementById("bootFail")) return;
+  var p=document.createElement("p"); p.id="bootFail"; p.className="failnote"; p.style.margin="16px 20px";
+  p.textContent="Браузер не смог выполнить страницу: "+(ev.message||"ошибка")+(ev.lineno?" (строка "+ev.lineno+")":"")+". Покажи это сообщение — починю.";
+  document.body.insertBefore(p, document.body.firstChild);
+});
+</script>
+<script>
+/* =====================================================================
+   ДАННЫЕ САЙТА. Здесь можно править списки учеников, темы и цели.
+   Всё, что ученики отмечают на сайте, хранится отдельно — в браузере.
+   ===================================================================== */
+
+var TODAY_OVERRIDE = null; // для проверки: "2026-11-10"
+
+/* ---------- Тьюторство ---------- */
+var SPHERES = [
+  { id:"health", name:"Здоровье",     icon:"♥", color:"#B4533F", dark:"#E58A74" },
+  { id:"self",   name:"Саморазвитие", icon:"✦", color:"#3D6E8E", dark:"#8CB4D4" },
+  { id:"dev",    name:"Развитие",     icon:"▲", color:"#7A6B2E", dark:"#C7B26A" }
+];
+
+var TUTOR_STUDENTS = [
+  { id:"vlad",  name:"Влад Зотов", short:"Влад" },
+  { id:"fedya", name:"Федя",       short:"Федя" },
+  { id:"artem", name:"Артём",      short:"Артём" }
+];
+
+/* Стартовые цели. Появляются у ученика один раз, дальше он правит их на сайте. */
+var TUTOR_SEED = {
+  vlad: [
+    { sphere:"health", title:"Похудеть на 1 кг", deadline:"2026-10-01",
+      note:"Хожу на тренировки и отмечаю в календаре, был или нет. После 1 октября цель поменяем.",
+      metric:{ label:"Вес", unit:"кг", start:null, target:null, delta:-1, log:[] },
+      habit:{ label:"Тренировка", mode:"free", days:[], marks:{} },
+      tasks:[{ text:"Взвеситься и записать стартовый вес" }] },
+    { sphere:"self", title:"Слепая печать: 40 символов в минуту", deadline:"2026-10-01",
+      note:"Замеряю скорость на тренажёре и записываю результат.",
+      metric:{ label:"Скорость", unit:"зн/мин", start:null, target:40, delta:null, log:[] },
+      habit:null,
+      tasks:[{ text:"Сделать стартовый замер скорости" }] },
+    { sphere:"dev", title:"Скорочтение: сходить на занятия и поставить SMART-цель", deadline:"2026-10-01",
+      note:"",
+      metric:null, habit:null,
+      tasks:[{ text:"Посетить занятие по скорочтению" },
+             { text:"Сформулировать SMART-цель по скорочтению" }] }
+  ],
+  fedya: [
+    { sphere:"health", title:"Пить 2 литра воды каждый день", deadline:"",
+      note:"Каждый вечер отмечаю в календаре, выпил ли 2 л.",
+      metric:null,
+      habit:{ label:"Выпил 2 л", mode:"daily", days:[], marks:{} },
+      tasks:[] },
+    { sphere:"self", title:"Выучить 10 дат по истории", deadline:"",
+      note:"Каждую выученную дату добавляю задачей и отмечаю.",
+      metric:{ label:"Выучено дат", unit:"шт", start:0, target:10, delta:null, log:[], fromTasks:true },
+      habit:null, tasks:[] }
+  ],
+  artem: []
+};
+
+/* ---------- Учебный год ---------- */
+var YEAR_MONTHS = [ [2026,8],[2026,9],[2026,10],[2026,11],[2027,0],[2027,1],[2027,2],[2027,3],[2027,4] ];
+var QUARTERS = [
+  { n:1, label:"I четверть",   months:"сен — окт", end:"2026-10-28" },
+  { n:2, label:"II четверть",  months:"ноя — дек", end:"2026-12-23" },
+  { n:3, label:"III четверть", months:"янв — фев", end:"2027-02-24" },
+  { n:4, label:"IV четверть",  months:"мар — апр", end:"2027-04-21" },
+  { n:5, label:"V четверть",   months:"май",       end:"2027-05-15" }
+];
+/* ежемесячные промежуточные работы — в месяцы без четвертной */
+var MONTHLY = [
+  { key:"nov", date:"2026-11-25", label:"Промежуточная работа (ноябрь)", between:[1,2] },
+  { key:"jan", date:"2027-01-27", label:"Промежуточная работа (январь)", between:[2,3] },
+  { key:"mar", date:"2027-03-24", label:"Промежуточная работа (март)",   between:[3,4] }
+];
+
+/* ---------- Предметы ---------- */
+var SUBJECTS = {
+  obsh: {
+    id:"obsh", name:"Обществознание", short:"Общество",
+    total:58, parts:[{ name:"Тестовая часть", short:"тест", max:28 }, { name:"Письменная часть", short:"письм.", max:30 }],
+    taskNums:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+    written:17,
+    modules:[
+      { id:"chio", name:"Человек и общество", color:"#3D6E8E", dark:"#8CB4D4", topics:[
+        "Общество как система",
+        "Общественные потребности и социальные институты",
+        "Типы обществ",
+        "Многообразие путей и форм общественного развития",
+        "Человек как биосоциальное существо",
+        "Мировоззрение",
+        "Познание",
+        "Мышление",
+        "Понятие истины и её критерии" ]},
+      { id:"dk", name:"Духовная культура", color:"#2F7885", dark:"#6BB6C4", topics:[
+        "Духовная деятельность человека",
+        "Мораль как общечеловеческая ценность и социальный регулятор",
+        "Наука",
+        "Образование в современном мире",
+        "Религия, её роль в жизни общества и человека",
+        "Искусство и его основные функции" ]},
+      { id:"econ", name:"Экономика", color:"#3F7A5F", dark:"#6FC3A0", topics:[
+        "Роль экономики в жизни общества",
+        "Экономические институты и их роль в жизни общества",
+        "Типы экономических систем",
+        "Функционирование рынков. Типы рыночных структур",
+        "Рынок труда. Безработица",
+        "Предприятие (фирма) в экономике. Предпринимательство",
+        "Финансовый рынок",
+        "Инфляция: причины, виды, социально-экономические последствия",
+        "Банковская система",
+        "Государство в экономике",
+        "Налоги. Виды налогов",
+        "Экономическое развитие. Понятие экономического цикла",
+        "Мировая экономика" ]},
+      { id:"soc", name:"Социальная сфера", color:"#A9711A", dark:"#E0A857", topics:[
+        "Социальные общности, группы, их типы",
+        "Этнические общности",
+        "Положение индивида в обществе: социальные статусы и роли",
+        "Социализация личности и её этапы. Агенты социализации",
+        "Социальные нормы",
+        "Межличностные отношения. Социальные конфликты" ]},
+      { id:"pol", name:"Политика", color:"#9C3B54", dark:"#E08296", topics:[
+        "Политическая власть. Субъекты политики",
+        "Политическая система и государство",
+        "Форма государства",
+        "Политические партии",
+        "Избирательная система",
+        "Органы государственной власти в РФ",
+        "Субъекты РФ" ]},
+      { id:"law", name:"Право", color:"#6E4A8C", dark:"#B394D8", topics:[
+        "Понятие права и система права",
+        "Правоотношения и субъекты права",
+        "Система права",
+        "Правонарушение и юридическая ответственность",
+        "Конституция РФ. Основы конституционного строя",
+        "Правоохранительные органы",
+        "Механизмы реализации прав и свобод человека",
+        "Гражданские правоотношения",
+        "Семейные правоотношения",
+        "Трудовые правоотношения",
+        "Административные правоотношения",
+        "Основные понятия и институты уголовного права" ]}
+    ]
+  },
+  hist: {
+    id:"hist", name:"История", short:"История",
+    total:43, parts:[{ name:"Часть 1 (задания 1–12)", short:"ч.1", max:20 }, { name:"Часть 2 (задания 13–22)", short:"ч.2", max:23 }],
+    taskNums:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+    written:13,
+    /* шкала ФИПИ 2027: первичный → тестовый (вторичный) балл */
+    scale:[0,4,8,12,16,20,24,28,32,34,36,38,40,42,44,45,47,49,51,53,55,57,58,60,62,64,66,68,70,72,74,76,78,80,82,84,87,89,91,93,95,97,100,100],
+    taskInfo:{
+      1:"Хронология: события и даты", 2:"Исторические деятели / факты", 3:"Процессы, явления, термины",
+      4:"Таблица: систематизация", 5:"Соответствие: процессы и факты", 6:"Работа с источником (соответствие)",
+      7:"Культура: соответствие", 8:"Карта / схема", 9:"Карта / схема", 10:"Карта / схема", 11:"Карта / схема",
+      12:"Иллюстрации: культура", 13:"Источник: атрибуция", 14:"Источник: анализ", 15:"Источник по всеобщей истории",
+      16:"Иллюстрация: анализ", 17:"Иллюстрация: анализ", 18:"Исторический контекст", 19:"Причины и следствия",
+      20:"Исторические понятия", 21:"Сравнение", 22:"Аргументация"
+    },
+    modules:[
+      { id:"h1", name:"Русь IX — XV вв.", color:"#8A5A2B", dark:"#D6A36F", topics:[
+        "Восточные славяне и их соседи. Образование Древнерусского государства",
+        "Первые князья: Рюрик, Олег, Игорь, Ольга, Святослав",
+        "Владимир I, крещение Руси. Ярослав Мудрый, «Русская Правда»",
+        "Русь в XI — начале XII в.: Любечский съезд, Владимир Мономах",
+        "Политическая раздробленность: Владимиро-Суздальская, Новгородская, Галицко-Волынская земли",
+        "Монгольское нашествие. Русь и Орда. Борьба с крестоносцами, Александр Невский",
+        "Возвышение Москвы: Иван Калита, Дмитрий Донской, Куликовская битва",
+        "Феодальная война XV в. Иван III: объединение земель, Судебник 1497 г., конец ига",
+        "Культура Руси IX — XV вв." ]},
+      { id:"h2", name:"Россия XVI — XVII вв.", color:"#2F6E6A", dark:"#6FBDB6", topics:[
+        "Василий III. Иван IV: реформы Избранной рады",
+        "Опричнина. Внешняя политика Ивана IV, Ливонская война",
+        "Смутное время",
+        "Первые Романовы. Соборное уложение 1649 г.",
+        "Церковный раскол. Народные восстания XVII в.",
+        "Внешняя политика XVII в. Воссоединение с Левобережной Украиной. Освоение Сибири",
+        "Культура XVI — XVII вв." ]},
+      { id:"h3", name:"Россия XVIII в.", color:"#6E4A8C", dark:"#B394D8", topics:[
+        "Пётр I: реформы",
+        "Северная война",
+        "Эпоха дворцовых переворотов",
+        "Екатерина II: внутренняя политика, восстание Пугачёва",
+        "Внешняя политика второй половины XVIII в. Павел I",
+        "Культура XVIII в." ]},
+      { id:"h4", name:"Россия XIX в.", color:"#3D6E8E", dark:"#8CB4D4", topics:[
+        "Александр I: реформы. Отечественная война 1812 г. Декабристы",
+        "Николай I. Крымская война. Общественная мысль",
+        "Александр II: Великие реформы",
+        "Александр III. Внешняя политика второй половины XIX в.",
+        "Культура XIX в." ]},
+      { id:"h5", name:"XX век: 1900 — 1941", color:"#9C3B54", dark:"#E08296", topics:[
+        "Николай II. Русско-японская война. Революция 1905—1907 гг.",
+        "Столыпинские реформы. Думская монархия. Первая мировая война",
+        "Революция 1917 г. Гражданская война",
+        "НЭП. Образование СССР. Индустриализация и коллективизация",
+        "Внешняя политика и культура 1920—1930-х гг." ]},
+      { id:"h6", name:"1941 — наши дни", color:"#3F7A5F", dark:"#6FC3A0", topics:[
+        "Великая Отечественная война 1941—1945 гг.",
+        "СССР в 1945—1964 гг.: восстановление, «оттепель»",
+        "СССР в 1964—1991 гг.: «застой», перестройка, распад СССР",
+        "Россия в 1991 г. — наши дни",
+        "Культура XX — XXI вв." ]},
+      { id:"h7", name:"Повторение и всеобщая история", color:"#7A6B2E", dark:"#C7B26A", topics:[
+        "Всеобщая история: ключевые события и источники (задание 15)",
+        "Карты и схемы (задания 8—11)",
+        "Иллюстрации и культура (задания 12, 16, 17)" ]}
+    ]
+  }
+};
+
+/* ---------- Ученики по предметам ----------
+   plan — какие модули проходим и в какие месяцы (индексы YEAR_MONTHS: 0 = сентябрь … 8 = май)
+   q    — цели по четвертям: total, parts [часть1, часть2], mods (пройдено к концу), tasks
+*/
+var SUBJ_STUDENTS = [
+  { id:"obsh-ivan-g", subject:"obsh", name:"Иван Г.", grade:"11 класс",
+    goalDate:"2027-05-15",
+    goalText:"К 15 мая 2027 г. знаю: 8 тем «Человек и общество», 6 тем «Духовная культура», 18 тем «Экономика», 9 тем «Политика», 10 тем «Право». Решаю задания 17, 18, 19, 20, 21, 22, 24, 25. Проверочная работа — 47/58 (82%): тест 24/28, письменная 23/30.",
+    plan:[ {mods:["chio","dk"], from:0, to:1}, {mods:["econ","soc"], from:2, to:3}, {mods:["pol"], from:4, to:5}, {mods:["law"], from:6, to:7} ],
+    q:[
+      { total:29, parts:[16,13], mods:["chio","dk"], tasks:[17,18,21,22] },
+      { total:33, parts:[18,15], mods:["chio","dk","econ","soc"], tasks:[17,18,21,22,24] },
+      { total:37, parts:[20,17], mods:["chio","dk","econ","soc","pol"], tasks:[1,17,18,19,21,22,24,25] },
+      { total:45, parts:[24,21], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] },
+      { total:47, parts:[24,23], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] }
+    ],
+    modWorks:[ {date:"2026-10-21", mods:["chio","dk"]}, {date:"2026-12-09", mods:["econ"]}, {date:"2026-12-16", mods:["soc"]}, {date:"2027-02-17", mods:["pol"]}, {date:"2027-04-14", mods:["law"]} ]
+  },
+  { id:"obsh-ivan-t", subject:"obsh", name:"Иван Т.", grade:"11 класс",
+    goalDate:"2027-05-15",
+    goalText:"К 15 мая 2027 г. знаю все 5 модулей (ЧиО, духовная культура, экономика, политика, право). Решаю задания 17, 18, 19, 20, 21, 22, 24, 25. Проверочная работа — 47/58 (82%): тест 24/28, письменная 23/30.",
+    plan:[ {mods:["chio","dk"], from:0, to:1}, {mods:["econ","soc"], from:2, to:3}, {mods:["pol"], from:4, to:5}, {mods:["law"], from:6, to:7} ],
+    q:[
+      { total:22, parts:[9,13],  mods:["chio","dk"], tasks:[17,18,21,22] },
+      { total:32, parts:[18,15], mods:["chio","dk","econ","soc"], tasks:[17,18,21,22,24] },
+      { total:40, parts:[22,18], mods:["chio","dk","econ","soc","pol"], tasks:[1,17,18,19,21,22,24,25] },
+      { total:45, parts:[24,21], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] },
+      { total:47, parts:[24,23], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] }
+    ],
+    modWorks:[ {date:"2026-10-21", mods:["chio","dk"]}, {date:"2026-12-09", mods:["econ"]}, {date:"2026-12-16", mods:["soc"]}, {date:"2027-02-17", mods:["pol"]}, {date:"2027-04-14", mods:["law"]} ]
+  },
+  { id:"obsh-anya-s", subject:"obsh", name:"Аня С.", grade:"10 класс",
+    goalDate:"2027-05-15",
+    goalText:"К концу учебного года знаю все 5 модулей (ЧиО, духовная культура, экономика, политика, право). Решаю задания 17, 18, 19, 20, 21, 22, 24, 25. Проверочная работа — 37/58 (64%): тест 21/28, письменная 16/30.",
+    plan:[ {mods:["chio","dk"], from:0, to:1}, {mods:["econ","soc","pol"], from:4, to:5}, {mods:["law"], from:6, to:7} ],
+    q:[
+      { total:22, parts:[9,13],  mods:["chio","dk"], tasks:[17,18,21,22] },
+      { total:26, parts:[15,11], mods:["chio","dk"], tasks:[17,18,21,22] },
+      { total:29, parts:[15,14], mods:["chio","dk","econ","soc","pol"], tasks:[17,18,21,22] },
+      { total:33, parts:[18,15], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,21,22,24] },
+      { total:37, parts:[21,16], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] }
+    ],
+    modWorks:[ {date:"2026-10-21", mods:["chio","dk"]}, {date:"2026-12-16", mods:["chio","dk"], note:"повторная, на закрепление"}, {date:"2027-02-03", mods:["econ","soc"]}, {date:"2027-02-17", mods:["pol"]}, {date:"2027-04-14", mods:["law"]} ]
+  },
+  { id:"obsh-anya-d", subject:"obsh", name:"Аня Д.", grade:"10 класс",
+    goalDate:"2027-05-15",
+    goalText:"К 15 мая 2027 г. знаю: 8 тем «Человек и общество», 6 тем «Духовная культура», 18 тем «Экономика», 9 тем «Политика», 10 тем «Право». Решаю задания 17, 18, 19, 20, 21, 22, 24, 25. Проверочная работа — 45/58 (75%): тест 24/28, письменная 21/30.",
+    plan:[ {mods:["chio","dk"], from:0, to:1}, {mods:["econ","soc","pol"], from:4, to:5}, {mods:["law"], from:6, to:7} ],
+    q:[
+      { total:22, parts:[9,13],  mods:["chio","dk"], tasks:[17,18,21,22] },
+      { total:29, parts:[15,14], mods:["chio","dk"], tasks:[17,18,21,22] },
+      { total:34, parts:[19,16], mods:["chio","dk","econ","soc","pol"], tasks:[17,18,21,22,24] },
+      { total:41, parts:[20,21], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] },
+      { total:45, parts:[24,21], mods:["chio","dk","econ","soc","pol","law"], tasks:[17,18,19,20,21,22,24,25] }
+    ],
+    modWorks:[ {date:"2026-10-21", mods:["chio","dk"]}, {date:"2026-12-16", mods:["chio","dk"], note:"повторная, на закрепление"}, {date:"2027-02-03", mods:["econ","soc"]}, {date:"2027-02-17", mods:["pol"]}, {date:"2027-04-14", mods:["law"]} ]
+  },
+
+  /* ---- История: цели во вторичных баллах, пересчитаны в первичные по шкале 2027 ---- */
+  { id:"hist-anya-s", subject:"hist", name:"Аня С.", grade:"10 класс",
+    goalDate:"2027-05-15", goalSecondary:50,
+    goalText:"К 15 мая 2027 г. — 50 тестовых баллов (18 первичных из 43). Старт с нуля: сначала хронология, деятели, термины (часть 1), затем работа с источниками и понятиями.",
+    plan:[ {mods:["h1"], from:0, to:1}, {mods:["h2"], from:2, to:3}, {mods:["h3","h4"], from:4, to:5}, {mods:["h5","h6"], from:6, to:7}, {mods:["h7"], from:8, to:8} ],
+    q:[
+      { total:5,  parts:[4,1],  mods:["h1"], tasks:[1,2,3,5,7] },
+      { total:9,  parts:[7,2],  mods:["h1","h2"], tasks:[1,2,3,4,5,7,8,9,10,11] },
+      { total:13, parts:[10,3], mods:["h1","h2","h3","h4"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14] },
+      { total:16, parts:[12,4], mods:["h1","h2","h3","h4","h5","h6"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,20] },
+      { total:18, parts:[13,5], mods:["h1","h2","h3","h4","h5","h6","h7"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20] }
+    ],
+    modWorks:[ {date:"2026-10-21", mods:["h1"]}, {date:"2026-12-16", mods:["h2"]}, {date:"2027-01-27", mods:["h3"]}, {date:"2027-02-17", mods:["h4"]}, {date:"2027-03-17", mods:["h5"]}, {date:"2027-04-14", mods:["h6"]} ]
+  },
+  { id:"hist-anya-d", subject:"hist", name:"Аня Д.", grade:"10 класс",
+    goalDate:"2027-05-15", goalSecondary:70,
+    goalText:"К 15 мая 2027 г. — 70 тестовых баллов (28 первичных из 43). Последний пробник — 36 баллов (10 первичных): добираем часть 1 почти целиком и уверенно берём источники, понятия и аргументацию.",
+    plan:[ {mods:["h1"], from:0, to:1}, {mods:["h2"], from:2, to:3}, {mods:["h3","h4"], from:4, to:5}, {mods:["h5","h6"], from:6, to:7}, {mods:["h7"], from:8, to:8} ],
+    q:[
+      { total:14, parts:[10,4],  mods:["h1"], tasks:[1,2,3,5,7,8,9,10,11,13,14] },
+      { total:18, parts:[12,6],  mods:["h1","h2"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,20] },
+      { total:22, parts:[14,8],  mods:["h1","h2","h3","h4"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20] },
+      { total:26, parts:[15,11], mods:["h1","h2","h3","h4","h5","h6"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22] },
+      { total:28, parts:[16,12], mods:["h1","h2","h3","h4","h5","h6","h7"], tasks:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22] }
+    ],
+    modWorks:[ {date:"2026-10-21", mods:["h1"]}, {date:"2026-12-16", mods:["h2"]}, {date:"2027-01-27", mods:["h3"]}, {date:"2027-02-17", mods:["h4"]}, {date:"2027-03-17", mods:["h5"]}, {date:"2027-04-14", mods:["h6"]} ],
+    seedResults:[ { date:"2026-09-15", kind:"exam", label:"Последний пробник (до старта)", total:10, parts:null } ]
+  }
+];
+
+/* ---------- Понятия по обществознанию (из файла «Список терминов») ---------- */
+var TERMS = [{"t":"Общество (в шир. смысле)","d":"Обособившаяся от природы, но тесно с ней связанная часть материального мира, которая включает в себя: способы взаимодействия людей; формы объединения людей","m":"chio"},
+{"t":"Общество (в узком смысле)","d":"Совокупность людей, объединённых для общения, удовлетворения общих интересов, совместного выполнения какой-либо деятельности.","m":"chio"},
+{"t":"Общественные отношения","d":"Многообразные формы взаимодействия людей, а также связи, возникающие между различными социальными группами (или внутри них).","m":"chio"},
+{"t":"Природа (в широком смысле)","d":"Весь мир в многообразии его форм.","m":"chio"},
+{"t":"Природа (в узком смысле)","d":"Совокупность естественных условий существования человеческого общества","m":"chio"},
+{"t":"Сферы (области) общественной жизни","d":"Взаимодействующие части общества, главные её составляющие","m":"chio"},
+{"t":"Человек","d":"Биосоциальное существо","m":"chio"},
+{"t":"Индивид","d":"Отдельно взятый представитель всего человеческого рода.","m":"chio"},
+{"t":"Индивидуальность","d":"Неповторимое своеобразие человека, набор его уникальных свойств","m":"chio"},
+{"t":"Личность","d":"Человек как общественное существо, конкретное проявление общественной сущности человека, его индивидуальных психических свойств и социальных функций социально и духовно развитый человек","m":"chio"},
+{"t":"Деятельность","d":"Способ отношения человека к внешнему миру, характерный только для людей","m":"chio"},
+{"t":"Потребность","d":"Надобность, нужда в чём-либо.","m":"chio"},
+{"t":"Труд","d":"Форма деятельности, которая направлена на достижение практически полезного результата","m":"chio"},
+{"t":"Игра","d":"Особая форма деятельности, целью которой является развлечение, отдых","m":"chio"},
+{"t":"Учение","d":"Форма деятельности, целью которой является приобретение человеком знаний и умений","m":"chio"},
+{"t":"Способности","d":"Индивидуальные особенности и свойства личности, которые являются условиями успешного выполнения какого-то вида деятельности","m":"chio"},
+{"t":"Задатки","d":"Врождённые анатомо-физиологические особенности строения организма в целом и его нервной системы, составляющие индивидуальные предпосылки формирования и развития способностей","m":"chio"},
+{"t":"Склонности","d":"Первый и наиболее ранний признак зарождающейся способности. Проявляется в стремлении человека к занятиям определённым видом деятельности","m":"chio"},
+{"t":"Одарённость","d":"Сочетание различных развитых способностей, обусловливающее особенно успешную деятельность человека в определённой области или в нескольких областях","m":"chio"},
+{"t":"Талант","d":"Сочетание выдающихся способностей, обусловливающих особенно успешное, самостоятельное и оригинальное выполнение какой-либо деятельности","m":"chio"},
+{"t":"Гениальность","d":"Высшая степень таланта, связанная с созданием качественно новых, уникальных творений, открытием ранее не изведанных путей творчества","m":"chio"},
+{"t":"Малая группа","d":"Группа из двух и более человек, объединённых одной целью, сходными интересами и потребностями в общении и совместной деятельности, находящихся в непосредственном контакте друг с другом","m":"chio"},
+{"t":"Статус","d":"Положение человека в системе межличностных отношений, определяющее его права, обязанности и привилегии.","m":"chio"},
+{"t":"Роль","d":"Это способ поведения, определяемый статусом человека.","m":"chio"},
+{"t":"Лидер в группе","d":"Член группы, за которым она признаёт право принимать ответственные решения в значимых для неё ситуациях, т. е. наиболее авторитетная личность, реально играющая центральную роль в организации совместной деятельности и регулировании в группе.","m":"chio"},
+{"t":"Групповые нормы","d":"Совокупность правил и требований, вырабатываемых каждой реально функционирующей общностью и играющих роль важнейшего средства регуляции поведения данной группы, характера их взаимоотношений, взаимодействия и общения.","m":"chio"},
+{"t":"Групповой эгоизм","d":"Достижение целей группы за счёт ущемления интересов отдельных её членов в ущерб интересам всего общества.","m":"chio"},
+{"t":"Конформность","d":"Податливость человека реальному или воображаемому давлению группы.","m":"chio"},
+{"t":"Межличностные отношения","d":"Взаимосвязи человека с окружающими его людьми: с другим человеком, группой","m":"chio"},
+{"t":"Общение","d":"Взаимные отношения, деловая или дружеская связь между людьми","m":"chio"},
+{"t":"Общение (как вид деятельности)","d":"Вид деятельности, при котором происходит обмен информацией, идеями, оценками, чувствами, конкретными действиями","m":"chio"},
+{"t":"Межличностный конфликт","d":"Столкновение личностей с различными чертами характера, взглядами, ценностями, целями, интересами.","m":"chio"},
+{"t":"Конструктивный","d":"Создающий основу для дальнейшей работы; плодотворный, результативный, дельный","m":"chio"},
+{"t":"Духовная культура","d":"Совокупность духовных ценностей и творческой деятельности по их производству, освоению и применению: наука, образование, религия, мораль и др.","m":"dk"},
+{"t":"Материальная культура","d":"Результат производства и освоения предметов и явлений материального мира, связанный с изменением физической природы человека: техника, материальные ценности.","m":"dk"},
+{"t":"Наука","d":"Одна из форм человеческого познания, система достоверных знаний о закономерностях развития природы, общества и человека","m":"dk"},
+{"t":"Научные знания","d":"Знания, добытые наукой","m":"dk"},
+{"t":"Образование","d":"Процесс усвоения систематизированных знаний, умений и навыков, условие подготовки человека к жизни","m":"dk"},
+{"t":"Религия","d":"Внутренняя убеждённость в существовании сверхъестественной высшей силы — Бога (или богов), который является предметом поклонения","m":"dk"},
+{"t":"Культ","d":"Религиозное служение божеству и связанная с этим система утвердившихся религиозных обрядов и действий, выражающих отношение к сверхъестественному","m":"dk"},
+{"t":"Магия","d":"Вера в существование сверхъестественных связей и отношений человека с вещами, животными, духами, устанавливаемых с помощью определённой разновидности религиозной деятельности с целью желательного воздействия на окружающий мир.","m":"dk"},
+{"t":"Фетишизм","d":"Поклонение неодушевлённым предметам: амулетам, фигуркам","m":"dk"},
+{"t":"Тотемизм","d":"Поклонение животному или растению как своему мифическому предку и защитнику","m":"dk"},
+{"t":"Анимизм","d":"Вера в духов и души, существующих в предметах или независимо от них","m":"dk"},
+{"t":"Гражданин","d":"Лицо, наделённое правами и обязанностями данного государства и поступающее в соответствии с этими правами и обязанностями.","m":"dk"},
+{"t":"Свобода совести","d":"Право человека мыслить и поступать в соответствии со своими убеждения ми без внешнего принуждения","m":"dk"},
+{"t":"Свобода совести","d":"Фундаментальное право каждого человека на свободный мировоззренческий выбор","m":"dk"},
+{"t":"Мораль","d":"Совокупность особых, духовных правил, регулирующих поведение человека, его отношение к другим людям, к самому себе, а также к окружающей среде","m":"dk"},
+{"t":"Нравственность","d":"Совокупность людских нравов, которая связана с практическим поведением людей дома, в семье, на работе, на отдыхе","m":"dk"},
+{"t":"Совесть","d":"Способность личности осуществлять моральный самоконтроль, самостоятельно формулировать для себя нравственные обязанности","m":"dk"},
+{"t":"Гуманизм","d":"Принцип морали, в основе которого лежит убеждение в безграничности возможностей человека и его способности к самосовершенствованию, требование свободы и защиты достоинства личности, идея о праве человека на счастье","m":"dk"},
+{"t":"Патриотизм","d":"Чувство любви и преданности Родине, Отечеству, своему народу, вера в его духовные возможности, готовность служить интересам своей Родины","m":"dk"},
+{"t":"Гражданственность","d":"Степень осознания себя гражданином своей страны и соответствующее этому поведение, готовность личности активно содействовать процветанию общества","m":"dk"},
+{"t":"Экономика (как хозяйство)","d":"Хозяйство конкретной страны, включающее определённые отрасли и виды производства","m":"econ"},
+{"t":"Экономика (как наука)","d":"Наука о законах развития хозяйства и способах его рационального ведения.","m":"econ"},
+{"t":"Производство","d":"Процесс создания товаров и услуг, необходимых для существования человека, удовлетворения его потребностей","m":"econ"},
+{"t":"Распределение","d":"Стадия экономической деятельности, на которой определяются пропорции, доли участия в разделе произведённого продукта","m":"econ"},
+{"t":"Обмен","d":"Процесс, в котором взамен произведённого продукта люди получают деньги или другой продукт","m":"econ"},
+{"t":"Потребление","d":"Стадия экономической деятельности, на которой результаты производства используются для удовлетворения личных и общественных потребностей","m":"econ"},
+{"t":"Товар","d":"Вещь, продукт труда, предназначенная не для собственного потребления, а для потребления другими через обмен, куплю-продажу","m":"econ"},
+{"t":"Услуга","d":"Результат полезной деятельности предприятий (организаций) и отдельных лиц, направленной на удовлетворение определённых потребностей населения и общества","m":"econ"},
+{"t":"Ресурсы","d":"Совокупность природных, социальных и интеллектуальных сил, которые могут быть использованы для создания материальных благ и оказания услуг","m":"econ"},
+{"t":"Блага","d":"Всё, что ценится людьми как средство удовлетворения их потребностей.","m":"econ"},
+{"t":"Факторы производства","d":"Часть ресурсов, реально вовлечённых в производство экономических благ","m":"econ"},
+{"t":"Экономическая система","d":"Организованные способы, механизмы и принципы распределения ограниченных ресурсов для удовлетворения потребностей людей","m":"econ"},
+{"t":"Традиционная экономическая система","d":"Экономическая система с натуральной формой хозяйствования, в которой производство материальных благ и услуг осуществляется для удовлетворения собственных потребностей производителя","m":"econ"},
+{"t":"Рыночная экономическая система","d":"Экономическая система, в которой решения о производстве, распределении и потреблении экономических благ принимаются самостоятельными экономическими субъектами на основе свободы выбора","m":"econ"},
+{"t":"Централизованная экономическая система","d":"Экономическая система, в которой экономическая деятельность всех субъектов жёстко регламентируется из единого экономического центра в соответствии с государственным планом","m":"econ"},
+{"t":"Смешанная экономическая система","d":"Экономическая система, при которой земля и капитал находятся в частной собственности, а распределение ограниченных ресурсов осуществляется как рынками, так и при значительном участии государства","m":"econ"},
+{"t":"Собственность","d":"Обладание вещью или кем-либо как личным достоянием (в экономическом смысле) — отношение лица к принадлежащей ему вещи как своей.","m":"econ"},
+{"t":"Национализация","d":"Переход от частной собственности в собственность государства или общества земли, промышленности, транспорта, банков и др","m":"econ"},
+{"t":"Приватизация","d":"Приобретение государственного или муниципального имущества в частную собственность граждан, акционерных обществ","m":"econ"},
+{"t":"Производство","d":"Процесс создания товаров и услуг, предназначенных для удовлетворения личных и общественных потребностей.","m":"econ"},
+{"t":"Материальное производство","d":"Изготовление вещественных благ в отраслях промышленности, сельского хозяйства, строительства и т. д.","m":"econ"},
+{"t":"Нематериальное производство","d":"Создание духовных и нравственных ценностей","m":"econ"},
+{"t":"Экстенсивное производство","d":"За счёт количественного прироста ресурсов","m":"econ"},
+{"t":"Интенсивное производство","d":"За счёт качественного улучшения факторов производства и повышения их эффективности","m":"econ"},
+{"t":"Производительность труда","d":"Результативность труда, которая измеряется количеством продукции, произведённой в единицу времени (например, за день, месяц, год)","m":"econ"},
+{"t":"Разделение труда","d":"Обособление качественно отличных видов трудовой деятельности в процессе совместного труда по функциональному, технологическому, профессиональному и квалификационному признакам","m":"econ"},
+{"t":"Специализация","d":"Сосредоточение определённого вида деятельности в руках того человека или хозяйственной организации, которые справляются с нею лучше других","m":"econ"},
+{"t":"Обмен","d":"Процесс, в котором взамен произведённого продукта люди получают деньги или другой продукт","m":"econ"},
+{"t":"Рынок","d":"Экономические отношения, связанные с куплей-продажей товаров и услуг, в результате которых формируются спрос, предложение и цена","m":"econ"},
+{"t":"Рыночный механизм","d":"Механизм формирования и распределения ресурсов, механизм взаимодействия продавцов и покупателей товаров по поводу установления цен и качества, объёма производства и его структуры","m":"econ"},
+{"t":"Спрос","d":"Это желание и возможности потребителя приобрести конкретный товар или получить услугу","m":"econ"},
+{"t":"Предложение","d":"Это желание и возможности производителя продать конкретный товар или услугу","m":"econ"},
+{"t":"Конкуренция","d":"Экономическое соперничество участников хозяйственной деятельности в борьбе за достижение лучших результатов.","m":"econ"},
+{"t":"Цена","d":"Это то количество денег, которое покупатель готов заплатить, а продавец желает получить за определённый товар (а точнее, за его единицу)","m":"econ"},
+{"t":"Совершенная (чистая, свободная) конкуренция","d":"Рынок, на котором многочисленные, независимо действующие производители продают идентичную (стандартизированную) продукцию, причём ни один из них не в состоянии контролировать розничную цену","m":"econ"},
+{"t":"Монополистическая конкуренция","d":"Рынок, на котором многочисленные продавцы продают схожие, но не идентичные товары","m":"econ"},
+{"t":"Олигополия","d":"Рынок, на котором господствуют несколько крупных фирм, т. е. несколько продавцов противостоят множеству покупателей","m":"econ"},
+{"t":"Чистая монополия","d":"Рынок, на котором есть только один продавец, т. е. один продавец противостоит множеству покупателей","m":"econ"},
+{"t":"Предпринимательство","d":"Инициативная, самостоятельная, осуществляемая на свой риск и под свою имущественную ответственность деятельность человека, направленная на получение прибыли","m":"econ"},
+{"t":"Юридическое лицо","d":"Организация, учреждение, фирма, выступающие в качестве единого, самостоятельного носителя прав и обязанностей","m":"econ"},
+{"t":"Физическое лицо","d":"Человек, участвующий в экономической деятельности в качестве её полноценного субъекта: действует от собственного имени, может заниматься предпринимательством с момента государственной регистрации в качестве индивидуального предпринимателя","m":"econ"},
+{"t":"Субъекты предпринимательства","d":"Частные лица, (граждане РФ, граждане иностранных государств, лица без гражданства). различные ассоциации (объединения, акционерные общества, арендные коллективы, коопераивы). Государство","m":"econ"},
+{"t":"Объекты предпринимательства","d":"Любые виды хозяйственной деятельности","m":"econ"},
+{"t":"Индивидуальное (частное) предпринимательство","d":"Предпринимательством занимается один человек. Оно основано на личной собственности его владельца, который получает весь доход и несёт неограниченную имущественную ответственность за результаты хозяйственной деятельности","m":"econ"},
+{"t":"Хозяйственное товарищество (партнёрство)","d":"Предпринимательством занимаются два и более человек. Оно основано на долевой собственности и полной или частичной ответственности членов товарищества за результаты хозяйственной деятельности","m":"econ"},
+{"t":"Хозяйственное общество (акционерное общество, корпорация, компания)","d":"Предпринимательством занимается совокупность лиц. Оно основано, как правило, на долевой собственности. Капитал общества образуется за счёт вкладов учредителей. Хозяйственное общество — это объединение капиталов","m":"econ"},
+{"t":"Производственный кооператив (артель)","d":"Добровольное объединение граждан для совместной деятельности, основанной на их личном трудовом участии и объединении имущественных паёв","m":"econ"},
+{"t":"Фермерское (крестьянское) хозяйство","d":"Объединение граждан, связанных родством и (или) свойством, имеющих в общей собственности имущество и совместно осуществляющих производственную и иную хозяйственную деятельность (производство, переработку, хранение, транспортировку и реализацию сельскохозяйственной продукции), основанную на их личном участии","m":"econ"},
+{"t":"Свойство","d":"Отношения между родственниками супругов (тёща, тесть; свёкор, свекровь)","m":"econ"},
+{"t":"Товарное хозяйство","d":"Хозяйство, при котором продукты производятся для продажи, а связь производителей и потребителей осуществляется посредством рынка.","m":"econ"},
+{"t":"Натуральное хозяйство","d":"Хозяйство, в котором люди производят продукты лишь для удовлетворения своих собственных потребностей, не прибегая к обмену, к рынку.","m":"econ"},
+{"t":"Деньги","d":"Товар, используемый в качестве мерила стоимости всех других товаров","m":"econ"},
+{"t":"Сбережения","d":"Добровольный отказ от удовлетворения сегодняшних потребностей в пользу будущих.","m":"econ"},
+{"t":"Денежная масса","d":"Это деньги, обращающиеся в данной стране","m":"econ"},
+{"t":"Чек","d":"Приказ банку, выданный владельцем вклада, о выдаче со своего счёта денег лицу, указанному в чеке.","m":"econ"},
+{"t":"Срочный счёт","d":"Вклад денежных средств в банк под про центы на определённый срок.","m":"econ"},
+{"t":"Кредитные деньги","d":"Деньги, выступающие в виде соответствующих бумаг банкноты, чеки, векселя или в виде записей на счетах.","m":"econ"},
+{"t":"Чековая книжка","d":"Определённое количество сброшюрованных бланков чеков, выдаваемых банком владельцу текущего банковского счёта","m":"econ"},
+{"t":"Кредитная карточка","d":"Именной денежный доку мент, выпущенный банком или торговой фирмой, удостоверяющий личность владельца счёта в банке и дающий ему право на приобретение товаров и услуг в розничной торговле без оплаты наличными.","m":"econ"},
+{"t":"Кредит","d":"Предоставление денег или товаров в долг, как правило, с уплатой процента.","m":"econ"},
+{"t":"Вексель","d":"Письменное долговое обязательство, дающее его владельцу право по истечении срока обязательства требовать от должника уплаты обозначен ной денежной суммы.","m":"econ"},
+{"t":"Инфляция","d":"Обесценение бумажных денег, проявляющееся в форме роста цен на товары и услуги, не обеспеченного повышением их качества","m":"econ"},
+{"t":"Заработная плата","d":"Форма материального вознаграждения за труд (часть стоимости, созданной и реализованной продукции, услуг), поступающего наёмным работникам предприятий и учреждений","m":"econ"},
+{"t":"Прожиточный минимум","d":"Уровень доходов, который необходим работнику для приобретения количества продуктов питания не ниже физиологических норм, а также для удовлетворения его потребностей (на самом необходимом уровне) в одежде, обуви, транс порте, оплате коммунальных услуг.","m":"econ"},
+{"t":"Повременная зп","d":"Вознаграждение за труд в зависимости от проработанного времени и квалификации работника","m":"econ"},
+{"t":"Сдельная зп","d":"Вознаграждение за труд в зависимости от количества и качества изготовленных изделий","m":"econ"},
+{"t":"Номинальная зп","d":"Вознаграждение за труд, кото рое назначается работнику в виде определённой суммы денег","m":"econ"},
+{"t":"Реальная зп","d":"Сумма жизненных благ, которую можно приобрести за номинальную плату при данном уровне цен на товары и услуги","m":"econ"},
+{"t":"Стимулирование труда","d":"Внешнее влияние на поведение человека в сфере труда, способствующее росту его заинтересованности в труде.","m":"econ"},
+{"t":"Доход (в широком смысле слова)","d":"Любой приток денежных средств или получение материальных ценностей, обладающих денежной стоимостью","m":"econ"},
+{"t":"Социальная поддержка","d":"Осуществляемая в рамках социальной политики государства совокупность мероприятий, на правленных на выравнивание доходов и решение проблемы бедности","m":"econ"},
+{"t":"Страхование","d":"Финансовое обеспечение от возможного ущерба.","m":"econ"},
+{"t":"Налоги, уплачиваемые гражданами","d":"Определённая сумма де нег, которую гражданам необходимо уплатить государству","m":"econ"},
+{"t":"Государственный бюджет (госбюджет)","d":"Документ, отражающий доходы и расходы государства.","m":"econ"},
+{"t":"Прямые налоги","d":"Налоги, взимаемые непосредственно с какого-либо дохода или имущества в установленном размере","m":"econ"},
+{"t":"Косвенные налоги","d":"Налоги на продажи товаров и услуг в виде надбавок к их цене","m":"econ"},
+{"t":"Государственная пошлина","d":"Плата, взимаемая государством с граждан и хозяйственных организаций за оказание им определённого вида услуг","m":"econ"},
+{"t":"Государственный долг","d":"Сумма задолженности государства по выпущенным и непогашенным займам, включая начисленные по ним проценты.","m":"econ"},
+{"t":"Валютный (обменный) курс","d":"Цена одной национальной де нежной единицы, выраженная в денежных единицах других стран.","m":"econ"},
+{"t":"Социальная структура общества","d":"Строение общества в целом, совокупность взаимосвязанных и взаимодействующих социальных групп, а также отношения между ними","m":"soc"},
+{"t":"Социальные группы","d":"Любые совокупности людей, имеющие какой-либо общий социальнозначимый признак","m":"soc"},
+{"t":"Социальные отношения","d":"Определённые устойчивые связи между людьми как представителями социальных групп","m":"soc"},
+{"t":"Этнос","d":"Исторически сложившаяся на определённой территории общность людей, объединённых общностью языка, своеобразия культуры, быта, традиций, обычаев, само сознания","m":"soc"},
+{"t":"Семья","d":"Малая социальная группа, основанная на браке и кров ном родстве, связанная общностью быта и взаимной ответственностью","m":"soc"},
+{"t":"Традиционная (патриархальная) семья","d":"За супругами в соответствии с их полом закреплены определённые роли: жена выполняет роль матери и хозяйки, муж ответственен за материальное обеспечение, являясь главой семьи","m":"soc"},
+{"t":"Коллективистская (партнёрская, демократическая) семья","d":"Все семейные роли рапределяются между мужем и женой фактически поровну. Решения по семейным вопросам принимаются совместно","m":"soc"},
+{"t":"Психологический климат в семье","d":"Качественная сторона межличностных отношений, проявляющаяся в виде совокупности психологических условий, способствующих или препятствующих совместной продуктивной деятельности и всестороннему развитию личностей в семье","m":"soc"},
+{"t":"Семейный долг","d":"Превращение нравственных требований, связанных с семейными отношениями, в личные правила, принятие их человеком как непременного условия отношения к окружающим","m":"soc"},
+{"t":"Поколение","d":"Интервал времени между средним возрастом родителей и детей.","m":"soc"},
+{"t":"Социальная роль","d":"Это то, что ожидается в данном обществе от всякого человека, занимающего определённое место в социальной системе","m":"soc"},
+{"t":"Ролевой конфликт в подростковом возрасте","d":"Конфликт, связанный с выполнением подростком одной или нескольких социальных ролей, которые заключают в себе несовместимость, конфликтующие обязанности и требования","m":"soc"},
+{"t":"Социальные ценности","d":"Определённые идеи, принципы, явления, предметы и их свойства с точки зрения их значения для человека или общества","m":"soc"},
+{"t":"Социальные нормы","d":"Правила поведения людей, установленные и одобряемые всем обществом","m":"soc"},
+{"t":"Отклоняющееся поведение","d":"Социальное поведение, не соответствующее имеющейся норме или набору норм, принятых значительной частью людей в группе или сообществе","m":"soc"},
+{"t":"Социальный конфликт","d":"Столкновение противоположных общественных интересов, взглядов, стремлений, направлений общественного развития","m":"soc"},
+{"t":"Социальный конфликт: внутриличностный","d":"Происходит внутри личности на уровне индивидуального сознания (Я реальное ↔ Я идеальное)","m":"soc"},
+{"t":"Социальный конфликт: межличностный","d":"Происходит между двумя и более людьми одной или нескольких групп (Я ↔ Я)","m":"soc"},
+{"t":"Социальный конфликт: межгрупповой","d":"Конфликт одной группы с другой [например, конфликт между различными классами, национальностями, религиозными и поколенческими (конфликт «отцов и детей») группами] (Мы ↔ Мы)","m":"soc"},
+{"t":"Социальный конфликт: с внешней средой","d":"Давление на человека извне со стороны культурных, административных, экономических норм и предписаний, конфликт с организациями, поддерживающими эти нормы и предписания","m":"soc"},
+{"t":"Социальный конфликт: охватывающий отдельные сферы общественной жизни","d":"Экономический (производственный), политический, этнический и др","m":"soc"},
+{"t":"Социальный конфликт: охватывающий общество в целом","d":"Социальная революция — быстрый переход от одного общественно-политического строя к другому; война","m":"soc"},
+{"t":"Межнациональные отношения","d":"Отношения между этносами (народами), охватывающие все сферы общественной жизни.","m":"soc"},
+{"t":"Межнациональное сотрудничество","d":"Участие граждан различной национальной принадлежности, представителей национальных организаций, структур национальной государственности в общем деле, опирающееся на наличие устойчивых взаимовыгодных интересов","m":"soc"},
+{"t":"Межнациональный конфликт","d":"Спор, столкновение, возникшее между большими группами людей разных национальностей, между государствами","m":"soc"},
+{"t":"Нация","d":"Исторически устойчивая социально-экономическая и духовная общность людей","m":"soc"},
+{"t":"Этническое меньшинство","d":"Группы людей какой-либо социально-этнической общности, проживающие за пределами своей государственности, в другой национальной среде и составляющие, как правило, меньшинство населения в странах своего проживания.","m":"soc"},
+{"t":"Национализм","d":"Идеология и политика, ста вящие интересы нации пре выше любых других экономических, социальных, по литических интересов; стремление к национальной замкнутости, местничеству; недоверие к другим нациям, нередко перерастающее в межнациональную вражду","m":"soc"},
+{"t":"Шовинизм","d":"Политическая и идеологическая система взглядов и действий, обосновывающая исключительность той или иной нации, противопоставление её интересов другим нациям и народам, внедряющих в сознание людей неприязнь, а зачастую и ненависть к другим народам, разжигающую вражду между людьми различных национальностей и вероисповеданий","m":"soc"},
+{"t":"Геноцид","d":"Систематическое уничтожение отдельных групп на селения по расовым, национальным или религиозным признакам, а также создание жизненных условий, рас считанных на полное или частичное физическое уничтожение этих групп.","m":"soc"},
+{"t":"Власть","d":"Способность, право и возможность распоряжаться кем-либо и чем-либо, оказывать решающее воздействие на поведение и деятельность людей","m":"pol"},
+{"t":"Политическая власть","d":"Способность, право и возможность отстаивать и претворять в жизнь определённую политику, используя политические партии, организации, государство","m":"pol"},
+{"t":"Политика","d":"Деятельность в политической сфере общества, на правленная на достижение, удержание, укрепление и реализацию власти","m":"pol"},
+{"t":"Государство","d":"Организация политической власти, осуществляющая управление обществом, охрану его экономической и социальной структуры","m":"pol"},
+{"t":"Суверенитет","d":"Верховенство государственной власти внутри страны (внутренний суверенитет) и её независимость во взаимоотношениях с другими государствами (внешний суверенитет)","m":"pol"},
+{"t":"Функции государства","d":"Основные (главные) направления деятельности государства по реализации стоящих перед ним задач","m":"pol"},
+{"t":"Внутренние функции","d":"Основные направления деятельности государства по управлению внутренний жизнью общества","m":"pol"},
+{"t":"Внешние функции","d":"Основные направления деятельности государства на международной арене","m":"pol"},
+{"t":"Государственная власть","d":"Форма политической власти, рас полагающая монопольным правом издавать законы, обязательные для всего населения, и опирающаяся на специальный аппарат принуждения как одно из средств соблюдения законов и распоряжений","m":"pol"},
+{"t":"Компетенция","d":"Круг полномочий какого-либо учреждения или лица.","m":"pol"},
+{"t":"Сбор","d":"Обязательный взнос, взимаемый с организаций и физических лиц, уплата которого — одно из условий совершения действий государственными органами, органами местного самоуправления в интересах плательщиков сборов, включая предоставление определённых прав или выдачу лицензии.","m":"pol"},
+{"t":"Форма государства","d":"Устройство политической организации общества, призванное обеспечить её стабильность и нормальное функционирование","m":"pol"},
+{"t":"Форма правления","d":"Организация высших органов власти.","m":"pol"},
+{"t":"Монархия","d":"Форма правления, при которой верховная государственная власть сосредоточена в руках одного человека — монарха (главы государства): короля, царя, шаха, императора и т. д.— и передаётся по наследству","m":"pol"},
+{"t":"Абсолютная (неограниченная) монархия","d":"Вся полнота власти — законодательной, исполнительной, судебной — сосредоточена в руках монарха, а её происхождение признаётся Божественным","m":"pol"},
+{"t":"Ограниченная (конституционная, парламентская)","d":"Власть наследственного монарха ограничена конституцией страны или каким-либо представительным органом, чаще всего парламентом","m":"pol"},
+{"t":"Республика","d":"От лат. respublica — общественное дело, государство. Форма правления, при которой высшая государственная власть принадлежит выбранным на определённый срок органам власти","m":"pol"},
+{"t":"Президентская республика","d":"Очень большой властью наделён президент: он совмещает функции главы государства и правительства, формирует правительство; избирается прямым голосованием","m":"pol"},
+{"t":"Парламентская республики","d":"Ведущим органом власти выступает избираемый гражданами парламент, который формирует правительство, отчитывающееся перед парламентом","m":"pol"},
+{"t":"Смешанная (полупрезидентская) республика","d":"Власть президента значительна, но формирование правительства происходит с участием парламента","m":"pol"},
+{"t":"Форма государственно-территориального (государственного) устройства","d":"Отношение между цен тральными и местными органами власти, распределение власти по территории страны","m":"pol"},
+{"t":"Унитарное государство","d":"Единая политически однородная организация, состоящая из административно-территориальных единиц (губерний, краёв, провинций), не обладающих собственной государственностью. Существует единая конституция, система высших органов государственной власти, управления, судебная система","m":"pol"},
+{"t":"Федерация","d":"Устойчивый союз административно территориальных единиц (штатов, земель, республик), самостоятельных в пределах распределённых между ними и центром полномочий, имеющих собственные законодательные, исполни тельные и судебные органы и, как-правило, конституцию, а часто и право на двойное гражданство","m":"pol"},
+{"t":"Конфедерация","d":"Постоянный союз самостоятельных государств для осуществления совместных конкретных целей. Её члены полностью сохраняют государственный суверенитет и пере дают союзу решение ограниченного числа вопросов, чаще всего в оборонной области, в области внешней политики, транспорта и связи, де нежной системы","m":"pol"},
+{"t":"Политический режим","d":"Совокупность методов, средств и приёмов осуществления политической власти, отражающая уровень политической свободы","m":"pol"},
+{"t":"Политический плюрализм","d":"Принцип, содействующий существованию многообразных по литических сил с конкуренцией между ними за представительство в органах государственной власти.","m":"pol"},
+{"t":"Идеология","d":"Система политических, правовых, нравственных, философских, религиозных, художественных взглядов и идей","m":"pol"},
+{"t":"Демократический","d":"Политический режим, при ко тором народ или его большинство служит источником и носителем политической, государственной власти","m":"pol"},
+{"t":"Авторитарный","d":"Политический режим, характеризующийся сосредоточением всей или почти всей власти у одного лица (монарха, диктатора) или правящей группы лиц и серьёзным ограничением, принижением и даже по давлением роли других, прежде всего представительных, органов, социальных и политических организаций, всего общества","m":"pol"},
+{"t":"Тоталитарный","d":"Политический режим, при котором государство, политическая власть полностью подчиняют себе общество и личность, все стороны их жизни, подавляют права и свободы человека и гражданина насильственными методами","m":"pol"},
+{"t":"Демократия","d":"Форма организации общества, при ко торой обеспечивается реальное участие личности в раз личных сферах общественной жизни, реализуется правление народа или действенный контроль за осуществлением власти со стороны народа","m":"pol"},
+{"t":"Местное самоуправление (МСУ)","d":"Самостоятельная и под свою ответственность деятельность населения по решению вопросов местного значения: управление муниципальной (общественной) собственностью данной территории, организация коммунально-бытовых и социально-культурных услуг","m":"pol"},
+{"t":"Политическое участие","d":"Действия гражданина с целью повлиять на принятие и реализацию государственных решений, выбор представителей в органы власти","m":"pol"},
+{"t":"Политическая культура","d":"Совокупность политических знаний, отношений, ценностей, убеждений людей","m":"pol"},
+{"t":"Выборы","d":"Процесс избрания путём голосования депутатов, должностных лиц, членов организации","m":"pol"},
+{"t":"Предвыборная агитация","d":"Деятельность, имеющая целью побудить избирателей к участию в выборах, к голосованию за тех или иных кандидатов (те или иные списки кандидатов) или против них (в СМИ, посредством проведения митингов, шествий, публичных дебатов и дискуссий, посредством выпуска агитационных материалов и другими не запрещёнными законом средствами)","m":"pol"},
+{"t":"Избирательное право граждан","d":"Конституционное право избирать и быть избранным в органы государственной власти и в выборные органы местного самоуправления","m":"pol"},
+{"t":"Референдум","d":"Всенародное голосование граждан по наиболее важным вопросам государственного значения: законопроектам, действующим законам и др.","m":"pol"},
+{"t":"Амнистия","d":"Частичное или полное освобождение осуждённых от наказания и его правовых последствий.","m":"pol"},
+{"t":"Политическая партия","d":"Организованная группа единомышленников, выражающая интересы определённых социальных слоёв и стремящаяся к завоеванию государственной власти или участию в её осуществлении","m":"pol"},
+{"t":"Партийная система","d":"Совокупность отношений между действующими в стране политическими партиями","m":"pol"},
+{"t":"Политическое движение","d":"Общественное движение, преследующее политические цели, поддерживаемые его участниками","m":"pol"},
+{"t":"Дискриминация","d":"Преднамеренное ущемление прав и свобод одних людей по сравнению с другими.","m":"pol"},
+{"t":"Правовое государство","d":"Демократическое государство, организация и деятельность которого основаны на праве и связаны с правом, где созданы условия для наиболее полного обеспечения естественных и неотчуждаемых прав человека","m":"pol"},
+{"t":"Гражданское общество","d":"Совокупность негосударственных общественных отношений и ассоциаций (объединений), выражающих разнообразные интересы и потребности членов общества","m":"pol"},
+{"t":"Право","d":"Совокупность общеобязательных правил (норм), охраняемых силой государства","m":"law"},
+{"t":"Норма права (правовая норма)","d":"Охраняемое государством общеобязательное правило, которое регулирует общественные отношения, поведение людей, устанавливая определённые права и обязанности","m":"law"},
+{"t":"Нормативный правовой акт","d":"Правовой документ, из данный в особом процедурном порядке компетентным органом государственной власти, устанавливающий, из меняющий или отменяющий правила регулирования общественных отношений","m":"law"},
+{"t":"Закон","d":"Это нормативный правовой акт","m":"law"},
+{"t":"Подзаконный акт","d":"Нормативный правовой акт, из данный на основе и во исполнение закона","m":"law"},
+{"t":"Федеральные конституционные законы","d":"Законы, регулирующие вопросы, относящиеся к правовым основам государства, государственного строя, т. е. к предмету ведения Конституции РФ","m":"law"},
+{"t":"Правоотношения","d":"Отношения между людьми, урегулированные нормами права","m":"law"},
+{"t":"Субъекты (стороны) правоотношения","d":"Это участники правоотношения, обладающие взаимными правами и обязанностями","m":"law"},
+{"t":"Объект правоотношения","d":"Это то, по поводу чего возникает правоотношение","m":"law"},
+{"t":"Содержание правоотношения","d":"Субъективные юридические права и обязанности его участников","m":"law"},
+{"t":"Отрасль права","d":"Большая группа (совокупность) правовых норм, которые регулируют целую сферу (т. е. область, раздел, круг) однородных, близких по своему характеру общественных отношений (например, конституционное (государственное) право, гражданское право, семейное право, трудовое право и др.)","m":"law"},
+{"t":"Правоспособность","d":"Установленная государством и гарантированная нормами права способность обладать правами и нести юридические обязанности","m":"law"},
+{"t":"Дееспособность","d":"Установленная государством и гарантированная нормами права способность своими действиями приобретать и осуществлять права и обязанности","m":"law"},
+{"t":"Правонарушение","d":"Общественно опасное виновное деяние, противоречащее нормам права и наносящее вред обществу, государству или отдельным лицам, влекущее за собой юридическую ответственность","m":"law"},
+{"t":"Деяние","d":"Действие или бездействие","m":"law"},
+{"t":"Действие","d":"Активное поведение субъекта, направленное на нарушение норм права","m":"law"},
+{"t":"Бездействие","d":"Пассивное поведение субъекта, неисполнение им своих обязанностей при возможности сделать это","m":"law"},
+{"t":"Преступления","d":"Общественно опасные виновные деяния, предусмотренные уголовным законодательством","m":"law"},
+{"t":"Проступки","d":"Виновные противоправные деяния, имеющие меньшую степень опасности по сравнению с преступлением","m":"law"},
+{"t":"Дисциплинарные проступки (правонарушения)","d":"Нарушения трудовой, служебной, воинской, учебной дисциплины, противоправное виновное неисполнение своих трудовых обязанностей, нарушающее правила внутреннего распорядка","m":"law"},
+{"t":"Гражданские проступки (правонарушения)","d":"Правонарушения, совершённые в сфере имущественных (невыполнение обязательств по договору, причинение имущественного вреда другому лицу и т. д.) и таких неимущественных отношений, которые представляют для человека ценность (достоинство, честь, деловая репутация и т.д.).","m":"law"},
+{"t":"Административные проступки (правонарушения)","d":"Деяния, наносящие ущерб отношениям, складывающимся в сфере государственного управления (мелкое хулиганство, нарушение правил уличного движения, пожарной безопасности, санитарных правил и т. д.)","m":"law"},
+{"t":"Юридическая ответственность","d":"Применение мер государственного принуждения к нарушителю за совершение противоправного деяния","m":"law"},
+{"t":"Конституция РФ","d":"Основной закон Российского государства, нормативный правовой акт, обладающий высшей юридической силой, определяющий основы государственного строя, организацию государственной власти, отношения гражданина и государства.","m":"law"},
+{"t":"Права человека","d":"Понятие, характеризующее меру свободы человека, его автономию, т. е. определённую независимость, самостоятельность, по отношению к государству, возможности и притязания в экономической, социальной, политической и культурной сферах","m":"law"},
+{"t":"Свободы человека","d":"Правомочия человека, которые он может реализовать самостоятельно: отсутствие каких-либо ограничений в деятельности или поведении человека","m":"law"},
+{"t":"Обязанность","d":"Охраняемая государством мера должного поведения лица","m":"law"},
+{"t":"Преступление","d":"Общественно опасное виновное деяние, запрещённое Уголовным кодексом (УК) РФ под угрозой наказания","m":"law"},
+{"t":"Вина","d":"Психическое отношение лица к своему противоправному поведению и его результату, основанное на возможности предвидения или предотвращения последствий преступления.","m":"law"},
+{"t":"Уголовное наказание","d":"Мера государственного принуждения, назначаемая по приговору суда и предусмотренная Уголовным кодексом РФ","m":"law"},
+{"t":"Конституция РФ","d":"Основной закон Российского государства, нормативный правовой акт, обладающий высшей юридической силой, определяющий основы государственного строя, организацию государственной власти, отношения гражданина и государства.","m":"law"},
+{"t":"Конституционный строй РФ","d":"Система общественных отношений (экономических, социальных, политических, духовных), установленных и охраняемых Конституцией РФ и другими конституционно-правовыми актами Российского государства","m":"law"},
+{"t":"Федеративное устройство России","d":"Политико-территориальная организация России как суверенного целостного и федеративного государства, состоящего из равноправных субъектов.","m":"law"},
+{"t":"Субъект Российской Федерации","d":"Государственное образование в составе России с присущими ему чертами государства, но ограниченное Конституцией РФ и Федеративным договором","m":"law"},
+{"t":"Органы государственной власти","d":"Составные части аппарата государства (физические лица или организации), наделённые государственно-властными полномочиями и участвующие в осуществлении функций государства.","m":"law"},
+{"t":"Федеральное собрание","d":"Двухпалатный парламент России, её постоянно действующий представительный и законодательный орган","m":"law"},
+{"t":"Правительство РФ","d":"Высший исполнительный орган, возглавляющий единую систему исполнительной власти на всей территории России","m":"law"},
+{"t":"Президент","d":"Выборный глава государства в Российской Федерации","m":"law"},
+{"t":"Судебная власть","d":"Обусловленный разделением властей вид государственной власти, связанный с осуществлением право судия посредством конституционного, гражданского, админис тративного и уголовного судопроизводства","m":"law"},
+{"t":"Ценз","d":"Усло вие допущения или ограничения участия в осуществлении прав","m":"law"},
+{"t":"Правоохранительные органы","d":"Органы, созданные государством в целях охраны права, действующие на основании и в соответствии с законом, обладающие соответствующими полномочиями и необходимыми для этого материальными ресурсами","m":"law"},
+{"t":"Правосудие","d":"Деятельность суда по вынесению правового суждения о законе и правах сторон","m":"law"},
+{"t":"Судопроизводство","d":"Разрешение судебных дел по установлен ному порядку.","m":"law"},
+{"t":"Судебная система","d":"Совокупность действующих в государстве судов","m":"law"},
+{"t":"Вердикт","d":"Решение коллегии присяжных заседателей","m":"law"},
+{"t":"Кодекс","d":"Законодательный акт, в котором объединены и систематизированы нормы права, относящиеся к одной отрасли права.","m":"law"},
+{"t":"Права человека","d":"Понятие, характеризующее меру свободы человека, его автономию, т. е. определённую независимость, самостоятельность, по отношению к государству, возможности и притязания в экономической, социальной, политической и культурной сферах","m":"law"},
+{"t":"Ребёнок","d":"Каждое человеческое существо до достижения 18летнего возраста.","m":"law"},
+{"t":"Несовершеннолетний","d":"Физическое лицо в возрасте от 14 до 18 лет","m":"law"},
+{"t":"Жертвы вооружённых конфликтов","d":"Конкретные категории людей, на которых распространяется правовая защита в условиях вооружённого конфликта","m":"law"},
+{"t":"Международное гуманитарное право","d":"Совокупность международных норм, составляющих так называемые правила ведения войны (или законы и обычаи войны), регулирующие отношения между воюющими государства ми, а также между ними, с одной стороны, и нейтральными государствами — с другой","m":"law"},
+{"t":"Гражданские правоотношения","d":"Разновидность общественных отношений (имущественные и личные неимущественные), урегулированных нормами гражданского права","m":"law"},
+{"t":"Имущественные (гражданские правоотношения)","d":"Это отношения по поводу имущества, т. е. материальных предметов и других экономических ценностей (имеющих денежную оценку)","m":"law"},
+{"t":"Личные неимущественные (гражданские правоотношения)","d":"Это отношения, лишённые экономического содержания, но которые могут иметь имущественные последствия","m":"law"},
+{"t":"Гражданская правоспособность","d":"Способность субъекта иметь гражданские права и нести обязанности","m":"law"},
+{"t":"Гражданская дееспособность","d":"Способность субъекта своими действиями приобретать и осуществлять гражданские права и создавать для себя гражданские обязанности и исполнять их","m":"law"},
+{"t":"Сделка","d":"Действие граждан и юридических лиц, на правленное на установление, изменение или прекращение гражданских прав и обязанностей.","m":"law"},
+{"t":"Аренда","d":"Имущественный наём, в результате которого одна сторона предоставляет другой землю, строение, имущество и др.","m":"law"},
+{"t":"Договор","d":"Соглашение двух или нескольких лиц об установлении, изменении или прекращении гражданских прав и обязанностей.","m":"law"},
+{"t":"Содержание договора","d":"Совокупность условий, определяющих обязанности сторон, требования к порядку и срокам их осуществления","m":"law"},
+{"t":"Завещание","d":"Личное распоряжение гражданина на случай смерти по поводу принадлежащего ему имущества с назначением наследника.","m":"law"},
+{"t":"Наследство","d":"Вещи, иное имущество, в том числе имущественные права и обязанности, которые переходят в порядке наследования от умершего (наследодателя) к наследникам.","m":"law"},
+{"t":"Потребитель","d":"Тот, кто приобретает и использует товары (работы, услуги) для личных (бытовых) нужд, не связанных с осуществлением предпринимательской деятельности.","m":"law"},
+{"t":"Рента","d":"Определённая сумма, выплаченная за пользование землёй.","m":"law"},
+{"t":"Семейные правоотношения","d":"Разновидность общественных отношений, урегулированных нормами семейного права, возникающих из факта вступления в брак, при знания его недействительным, родства, усыновления","m":"law"},
+{"t":"Брак","d":"юридически оформленный, свободный, добровольный союз мужчины и женщины, направленный на создание семьи и порождающий для них взаимные права и обязанности","m":"law"},
+{"t":"Родство","d":"Кровная связь лиц, происходящих одно от другого или от общего предка","m":"law"},
+{"t":"Усыновление","d":"Юридический акт, в силу которого между усыновлённым ребёнком и его усыновителем устанавливаются право вые (личные и имущественные) отношения, соответствующие отношениям между родителями и детьми.","m":"law"},
+{"t":"Брачный договор","d":"Письменный, нотариально удостоверенный договор, регулирующий имущественные права и обязанности супругов; режим совместной, долевой и раздельной собственности; взаимное содержание; участие в доходах друг друга; принципы раз дела имущества в случае развода.","m":"law"},
+{"t":"Трудовой договор (контракт)","d":"Соглашение меж ду работодателем и работником, в соответствии с которым","m":"law"},
+{"t":"Коллективный трудовой договор","d":"Правовой акт, регулирующий социально-трудовые отношения в организации и заключаемый работниками и работодателем в лице их представителей.","m":"law"},
+{"t":"Социальное партнёрство в сфере труда","d":"Система взаимоотношений между работниками (представителями работников), работодателями (представителями работодателей), органами государственной власти, местного самоуправления, направленная на обеспечение согласования интересов работников и работодателей по вопросам регулирования трудовых правоотношений.","m":"law"},
+{"t":"Дисциплина труда","d":"Обязательное для всех работников подчинение правилам поведения, определённым в соответствии с законодательством о труде, коллективным трудовым договором, соглашениями, трудовым договором, локальными нормативными правовыми актами организации","m":"law"},
+{"t":"Административные правоотношения","d":"Разновидность общественных отношений, складывающихся в сфере государственного управления, урегулированных нормами административного права","m":"law"},
+{"t":"Административное правонарушение (проступок)","d":"Противоправное, виновное действие (бездействие) лица, за которое законодательством предусмотрена административная ответственность (ответственность перед уполномоченными органами власти и их представителями)","m":"law"},
+{"t":"Административное взыскание","d":"Мера ответственности за административное правонарушение","m":"law"}];
+
+</script>
+<script>
+/* =====================================================================
+   ЛОГИКА САЙТА
+   ===================================================================== */
+(function(){
+"use strict";
+
+/* ---------------- утилиты ---------------- */
+var MONTHS_GEN = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+var MONTHS_SH  = ["янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек"];
+var MONTHS_FULL= ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+var DOW = ["пн","вт","ср","чт","пт","сб","вс"];
+
+function pad(n){ return (n<10?"0":"")+n; }
+function ymd(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+function pd(s){ var p=String(s).split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+function today(){ return TODAY_OVERRIDE || ymd(new Date()); }
+function addDays(s,n){ var d=pd(s); d.setDate(d.getDate()+n); return ymd(d); }
+function diffDays(a,b){ return Math.round((pd(b)-pd(a))/86400000); }
+function fmt(s){ if(!s) return ""; var d=pd(s); return d.getDate()+" "+MONTHS_SH[d.getMonth()]; }
+function fmtLong(s){ if(!s) return ""; var d=pd(s); return d.getDate()+" "+MONTHS_GEN[d.getMonth()]+" "+d.getFullYear(); }
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
+function num(v){ if(v===""||v==null) return null; var n=parseFloat(String(v).replace(",",".")); return isNaN(n)?null:n; }
+function plural(n, one, few, many){ var a=Math.abs(n)%100, b=a%10; if(a>10&&a<20) return many; if(b>1&&b<5) return few; if(b===1) return one; return many; }
+function $(sel, root){ return (root||document).querySelector(sel); }
+function $all(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+function isDark(){ return document.documentElement.getAttribute("data-theme")==="dark" ||
+  (document.documentElement.getAttribute("data-theme")!=="light" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches); }
+function col(o){ return isDark() ? (o.dark||o.color) : o.color; }
+
+var toastT;
+function toast(msg){
+  var t=$("#toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toastT); toastT=setTimeout(function(){ t.classList.remove("show"); }, 2200);
+}
+
+/* ---------------- хранилище ---------------- */
+var LS_KEY = "uchet-celey-v1";
+var S, canSave = true;
+
+function blank(){ return { v:1, tutor:{}, subj:{}, terms:{ added:[], edit:{}, hidden:{}, known:{} } }; }
+function load(){
+  var st=null;
+  try { var raw=localStorage.getItem(LS_KEY); if(raw) st=JSON.parse(raw); } catch(e){ canSave=false; }
+  S = st && typeof st==="object" ? st : blank();
+  normalize();
+}
+function normalize(){
+  var b=blank();
+  Object.keys(b).forEach(function(k){ if(!S[k]) S[k]=b[k]; });
+  ["added","edit","hidden","known"].forEach(function(k){ if(!S.terms[k]) S.terms[k]=b.terms[k]; });
+  seed();
+}
+function freshRoot(){ var old=$("#app"), n=old.cloneNode(false); old.parentNode.replaceChild(n, old); return n; }
+function save(){
+  try { localStorage.setItem(LS_KEY, JSON.stringify(S)); canSave=true; } catch(e){ canSave=false; }
+  var el=$("#saveState"); if(el) el.textContent = canSave ? "сохранено в этом браузере · "+new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}) : "браузер не даёт сохранять (приватный режим?)";
+}
+function seed(){
+  TUTOR_STUDENTS.forEach(function(st){
+    if(!S.tutor[st.id]){
+      S.tutor[st.id] = { goals:(TUTOR_SEED[st.id]||[]).map(function(g){
+        var c=JSON.parse(JSON.stringify(g));
+        c.id=uid(); c.status="active"; c.created=today();
+        c.tasks=(c.tasks||[]).map(function(t){ return { id:uid(), text:t.text, due:t.due||"", done:null }; });
+        return c;
+      }) };
+    }
+  });
+  SUBJ_STUDENTS.forEach(function(st){
+    if(!S.subj[st.id]){
+      S.subj[st.id] = { topics:{}, results:(st.seedResults||[]).map(function(r){ var c=JSON.parse(JSON.stringify(r)); c.id=uid(); c.cp=""; return c; }),
+        skills:{}, cpEdit:{}, cpAdd:[], cpDel:{}, goalText:null };
+    }
+    var d=S.subj[st.id]; ["topics","skills","cpEdit","cpDel","topicDates"].forEach(function(k){ if(!d[k]) d[k]={}; }); if(!d.results) d.results=[]; if(!d.cpAdd) d.cpAdd=[];
+  });
+}
+
+/* ---------------- модальное окно ---------------- */
+function openModal(html, onMount){
+  var m=$("#modal"); $("#mbox").innerHTML=html; m.hidden=false;
+  document.body.style.overflow="hidden";
+  var f=$("#mbox input, #mbox select, #mbox textarea"); if(f && window.innerWidth>700) setTimeout(function(){ f.focus(); }, 30);
+  if(onMount) onMount($("#mbox"));
+}
+function closeModal(){ $("#modal").hidden=true; document.body.style.overflow=""; }
+document.addEventListener("keydown", function(e){ if(e.key==="Escape" && !$("#modal").hidden) closeModal(); });
+$("#modal").addEventListener("mousedown", function(e){ if(e.target.id==="modal") closeModal(); });
+
+/* ---------------- маршрутизация ---------------- */
+function route(){
+  var h=location.hash.replace(/^#\/?/,"").split("/");
+  var view=h[0]||"", id=h[1]||"";
+  document.body.className="";
+  $all(".navlinks a").forEach(function(a){ a.classList.toggle("on", a.getAttribute("data-r")===(view||"home")); });
+  var root=$("#app");
+  try {
+    if(view==="t" && TUTOR_STUDENTS.some(function(s){return s.id===id;})) { document.body.className="d-tutor"; renderTutor(root, id); }
+    else if(view==="s" && SUBJ_STUDENTS.some(function(s){return s.id===id;})) { var st=subjStudent(id); document.body.className="d-"+st.subject; renderSubj(root, st); }
+    else if(view==="terms") { document.body.className="d-obsh"; renderTerms(root); }
+    else { document.body.className="d-tutor"; renderHome(root); }
+  } catch(err){
+    root.innerHTML='<p class="failnote">Что-то сломалось при отрисовке: <code>'+esc(err && err.message)+'</code>. Покажи это сообщение — починю.</p>';
+    if(window.console) console.error(err);
+  }
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+
+function subjStudent(id){ return SUBJ_STUDENTS.filter(function(s){ return s.id===id; })[0]; }
+function tutorStudent(id){ return TUTOR_STUDENTS.filter(function(s){ return s.id===id; })[0]; }
+
+/* =====================================================================
+   ТЬЮТОРСТВО
+   ===================================================================== */
+function sphereById(id){ return SPHERES.filter(function(s){ return s.id===id; })[0] || SPHERES[0]; }
+
+function metricInfo(g){
+  var m=g.metric; if(!m) return null;
+  var log=(m.log||[]).slice().sort(function(a,b){ return a.d<b.d?-1:a.d>b.d?1:0; });
+  var cur, base, target;
+  if(m.fromTasks){ cur=g.tasks.filter(function(t){return t.done;}).length; base=m.start||0; target=m.target; }
+  else {
+    cur = log.length ? log[log.length-1].v : null;
+    base = m.start!=null ? m.start : (log.length ? log[0].v : null);
+    target = m.target!=null ? m.target : (m.delta!=null && base!=null ? Math.round((base+m.delta)*100)/100 : null);
+  }
+  var p=null;
+  if(cur!=null && base!=null && target!=null && target!==base) p=clamp((cur-base)/(target-base),0,1);
+  else if(cur!=null && target!=null && target===base) p = 1;
+  return { cur:cur, base:base, target:target, p:p, log:log };
+}
+function habitDays(h, from, to){ // список дат, в которые по плану нужна отметка
+  var out=[], d=from;
+  while(d<=to){
+    var wd=(pd(d).getDay()+6)%7;
+    if(h.mode==="daily" || (h.mode==="days" && (h.days||[]).indexOf(wd)>=0)) out.push(d);
+    d=addDays(d,1);
+  }
+  return out;
+}
+function habitInfo(g){
+  var h=g.habit; if(!h) return null;
+  var marks=h.marks||{}, t=today();
+  var yes=0, no=0; Object.keys(marks).forEach(function(k){ if(marks[k]===1) yes++; else if(marks[k]===-1) no++; });
+  var p=null, start=g.created||t;
+  var firstMark=Object.keys(marks).sort()[0]; if(firstMark && firstMark<start) start=firstMark;
+  if(h.mode!=="free"){
+    var from = diffDays(start,t)>29 ? addDays(t,-29) : start;
+    var days=habitDays(h, from, t);
+    // сегодняшний день не считаем пропуском, пока его не отметили
+    var need=days.filter(function(d){ return d<t || marks[d]; });
+    var done=need.filter(function(d){ return marks[d]===1; }).length;
+    p = need.length ? done/need.length : null;
+  } else {
+    p = (yes+no) ? yes/(yes+no) : null;
+  }
+  // серия подряд
+  var streak=0, d=t;
+  if(marks[d]!==1) d=addDays(d,-1);
+  if(h.mode==="free"){
+    var keys=Object.keys(marks).filter(function(k){ return marks[k]!==0; }).sort().reverse();
+    for(var i=0;i<keys.length;i++){ if(marks[keys[i]]===1) streak++; else break; }
+  } else {
+    for(var k=0;k<400;k++){
+      var wd=(pd(d).getDay()+6)%7;
+      var planned = h.mode==="daily" || (h.days||[]).indexOf(wd)>=0;
+      if(planned){ if(marks[d]===1) streak++; else break; }
+      d=addDays(d,-1);
+    }
+  }
+  return { yes:yes, no:no, p:p, streak:streak };
+}
+function goalProgress(g){
+  if(g.status==="done") return 1;
+  var parts=[];
+  var mi=metricInfo(g); if(mi && mi.p!=null) parts.push(mi.p);
+  var hi=habitInfo(g); if(hi && hi.p!=null && g.habit.mode!=="free") parts.push(hi.p);
+  if(g.tasks && g.tasks.length && !(g.metric && g.metric.fromTasks)) parts.push(g.tasks.filter(function(t){return t.done;}).length/g.tasks.length);
+  if(!parts.length) return 0;
+  return parts.reduce(function(a,b){return a+b;},0)/parts.length;
+}
+
+/* очки, уровни, достижения — считаются из отметок, их нельзя «накрутить» случайно */
+function tutorStats(id){
+  var goals=S.tutor[id].goals;
+  var st={ habitYes:0, tasksDone:0, logs:0, goalsDone:0, goals:goals.length, spheres:{}, onTime:0, streakBest:0, dayStreak:0 };
+  var dayYes={};
+  goals.forEach(function(g){
+    st.spheres[g.sphere]=1;
+    if(g.status==="done"){ st.goalsDone++; if(g.deadline && g.doneAt && g.doneAt<=g.deadline) st.onTime++; }
+    (g.tasks||[]).forEach(function(t){ if(t.done) st.tasksDone++; });
+    if(g.metric && !g.metric.fromTasks) st.logs += (g.metric.log||[]).length;
+    if(g.habit){ var m=g.habit.marks||{}; Object.keys(m).forEach(function(k){ if(m[k]===1){ st.habitYes++; dayYes[k]=1; } }); }
+  });
+  // лучшая серия дней, в которые была хоть одна выполненная привычка
+  var days=Object.keys(dayYes).sort(), run=0, prev=null;
+  days.forEach(function(d){ run = (prev && diffDays(prev,d)===1) ? run+1 : 1; st.streakBest=Math.max(st.streakBest,run); prev=d; });
+  var t=today(), d=dayYes[t]?t:addDays(t,-1), s=0; while(dayYes[d]){ s++; d=addDays(d,-1); } st.dayStreak=s;
+  st.xp = st.goals*10 + st.habitYes*10 + st.tasksDone*15 + st.logs*5 + st.goalsDone*100;
+  var lvl=1, need=100, rest=st.xp;
+  while(rest>=need){ rest-=need; lvl++; need=100+50*(lvl-1); }
+  st.level=lvl; st.lvlXp=rest; st.lvlNeed=need;
+  st.nSpheres=Object.keys(st.spheres).length;
+  return st;
+}
+var BADGES = [
+  { ic:"🎯", name:"Старт",          d:"Поставить первую цель",           ok:function(s){return s.goals>=1;} },
+  { ic:"🧭", name:"Три сферы",      d:"Цели в здоровье, саморазвитии и развитии", ok:function(s){return s.nSpheres>=3;} },
+  { ic:"✅", name:"Первая отметка",  d:"Отметить привычку или задачу",   ok:function(s){return s.habitYes+s.tasksDone>=1;} },
+  { ic:"🔥", name:"Серия 3",        d:"3 дня подряд с отметкой",          ok:function(s){return s.streakBest>=3;} },
+  { ic:"⚡", name:"Серия 7",        d:"Неделя без пропусков",             ok:function(s){return s.streakBest>=7;} },
+  { ic:"🏔", name:"Серия 30",       d:"Месяц подряд",                     ok:function(s){return s.streakBest>=30;} },
+  { ic:"📏", name:"Замерщик",       d:"Записать 5 замеров показателя",    ok:function(s){return s.logs>=5;} },
+  { ic:"🧩", name:"Мастер задач",   d:"Выполнить 10 задач",               ok:function(s){return s.tasksDone>=10;} },
+  { ic:"🏆", name:"Цель взята",     d:"Достичь первой цели",              ok:function(s){return s.goalsDone>=1;} },
+  { ic:"⏱", name:"Точно в срок",   d:"Достичь цели до дедлайна",         ok:function(s){return s.onTime>=1;} },
+  { ic:"👑", name:"Хет-трик",       d:"Достичь трёх целей",               ok:function(s){return s.goalsDone>=3;} },
+  { ic:"🌟", name:"Уровень 5",      d:"Набрать пятый уровень",            ok:function(s){return s.level>=5;} }
+];
+
+var calState = {}; // по ученику: {y,m,sel}
+
+function renderTutor(root, id){
+  root=freshRoot();
+  var st=tutorStudent(id), data=S.tutor[id], stats=tutorStats(id);
+  var goals=data.goals;
+  var active=goals.filter(function(g){return g.status!=="done";});
+  var avg = active.length ? active.reduce(function(a,g){return a+goalProgress(g);},0)/active.length : 0;
+
+  var html='';
+  html+='<header class="shead">'+
+    '<div class="panel main">'+
+      '<div class="eyebrow">Тьюторство · здоровье · саморазвитие · развитие</div>'+
+      '<h1>'+esc(st.name)+'</h1>'+
+      '<p class="goaltext">'+ (goals.length ? (active.length+' '+plural(active.length,"цель","цели","целей")+' в работе, '+stats.goalsDone+' '+plural(stats.goalsDone,"достигнута","достигнуты","достигнуто")+'. Отмечай привычки в календаре, записывай замеры и закрывай задачи — за всё начисляется опыт.')
+        : 'Целей пока нет. Начни с одной цели в любой сфере: что именно, к какому сроку и как поймём, что получилось.') +'</p>'+
+      '<div class="row">'+ SPHERES.map(function(s){ return '<button class="btn small ghost" data-add-goal="'+s.id+'">+ '+s.name.toLowerCase()+'</button>'; }).join("")+'</div>'+
+    '</div>'+
+    '<div class="panel lvl">'+
+      '<div class="big"><b>'+stats.level+'</b><span>уровень · '+stats.xp+' XP</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round(stats.lvlXp/stats.lvlNeed*100)+'%"></i></div>'+
+      '<div class="xp">до '+(stats.level+1)+'-го уровня: '+(stats.lvlNeed-stats.lvlXp)+' XP</div>'+
+      '<div class="xp">средний прогресс по целям: <b style="color:var(--ink)">'+Math.round(avg*100)+'%</b> · серия: <b style="color:var(--ink)">'+stats.dayStreak+' '+plural(stats.dayStreak,"день","дня","дней")+'</b></div>'+
+    '</div>'+
+  '</header>';
+
+  html+='<section class="section" id="sec-goals"><div class="section-head"><h2>Цели</h2><span class="note">✎ — изменить цель, её показатель и привычку</span></div><div class="spheres">';
+  SPHERES.forEach(function(sp){
+    var gs=goals.filter(function(g){return g.sphere===sp.id;});
+    gs.sort(function(a,b){ return (a.status==="done")-(b.status==="done"); });
+    html+='<div class="sphere" style="--s:'+col(sp)+'">'+
+      '<div class="sphere-h"><span class="ic">'+sp.icon+'</span><h3>'+sp.name+'</h3><span class="note">'+gs.length+'</span></div>';
+    gs.forEach(function(g){ html+=goalCard(g, sp); });
+    html+='<button class="addgoal" data-add-goal="'+sp.id+'">+ поставить цель: '+sp.name.toLowerCase()+'</button></div>';
+  });
+  html+='</div></section>';
+
+  html+='<section class="section" id="sec-cal"><div class="section-head"><h2>Календарь</h2><span class="note">точки — выполненные привычки, ромбик — дедлайн</span></div>'+
+    '<div class="calwrap"><div class="panel cal" id="tcal"></div><div class="panel dayp" id="tday"></div></div></section>';
+
+  html+='<section class="section" id="sec-badges"><div class="section-head"><h2>Достижения</h2><span class="note">'+BADGES.filter(function(b){return b.ok(stats);}).length+' из '+BADGES.length+'</span></div><div class="badges">'+
+    BADGES.map(function(b){ var got=b.ok(stats); return '<div class="badge'+(got?' got':'')+'"><span class="ic">'+b.ic+'</span><span><b>'+b.name+'</b><small>'+b.d+'</small></span></div>'; }).join("")+
+  '</div><p class="note">Опыт: +10 за поставленную цель, +10 за отметку привычки, +15 за задачу, +5 за замер, +100 за достигнутую цель.</p></section>';
+
+  html+=footer();
+  root.innerHTML=html;
+  setNav([["sec-goals","Цели"],["sec-cal","Календарь"],["sec-badges","Достижения"]]);
+
+  if(!calState[id]){ var t=pd(today()); calState[id]={ y:t.getFullYear(), m:t.getMonth(), sel:today() }; }
+  renderTCal(id);
+  bindTutor(root, id);
+}
+
+function goalCard(g, sp){
+  var p=goalProgress(g), t=today();
+  var dl='';
+  if(g.deadline){
+    var dd=diffDays(t,g.deadline);
+    dl = g.status==="done" ? '<span class="tag ok">достигнута '+fmt(g.doneAt)+'</span>' :
+      (dd<0 ? '<span class="tag bad">срок прошёл '+fmt(g.deadline)+'</span>' : '<span class="tag q">до '+fmt(g.deadline)+' · '+dd+' '+plural(dd,"день","дня","дней")+'</span>');
+  } else if(g.status==="done") dl='<span class="tag ok">достигнута</span>';
+  var h='<article class="panel goal'+(g.status==="done"?" done":"")+'" data-goal="'+g.id+'">'+
+    '<div class="gt"><h3>'+esc(g.title)+'</h3><button class="iconbtn" data-edit-goal="'+g.id+'" title="Изменить" aria-label="Изменить цель">✎</button></div>'+
+    '<div class="gmeta">'+dl+'<span class="pc">'+Math.round(p*100)+'%</span></div>'+
+    '<div class="bar"><i style="width:'+Math.round(p*100)+'%"></i></div>'+
+    (g.note?'<p class="gnote">'+esc(g.note)+'</p>':'');
+
+  var mi=metricInfo(g);
+  if(mi){
+    var m=g.metric;
+    h+='<div class="gsec"><div class="gsh"><span>'+esc(m.label||"Показатель")+'</span><span>'+
+      (mi.base!=null?esc(fmtNum(mi.base)):'?')+' → '+(mi.target!=null?esc(fmtNum(mi.target)):(m.delta!=null?(m.delta>0?'+':'')+m.delta:'?'))+' '+esc(m.unit||"")+'</span></div>';
+    h+='<div class="metric-now">'+(mi.cur!=null?'<b>'+esc(fmtNum(mi.cur))+'</b> '+esc(m.unit||""):'<span>пока нет замеров</span>')+
+      (mi.cur!=null && mi.base!=null && !m.fromTasks && mi.log.length>1 ? ' · изменение '+signed(mi.cur-mi.base)+' '+esc(m.unit||""):'')+'</div>';
+    if(!m.fromTasks){
+      if(mi.log.length>1) h+=sparkline(mi.log, mi.target);
+      h+='<form class="minirow" data-log="'+g.id+'"><input type="number" step="any" inputmode="decimal" placeholder="'+(mi.base==null?'стартовое значение':'новый замер')+'" aria-label="Новый замер"><button class="btn small" type="submit">Записать</button></form>';
+      if(mi.log.length) h+='<div class="hstat">последний замер '+fmt(mi.log[mi.log.length-1].d)+' · всего '+mi.log.length+' <button class="iconbtn" style="width:22px;height:22px;font-size:11px" data-unlog="'+g.id+'" title="Удалить последний замер">↶</button></div>';
+    } else {
+      h+='<div class="hstat">считается по выполненным задачам ниже</div>';
+    }
+    h+='</div>';
+  }
+  var hi=habitInfo(g);
+  if(hi){
+    var hb=g.habit;
+    h+='<div class="gsec"><div class="gsh"><span>'+esc(hb.label||"Привычка")+'</span><span>'+habitModeText(hb)+'</span></div><div class="week">';
+    for(var i=6;i>=0;i--){
+      var d=addDays(t,-i), wd=(pd(d).getDay()+6)%7, v=(hb.marks||{})[d];
+      var off = hb.mode==="days" && (hb.days||[]).indexOf(wd)<0;
+      h+='<div class="wd">'+DOW[wd]+'<button class="mark'+(v===1?' y':v===-1?' n':'')+(d===t?' today':'')+(off?' off':'')+'" data-mark="'+g.id+'" data-d="'+d+'" title="'+fmtLong(d)+'">'+(v===1?'✓':v===-1?'✗':pd(d).getDate())+'</button></div>';
+    }
+    h+='</div><div class="hstat">✓ '+hi.yes+' · ✗ '+hi.no+(hi.p!=null?' · выполнение '+Math.round(hi.p*100)+'%':'')+' · серия '+hi.streak+'</div></div>';
+  }
+  h+='<div class="gsec"><div class="gsh"><span>Задачи к цели</span><span>'+g.tasks.filter(function(x){return x.done;}).length+'/'+g.tasks.length+'</span></div><div class="tasks">';
+  g.tasks.forEach(function(tk){
+    var late = !tk.done && tk.due && tk.due<t;
+    h+='<label class="task'+(tk.done?' done':'')+'"><input type="checkbox" data-task="'+g.id+'" data-tid="'+tk.id+'"'+(tk.done?' checked':'')+'>'+
+      '<span class="tx">'+esc(tk.text)+'</span>'+(tk.due?'<span class="due'+(late?' late':'')+'">'+fmt(tk.due)+'</span>':'')+
+      '<button class="iconbtn" type="button" data-deltask="'+g.id+'" data-tid="'+tk.id+'" title="Удалить задачу" aria-label="Удалить задачу">×</button></label>';
+  });
+  h+='</div><form class="minirow" data-addtask="'+g.id+'"><input type="text" placeholder="Новая задача…" aria-label="Новая задача"><input type="date" aria-label="Срок" title="Срок (необязательно)"><button class="btn small ghost" type="submit">+</button></form></div>';
+  var habitOnly = g.habit && !g.metric && !g.tasks.length;
+  if(g.status!=="done" && p>=0.999 && (!habitOnly || (g.deadline && t>=g.deadline))) h+='<button class="btn" data-finish="'+g.id+'">🏆 Цель достигнута!</button>';
+  h+='</article>';
+  return h;
+}
+function fmtNum(v){ return String(Math.round(v*100)/100).replace(".",","); }
+function signed(v){ v=Math.round(v*100)/100; return (v>0?"+":v<0?"−":"")+String(Math.abs(v)).replace(".",","); }
+function habitModeText(h){
+  if(h.mode==="daily") return "каждый день";
+  if(h.mode==="days") return (h.days||[]).map(function(d){return DOW[d];}).join(", ") || "дни не выбраны";
+  return "когда было";
+}
+function sparkline(log, target){
+  var W=260, H=58, pl=4, pr=4, pt=6, pb=6;
+  var vals=log.map(function(x){return x.v;}); if(target!=null) vals.push(target);
+  var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals); if(mn===mx){ mn-=1; mx+=1; }
+  var t0=pd(log[0].d).getTime(), t1=pd(log[log.length-1].d).getTime(); if(t1===t0) t1=t0+86400000;
+  var x=function(d){ return pl+(pd(d).getTime()-t0)/(t1-t0)*(W-pl-pr); };
+  var y=function(v){ return pt+(1-(v-mn)/(mx-mn))*(H-pt-pb); };
+  var s='<svg width="100%" height="'+H+'" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Динамика замеров">';
+  if(target!=null) s+='<line x1="0" x2="'+W+'" y1="'+y(target).toFixed(1)+'" y2="'+y(target).toFixed(1)+'" stroke="var(--warn)" stroke-dasharray="4 4" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
+  s+='<polyline fill="none" stroke="var(--s)" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke" points="'+log.map(function(p){return x(p.d).toFixed(1)+","+y(p.v).toFixed(1);}).join(" ")+'"/>';
+  s+='</svg>';
+  return '<div title="Оранжевая линия — цель">'+s+'</div>';
+}
+
+function renderTCal(id){
+  var cs=calState[id], data=S.tutor[id], t=today();
+  var first=new Date(cs.y, cs.m, 1), lead=(first.getDay()+6)%7, last=new Date(cs.y, cs.m+1, 0).getDate();
+  var h='<div class="cal-head"><button class="iconbtn" data-calnav="-1" aria-label="Предыдущий месяц">‹</button><span class="cal-title">'+MONTHS_FULL[cs.m]+' '+cs.y+'</span><button class="iconbtn" data-calnav="1" aria-label="Следующий месяц">›</button></div>';
+  h+='<div class="grid7">'+DOW.map(function(d){return '<div class="dow">'+d+'</div>';}).join("")+'</div><div class="grid7">';
+  for(var i=0;i<lead;i++) h+='<div class="day out"></div>';
+  for(var dd=1; dd<=last; dd++){
+    var key=ymd(new Date(cs.y, cs.m, dd)), dots='', dl=false;
+    data.goals.forEach(function(g){
+      if(g.deadline===key && g.status!=="done") dl=true;
+      g.tasks.forEach(function(tk){ if(tk.due===key && !tk.done) dl=true; });
+      if(g.habit){ var v=(g.habit.marks||{})[key];
+        if(v===1) dots+='<i style="background:'+col(sphereById(g.sphere))+'"></i>';
+        else if(v===-1) dots+='<i style="background:transparent;box-shadow:inset 0 0 0 1.5px var(--bad)"></i>'; }
+    });
+    h+='<div class="day'+(key===t?' today':'')+(key===cs.sel?' sel':'')+(dl?' dl':'')+'" data-day="'+key+'" role="button" tabindex="0" aria-label="'+fmtLong(key)+'">'+dd+'<span class="dots">'+dots+'</span></div>';
+  }
+  h+='</div>';
+  $("#tcal").innerHTML=h;
+
+  // панель дня
+  var sel=cs.sel, p='<h3>'+fmtLong(sel)+(sel===t?' · сегодня':'')+'</h3>';
+  var habits=data.goals.filter(function(g){ return g.habit && g.status!=="done"; });
+  if(habits.length){
+    habits.forEach(function(g){
+      var v=(g.habit.marks||{})[sel];
+      p+='<div class="hrow"><span class="nm">'+esc(g.habit.label||g.title)+'<small>'+esc(g.title)+'</small></span>'+
+        '<span class="tri"><button class="y'+(v===1?' on':'')+'" data-tri="'+g.id+'" data-v="1" data-d="'+sel+'" aria-label="Сделано">✓</button><button class="n'+(v===-1?' on':'')+'" data-tri="'+g.id+'" data-v="-1" data-d="'+sel+'" aria-label="Не сделано">✗</button></span></div>';
+    });
+  } else p+='<p class="empty">Привычек для отметки пока нет — их можно добавить в цель через ✎.</p>';
+  var items=[];
+  data.goals.forEach(function(g){
+    if(g.deadline===sel) items.push('<span class="tag q">дедлайн</span> '+esc(g.title));
+    g.tasks.forEach(function(tk){ if(tk.due===sel) items.push('<span class="tag'+(tk.done?' ok':'')+'">задача</span> '+esc(tk.text)); });
+    if(g.metric && g.metric.log) g.metric.log.forEach(function(l){ if(l.d===sel) items.push('<span class="tag m">замер</span> '+esc(g.metric.label)+': '+fmtNum(l.v)+' '+esc(g.metric.unit||"")); });
+  });
+  if(items.length) p+='<div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--border);padding-top:10px;font-size:14px">'+items.map(function(x){return '<div>'+x+'</div>';}).join("")+'</div>';
+  $("#tday").innerHTML=p;
+}
+
+function bindTutor(root, id){
+  var data=S.tutor[id];
+  function G(gid){ return data.goals.filter(function(g){return g.id===gid;})[0]; }
+  function rerender(msg){ save(); var y=window.scrollY; renderTutor($("#app"), id); window.scrollTo(0,y); if(msg) toast(msg); }
+
+  root.addEventListener("click", function(e){
+    var el;
+    if((el=e.target.closest("[data-add-goal]"))) return goalModal(id, null, el.getAttribute("data-add-goal"));
+    if((el=e.target.closest("[data-edit-goal]"))) return goalModal(id, el.getAttribute("data-edit-goal"));
+    if((el=e.target.closest("[data-mark]"))){
+      var g=G(el.getAttribute("data-mark")), d=el.getAttribute("data-d"); g.habit.marks=g.habit.marks||{};
+      var v=g.habit.marks[d]; var nv = v===1 ? -1 : v===-1 ? 0 : 1;
+      if(nv===0) delete g.habit.marks[d]; else g.habit.marks[d]=nv;
+      return rerender(nv===1?"+10 XP":null);
+    }
+    if((el=e.target.closest("[data-tri]"))){
+      var g2=G(el.getAttribute("data-tri")), d2=el.getAttribute("data-d"), v2=+el.getAttribute("data-v"); g2.habit.marks=g2.habit.marks||{};
+      if(g2.habit.marks[d2]===v2) delete g2.habit.marks[d2]; else g2.habit.marks[d2]=v2;
+      return rerender(g2.habit.marks[d2]===1?"+10 XP":null);
+    }
+    if((el=e.target.closest("[data-deltask]"))){
+      e.preventDefault();
+      var g3=G(el.getAttribute("data-deltask")); g3.tasks=g3.tasks.filter(function(t){return t.id!==el.getAttribute("data-tid");});
+      return rerender();
+    }
+    if((el=e.target.closest("[data-unlog]"))){
+      var g4=G(el.getAttribute("data-unlog")); var lg=(g4.metric.log||[]).slice().sort(function(a,b){return a.d<b.d?-1:1;}); lg.pop(); g4.metric.log=lg;
+      return rerender("Последний замер удалён");
+    }
+    if((el=e.target.closest("[data-finish]"))){
+      var g5=G(el.getAttribute("data-finish")); g5.status="done"; g5.doneAt=today();
+      return rerender("🏆 Цель достигнута! +100 XP");
+    }
+    if((el=e.target.closest("[data-calnav]"))){
+      var cs=calState[id]; cs.m+= +el.getAttribute("data-calnav"); if(cs.m<0){cs.m=11;cs.y--;} if(cs.m>11){cs.m=0;cs.y++;}
+      return renderTCal(id);
+    }
+    if((el=e.target.closest("[data-day]"))){ calState[id].sel=el.getAttribute("data-day"); return renderTCal(id); }
+  });
+  root.addEventListener("keydown", function(e){
+    var el=e.target.closest("[data-day]"); if(el && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); calState[id].sel=el.getAttribute("data-day"); renderTCal(id); }
+  });
+  root.addEventListener("change", function(e){
+    var el=e.target.closest("[data-task]"); if(!el) return;
+    var g=G(el.getAttribute("data-task")); var tk=g.tasks.filter(function(t){return t.id===el.getAttribute("data-tid");})[0];
+    tk.done = el.checked ? today() : null;
+    rerender(el.checked?"+15 XP":null);
+  });
+  root.addEventListener("submit", function(e){
+    var f=e.target; e.preventDefault();
+    if(f.hasAttribute("data-log")){
+      var g=G(f.getAttribute("data-log")), v=num(f.querySelector("input").value); if(v==null) return;
+      g.metric.log=g.metric.log||[];
+      var t=today(); g.metric.log=g.metric.log.filter(function(x){return x.d!==t;}); g.metric.log.push({d:t, v:v});
+      return rerender("Замер записан · +5 XP");
+    }
+    if(f.hasAttribute("data-addtask")){
+      var g2=G(f.getAttribute("data-addtask")), ins=f.querySelectorAll("input"), tx=ins[0].value.trim(); if(!tx) return;
+      g2.tasks.push({ id:uid(), text:tx, due:ins[1].value||"", done:null });
+      return rerender();
+    }
+  });
+}
+
+function goalModal(sid, gid, sphere){
+  var data=S.tutor[sid], g = gid ? data.goals.filter(function(x){return x.id===gid;})[0] : null;
+  var isNew=!g;
+  if(isNew) g={ sphere:sphere||"health", title:"", note:"", deadline:"", metric:null, habit:null, tasks:[] };
+  var m=g.metric||{}, hb=g.habit||{};
+  var h='<div class="mh"><h2>'+(isNew?'Новая цель':'Изменить цель')+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+  '<form id="gform" style="display:flex;flex-direction:column;gap:12px">'+
+   '<div class="row"><div class="field"><label for="gSph">Сфера</label><select id="gSph">'+SPHERES.map(function(s){return '<option value="'+s.id+'"'+(s.id===g.sphere?' selected':'')+'>'+s.name+'</option>';}).join("")+'</select></div>'+
+   '<div class="field"><label for="gDl">Срок</label><input type="date" id="gDl" value="'+esc(g.deadline||"")+'"></div></div>'+
+   '<div class="field"><label for="gTitle">Цель — что именно</label><input type="text" id="gTitle" required value="'+esc(g.title)+'" placeholder="Например: пробежать 3 км без остановки"></div>'+
+   '<div class="field"><label for="gNote">Как будем достигать / заметка</label><textarea id="gNote" placeholder="Необязательно">'+esc(g.note||"")+'</textarea></div>'+
+   '<fieldset><legend><label class="chk"><input type="checkbox" id="gHasM"'+(g.metric?' checked':'')+'> Числовой показатель (вес, скорость, количество…)</label></legend>'+
+     '<div class="row"><div class="field"><label for="mLab">Что меряем</label><input type="text" id="mLab" value="'+esc(m.label||"")+'" placeholder="Вес"></div>'+
+     '<div class="field"><label for="mUnit">Единица</label><input type="text" id="mUnit" value="'+esc(m.unit||"")+'" placeholder="кг"></div></div>'+
+     '<div class="row"><div class="field"><label for="mStart">Старт</label><input type="number" step="any" id="mStart" value="'+(m.start!=null?m.start:"")+'" placeholder="по 1-му замеру"></div>'+
+     '<div class="field"><label for="mTarget">Цель</label><input type="number" step="any" id="mTarget" value="'+(m.target!=null?m.target:"")+'" placeholder="40"></div>'+
+     '<div class="field"><label for="mDelta">или изменить на</label><input type="number" step="any" id="mDelta" value="'+(m.delta!=null?m.delta:"")+'" placeholder="−1"></div></div>'+
+     '<label class="chk"><input type="checkbox" id="mFromT"'+(m.fromTasks?' checked':'')+'> считать по выполненным задачам (каждая задача = +1)</label>'+
+   '</fieldset>'+
+   '<fieldset><legend><label class="chk"><input type="checkbox" id="gHasH"'+(g.habit?' checked':'')+'> Привычка с отметками в календаре</label></legend>'+
+     '<div class="row"><div class="field"><label for="hLab">Что отмечаем</label><input type="text" id="hLab" value="'+esc(hb.label||"")+'" placeholder="Тренировка"></div>'+
+     '<div class="field"><label for="hMode">Как часто</label><select id="hMode">'+
+       '<option value="daily"'+(hb.mode==="daily"?' selected':'')+'>каждый день</option>'+
+       '<option value="days"'+(hb.mode==="days"?' selected':'')+'>по дням недели</option>'+
+       '<option value="free"'+(hb.mode==="free"||!hb.mode?' selected':'')+'>когда было (без расписания)</option></select></div></div>'+
+     '<div class="chips" id="hDays">'+DOW.map(function(d,i){ return '<label class="chk" style="font-size:13px"><input type="checkbox" value="'+i+'"'+((hb.days||[]).indexOf(i)>=0?' checked':'')+'>'+d+'</label>'; }).join("")+'</div>'+
+   '</fieldset>'+
+   '<div class="mfoot">'+
+     (!isNew?'<button type="button" class="btn danger" id="gDel">Удалить</button>':'')+
+     (!isNew?'<button type="button" class="btn ghost" id="gDone">'+(g.status==="done"?'Вернуть в работу':'Отметить достигнутой')+'</button>':'')+
+     '<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn" type="submit">Сохранить</button></div>'+
+  '</form>';
+  openModal(h, function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) return closeModal();
+      if(e.target.id==="gDel"){ if(confirm("Удалить цель «"+g.title+"» вместе с отметками?")){ data.goals=data.goals.filter(function(x){return x.id!==g.id;}); save(); closeModal(); route(); } }
+      if(e.target.id==="gDone"){ if(g.status==="done"){ g.status="active"; g.doneAt=null; } else { g.status="done"; g.doneAt=today(); } save(); closeModal(); route(); toast(g.status==="done"?"🏆 Цель достигнута! +100 XP":"Цель снова в работе"); }
+    });
+    $("#gform").addEventListener("submit", function(e){
+      e.preventDefault();
+      var title=$("#gTitle").value.trim(); if(!title) return;
+      g.sphere=$("#gSph").value; g.title=title; g.note=$("#gNote").value.trim(); g.deadline=$("#gDl").value;
+      if($("#gHasM").checked){
+        var old=g.metric||{log:[]};
+        g.metric={ label:$("#mLab").value.trim()||"Показатель", unit:$("#mUnit").value.trim(), start:num($("#mStart").value), target:num($("#mTarget").value),
+          delta:num($("#mDelta").value), log:old.log||[], fromTasks:$("#mFromT").checked };
+        if(g.metric.fromTasks && g.metric.start==null) g.metric.start=0;
+      } else g.metric=null;
+      if($("#gHasH").checked){
+        var oh=g.habit||{marks:{}};
+        g.habit={ label:$("#hLab").value.trim()||title, mode:$("#hMode").value, days:$all("#hDays input:checked").map(function(i){return +i.value;}), marks:oh.marks||{} };
+      } else g.habit=null;
+      if(isNew){ g.id=uid(); g.status="active"; g.created=today(); data.goals.push(g); }
+      save(); closeModal(); route(); toast(isNew?"Цель поставлена · +10 XP":"Сохранено");
+    });
+  });
+}
+
+/* =====================================================================
+   ПРЕДМЕТЫ (обществознание, история)
+   ===================================================================== */
+function modById(subj, id){ return subj.modules.filter(function(m){return m.id===id;})[0]; }
+function monthEnd(i){ var ym=YEAR_MONTHS[i]; return ymd(new Date(ym[0], ym[1]+1, 0)); }
+function monthStart(i){ var ym=YEAR_MONTHS[i]; return ymd(new Date(ym[0], ym[1], 1)); }
+function quarterOf(date){ for(var i=0;i<QUARTERS.length;i++){ if(date<=QUARTERS[i].end) return i; } return QUARTERS.length-1; }
+function secondary(subj, prim){ if(!subj.scale || prim==null) return null; return subj.scale[clamp(Math.round(prim),0,subj.scale.length-1)]; }
+function primFor(subj, sec){ for(var i=0;i<subj.scale.length;i++){ if(subj.scale[i]>=sec) return i; } return subj.total; }
+
+function topicPlan(st){ // [{id, mod, idx, text, month}]
+  var subj=SUBJECTS[st.subject], out=[];
+  st.plan.forEach(function(pl){
+    var list=[]; pl.mods.forEach(function(mid){ var m=modById(subj,mid); m.topics.forEach(function(t,i){ list.push({ id:mid+"-"+i, mod:mid, idx:i, text:t }); }); });
+    var span=pl.to-pl.from+1;
+    list.forEach(function(t,i){ t.month = pl.from + Math.floor(i*span/list.length); out.push(t); });
+  });
+  var dates=(S.subj[st.id] && S.subj[st.id].topicDates) || {};
+  out.forEach(function(t,i){
+    t.num=i+1; t.date=dates[t.id]||"";
+    if(t.date){ var mi=monthIdx(t.date); t.month=clamp(mi,0,YEAR_MONTHS.length-1); }
+  });
+  return out;
+}
+function nextTopic(st, plan){
+  plan=plan||topicPlan(st); var d=S.subj[st.id];
+  return plan.filter(function(x){ return !d.topics[x.id]; })[0] || null;
+}
+function topicWhen(x){
+  if(x.date) return fmt(x.date);
+  return "до "+MONTHS_SH[YEAR_MONTHS[x.month][1]];
+}
+
+function checkpoints(st){
+  var subj=SUBJECTS[st.subject], d=S.subj[st.id], out=[];
+  MONTHLY.forEach(function(mw){
+    if(mw.entry){ out.push({ id:"m-"+mw.key, kind:"entry", fmt:"exam", date:mw.date, label:mw.label, total:null, parts:null, note:"Замер стартового уровня — цель не ставим." }); return; }
+    var a=st.q[mw.between[0]-1], b=st.q[mw.between[1]-1];
+    var parts=[Math.round((a.parts[0]+b.parts[0])/2), Math.round((a.parts[1]+b.parts[1])/2)];
+    out.push({ id:"m-"+mw.key, kind:"month", fmt:"exam", date:mw.date, label:mw.label, total:parts[0]+parts[1], parts:parts, mods:a.mods, tasks:a.tasks,
+      note:"Середина между целями "+QUARTERS[mw.between[0]-1].label+" и "+QUARTERS[mw.between[1]-1].label+"." });
+  });
+  st.q.forEach(function(q,i){
+    out.push({ id:"q"+(i+1), kind:"quarter", fmt:"exam", date:QUARTERS[i].end, label:QUARTERS[i].label+(i===4?" — итоговая работа":" — четвертная работа"),
+      total:q.total, parts:q.parts.slice(), mods:q.mods, tasks:q.tasks });
+  });
+  (st.modWorks||[]).forEach(function(mw,i){
+    out.push({ id:"mw"+i, kind:"module", fmt:"module", date:mw.date, label:"Модульная: "+mw.mods.map(function(x){return modById(subj,x).name;}).join(" + "),
+      targetPct:70, mods:mw.mods, note:mw.note||"Проверка усвоения раздела. Порог — 70%." });
+  });
+  out = out.filter(function(c){ return !d.cpDel[c.id]; }).map(function(c){
+    var e=d.cpEdit[c.id]; if(!e) return c;
+    var n={}; Object.keys(c).forEach(function(k){ n[k]=c[k]; }); Object.keys(e).forEach(function(k){ n[k]=e[k]; }); n.edited=true; return n;
+  });
+  d.cpAdd.forEach(function(c){ var n=JSON.parse(JSON.stringify(c)); n.custom=true; out.push(n); });
+  out.sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:(a.kind==="quarter")-(b.kind==="quarter"); });
+  return out;
+}
+function resultFor(st, cp){ return S.subj[st.id].results.filter(function(r){ return r.cp===cp.id; }).sort(function(a,b){return a.date<b.date?1:-1;})[0]; }
+function resPct(r){ if(r.fmt==="module"||r.kind==="module") return r.max ? r.total/r.max : null; return null; }
+function cpStatus(st, cp){
+  var r=resultFor(st, cp), t=today();
+  if(r){
+    if(cp.fmt==="module"){ var p=resPct(r); return p!=null && p*100>=cp.targetPct ? "ok" : "miss"; }
+    if(cp.total==null) return "ok";
+    return r.total>=cp.total ? "ok" : "miss";
+  }
+  return cp.date<t ? "late" : "wait";
+}
+
+function renderSubj(root, st){
+  root=freshRoot();
+  var subj=SUBJECTS[st.subject], d=S.subj[st.id], t=today();
+  var plan=topicPlan(st), cps=checkpoints(st), nt=nextTopic(st, plan);
+  var done=plan.filter(function(x){ return d.topics[x.id]; }).length;
+  var curQ=quarterOf(t), q=st.q[curQ];
+  var exams=d.results.filter(function(r){ return r.fmt!=="module" && r.kind!=="module"; }).sort(function(a,b){return a.date<b.date?-1:1;});
+  var lastR=exams[exams.length-1];
+  var fin=st.q[4];
+  var daysLeft=Math.max(0, diffDays(t, st.goalDate));
+  var isHist=!!subj.scale;
+
+  var html='<header class="shead"><div class="panel main">'+
+    '<div class="eyebrow">'+esc(subj.name)+' · '+esc(st.grade)+'</div>'+
+    '<h1>'+esc(st.name)+'</h1>'+
+    '<p class="goaltext">'+esc(d.goalText||st.goalText)+' <button class="iconbtn" data-edit-goaltext title="Изменить формулировку" aria-label="Изменить формулировку цели" style="width:26px;height:26px;font-size:13px;vertical-align:-6px">✎</button></p>'+
+    '<div class="countdown"><span class="cd-num">'+daysLeft.toLocaleString("ru-RU")+'</span><span class="cd-cap">'+plural(daysLeft,"день","дня","дней")+' до '+fmtLong(st.goalDate)+' · ≈ '+Math.floor(daysLeft/7)+' нед.</span></div>'+
+  '</div><div class="panel ringbox">'+ring(done, plan.length)+'<div class="lbl"><b>'+done+' из '+plan.length+' тем</b>'+(nt?'дальше — тема №'+nt.num+':<br><span style="color:var(--ink)">'+esc(nt.text)+'</span><br>'+(nt.date?'<span class="mono">'+fmtLong(nt.date)+'</span>':'дата не назначена'):'весь план пройден')+'</div></div></header>';
+
+  // цель
+  html+='<section class="section" id="sec-goal"><div class="section-head"><h2>Цель года</h2><span class="tag q">к '+fmtLong(st.goalDate)+'</span></div><div class="panel pad" style="display:flex;flex-direction:column;gap:16px">'+
+    '<div class="kpis">'+
+      '<div class="kpi"><span class="k">Итоговая работа</span><span class="v">'+fin.total+' <small>/ '+subj.total+'</small></span><span class="d">'+Math.round(fin.total/subj.total*100)+'% первичных'+(isHist?' · <b>'+(st.goalSecondary||secondary(subj,fin.total))+' тестовых</b>':'')+'</span></div>'+
+      subj.parts.map(function(p,i){ return '<div class="kpi"><span class="k">'+esc(p.name)+'</span><span class="v">'+fin.parts[i]+' <small>/ '+p.max+'</small></span><span class="d">цель на май</span></div>'; }).join("")+
+    '</div>'+
+    '<div class="kpis">'+
+      '<div class="kpi"><span class="k">Сейчас идёт</span><span class="v" style="font-size:19px;font-family:var(--serif)">'+QUARTERS[curQ].label+'</span><span class="d">'+QUARTERS[curQ].months+' · работа '+fmt(QUARTERS[curQ].end)+'</span></div>'+
+      '<div class="kpi"><span class="k">Цель четверти</span><span class="v">'+q.total+' <small>/ '+subj.total+'</small></span><span class="d">'+subj.parts.map(function(p,i){return p.short+' '+q.parts[i]+'/'+p.max;}).join(" · ")+(isHist?' · '+secondary(subj,q.total)+' тест.':'')+'</span></div>'+
+      '<div class="kpi"><span class="k">Последний результат</span><span class="v">'+(lastR? lastR.total+' <small>/ '+subj.total+'</small>':'—')+'</span><span class="d">'+(lastR? fmtLong(lastR.date)+(isHist?' · '+secondary(subj,lastR.total)+' тест.':'') : 'пока нет пробников')+'</span></div>'+
+    '</div>'+
+    '<div><p class="note" style="margin-bottom:8px">Задания, которые решаю — нажми, когда освоено. Обведены цели текущей четверти.</p><div class="chips">'+
+      subj.taskNums.map(function(n){ var tg=q.tasks.indexOf(n)>=0, on=!!d.skills[n];
+        return '<button class="chip'+(tg?' tgt':'')+(on?' on':'')+'" data-skill="'+n+'" title="'+(subj.taskInfo&&subj.taskInfo[n]?esc(subj.taskInfo[n]):'Задание '+n)+'">'+n+'</button>'; }).join("")+
+    '</div><div class="legend" style="margin-top:8px"><span><i class="sw" style="border-color:var(--dir)"></i>цель четверти</span><span><i class="sw" style="background:var(--ok);border-color:var(--ok)"></i>освоено</span></div></div>'+
+  '</div></section>';
+
+  // графики
+  html+='<section class="section" id="sec-charts"><div class="section-head"><h2>Графики</h2><span class="note">план — пунктир, факт — сплошная</span></div><div class="charts2">'+
+    '<div class="panel chartbox"><h3 style="padding:0 8px 6px">Баллы по пробникам</h3><div id="chScore"></div>'+
+      '<div class="legend"><span><i class="lg-dash"></i>цели по месяцам</span><span><i class="lg-line"></i>результаты</span><span><i class="lg-dash" style="border-color:var(--warn)"></i>цель года</span></div></div>'+
+    '<div class="panel chartbox"><h3 style="padding:0 8px 6px">Пройдено тем</h3><div id="chTopics"></div>'+
+      '<div class="legend"><span><i class="lg-dash"></i>план</span><span><i class="lg-line"></i>пройдено</span></div></div>'+
+  '</div></section>';
+
+  // контрольные точки
+  html+='<section class="section" id="sec-cps"><div class="section-head"><h2>Контрольные точки</h2>'+
+    '<span class="row"><button class="btn small ghost" data-add-cp>+ точка</button><button class="btn small" data-add-res>+ результат</button></span></div>'+
+    '<p class="note">Четвертные работы — главные цели. Между ними — промежуточная работа раз в месяц и модульные работы после каждого раздела. Нажми на строку, чтобы записать результат или поправить цель.</p><div class="cps">';
+  QUARTERS.forEach(function(Q,qi){
+    var from = qi===0 ? "0000" : QUARTERS[qi-1].end;
+    var list=cps.filter(function(c){ return c.date>from && (c.date<=Q.end || (qi===4)); });
+    var main=list.filter(function(c){return c.id==="q"+(qi+1);})[0] || { total:st.q[qi].total, parts:st.q[qi].parts, mods:st.q[qi].mods, tasks:st.q[qi].tasks };
+    var stq = main.id ? cpStatus(st, main) : "wait";
+    var cls = stq==="ok"?"ok":stq==="miss"?"miss":(qi===curQ?"cur":"");
+    var qtopics = plan.filter(function(x){ return (main.mods||[]).indexOf(x.mod)>=0; });
+    html+='<div class="panel qcard '+cls+'"><div class="qh"><span class="ql">'+Q.label+'</span><span class="note">'+Q.months+'</span>'+
+      (qi===curQ?'<span class="tag q">сейчас</span>':'')+(stq==="ok"?'<span class="tag ok">выполнено</span>':stq==="miss"?'<span class="tag bad">не добрали</span>':'')+
+      '<span class="mono" style="font-size:13px;margin-top:4px">цель <b>'+main.total+'</b>/'+subj.total+(isHist?' · '+secondary(subj,main.total)+' т.б.':'')+'</span></div><div class="qb">';
+    html+='<div class="modchips">'+(main.mods||[]).map(function(mid){ var m=modById(subj,mid); var all=m.topics.length, dn=m.topics.filter(function(_,i){return d.topics[mid+"-"+i];}).length;
+      return '<span class="modchip" style="--m:'+col(m)+'"><i></i>'+esc(m.name)+' <b>'+dn+'/'+all+'</b></span>'; }).join("")+'</div>';
+    html+='<div class="note">Задания: '+(main.tasks||[]).join(", ")+' · '+subj.parts.map(function(p,i){return p.short+' '+main.parts[i]+'/'+p.max;}).join(", ")+'</div>';
+    list.forEach(function(c){ html+=cpLine(st, subj, c); });
+    html+='</div></div>';
+  });
+  html+='</div></section>';
+
+  // результаты
+  html+='<section class="section" id="sec-res"><div class="section-head"><h2>Все результаты</h2><button class="btn small" data-add-res>+ результат</button></div><div class="panel pad"><div class="results">';
+  var allR=d.results.slice().sort(function(a,b){return a.date<b.date?1:-1;});
+  if(!allR.length) html+='<p class="empty">Пока ничего не записано. Первый шаг — входная диагностика.</p>';
+  allR.forEach(function(r){
+    var cp=cps.filter(function(c){return c.id===r.cp;})[0];
+    var isMod = r.fmt==="module"||r.kind==="module";
+    var pct = isMod ? (r.max? r.total/r.max : 0) : r.total/subj.total;
+    var tgt = cp ? (isMod ? cp.targetPct/100 : (cp.total!=null? cp.total/subj.total : null)) : null;
+    html+='<div class="res" data-res="'+r.id+'" role="button" tabindex="0" style="cursor:pointer"><span class="rd">'+fmt(r.date)+'<br>'+pd(r.date).getFullYear()+'</span>'+
+      '<span class="rl">'+esc(r.label || (cp?cp.label:"Пробник"))+'<small>'+(isMod?'модульная':(r.parts? subj.parts.map(function(p,i){return p.short+' '+r.parts[i]+'/'+p.max;}).join(" · ") : 'только общий балл'))+(cp && r.label?' · '+esc(cp.label):'')+'</small></span>'+
+      '<span class="rbar"><i style="width:'+Math.round(clamp(pct,0,1)*100)+'%"></i>'+(tgt!=null?'<u style="left:'+(tgt*100).toFixed(1)+'%"></u>':'')+'</span>'+
+      '<span class="score">'+(isMod? r.total+'/'+r.max+'<small>'+Math.round(pct*100)+'%</small>' : r.total+'/'+subj.total+'<small>'+(isHist? secondary(subj,r.total)+' тест.':Math.round(pct*100)+'%')+'</small>')+'</span></div>';
+  });
+  html+='</div><p class="note" style="margin-top:10px">Оранжевая метка — цель этой работы.</p></div></section>';
+
+  // темы
+  html+='<section class="section" id="sec-topics"><div class="section-head"><h2>Темы по порядку</h2>'+
+    '<span class="row"><button class="btn small ghost" data-schedule>Расставить даты</button></span></div>'+
+    '<p class="note">Проходим темы по номерам. Дату у каждой темы ставишь сам — сайт показывает следующую непройденную. Галочка — тема пройдена.</p>';
+  if(nt) html+='<div class="panel pad nexttopic"><span class="eyebrow">следующая тема</span><div class="ntrow"><span class="ntnum">№'+nt.num+'</span><span class="nttx">'+esc(nt.text)+
+    '<small>'+esc(modById(subj,nt.mod).name)+' · '+(nt.date?fmtLong(nt.date)+(nt.date<t?' — дата прошла':''):'дата не назначена')+'</small></span><button class="btn" data-topicdone="'+nt.id+'">✓ Пройдена</button></div></div>';
+  html+='<div class="panel pad"><div class="tlist2">';
+  var lastMod=null;
+  plan.forEach(function(x){
+    var m=modById(subj,x.mod);
+    if(x.mod!==lastMod){
+      var ts=plan.filter(function(y){return y.mod===x.mod;}), dn=ts.filter(function(y){return d.topics[y.id];}).length;
+      html+='<div class="modhead" style="--m:'+col(m)+'"><i></i><b>'+esc(m.name)+'</b><span class="mono">'+dn+'/'+ts.length+'</span></div>';
+      lastMod=x.mod;
+    }
+    var on=d.topics[x.id], isNext=nt && nt.id===x.id;
+    html+='<div class="trow2'+(on?' done':'')+(isNext?' next':'')+'" style="--m:'+col(m)+'">'+
+      '<label class="topic"><input type="checkbox" data-topic="'+x.id+'"'+(on?' checked':'')+'><span class="num">'+x.num+'</span><span class="tx">'+esc(x.text)+'</span></label>'+
+      (on?'<span class="dt">✓ '+fmt(on)+'</span>':'<input type="date" class="tdate'+(x.date && x.date<t?' late':'')+'" data-tdate="'+x.id+'" value="'+esc(x.date)+'" aria-label="Дата темы '+x.num+'" title="Когда проходим">')+
+    '</div>';
+  });
+  html+='</div></div></section>';
+  if(st.subject==="obsh") html+='<p class="note">Понятия по обществознанию — в разделе <a href="#/terms">«Понятия»</a>.</p>';
+  html+=footer();
+  root.innerHTML=html;
+  setNav([["sec-goal","Цель"],["sec-charts","Графики"],["sec-cps","Точки"],["sec-res","Результаты"],["sec-topics","Темы"]]);
+  scoreChart(st, subj, cps, exams);
+  topicsChart(st, plan);
+  bindSubj(root, st);
+}
+function monthIdx(date){ var d=pd(date); for(var i=0;i<YEAR_MONTHS.length;i++){ if(YEAR_MONTHS[i][0]===d.getFullYear() && YEAR_MONTHS[i][1]===d.getMonth()) return i; } return date<monthStart(0)? -1 : YEAR_MONTHS.length; }
+function monthName(i){ return MONTHS_SH[YEAR_MONTHS[i][1]]; }
+
+function cpLine(st, subj, c){
+  var r=resultFor(st,c), s=cpStatus(st,c), isHist=!!subj.scale;
+  var kind = c.kind==="quarter"?'<span class="tag q">четвертная</span>':c.kind==="module"?'<span class="tag m">модульная</span>':c.kind==="entry"?'<span class="tag">входная</span>':c.kind==="month"?'<span class="tag">месячная</span>':'<span class="tag">своя</span>';
+  var target = c.fmt==="module" ? 'цель ≥ '+c.targetPct+'%' : (c.total!=null ? 'цель '+c.total+'/'+subj.total+(c.parts?' ('+c.parts.join(" + ")+')':'')+(isHist?' · '+secondary(subj,c.total)+' т.б.':'') : 'без цели');
+  var got = r ? (c.fmt==="module" ? r.total+'/'+r.max+'<small>'+Math.round(resPct(r)*100)+'%</small>' : r.total+'/'+subj.total+'<small>'+(isHist?secondary(subj,r.total)+' т.б.':(r.parts?r.parts.join(" + "):''))+'</small>')
+              : (s==="late"?'<span style="color:var(--bad)">нет результата</span>':'<small>ждём</small>');
+  var dotc = s==="ok"?"ok":s==="miss"?"miss":(s==="late"?"miss":"");
+  return '<div class="cpline" data-cp="'+c.id+'" role="button" tabindex="0" style="cursor:pointer"><span class="dot '+dotc+'"></span>'+
+    '<span class="lb">'+esc(c.label)+'<small>'+fmtLong(c.date)+' · '+kind+' '+target+(c.note&&c.kind!=="month"?' · '+esc(c.note):'')+'</small></span><span class="score">'+got+'</span></div>';
+}
+
+function ring(done,total){
+  var C=2*Math.PI*48, p=total?done/total:0;
+  return '<svg width="118" height="118" viewBox="0 0 118 118" role="img" aria-label="Пройдено '+Math.round(p*100)+'%">'+
+    '<circle cx="59" cy="59" r="48" fill="none" stroke="var(--surface2)" stroke-width="12"/>'+
+    '<circle cx="59" cy="59" r="48" fill="none" stroke="var(--dir)" stroke-width="12" stroke-linecap="round" transform="rotate(-90 59 59)" stroke-dasharray="'+(C*p).toFixed(1)+' '+C.toFixed(1)+'"/>'+
+    '<text x="59" y="66" text-anchor="middle" fill="var(--ink)" style="font-family:var(--mono);font-size:22px;font-weight:600">'+Math.round(p*100)+'%</text></svg>';
+}
+
+function chartFrame(host){
+  var w=Math.round(host.getBoundingClientRect().width||host.clientWidth||0);
+  if(!w) w=460;
+  return { W:Math.max(260,w), narrow:w<440 };
+}
+var X0="2026-09-01", X1="2027-05-31";
+function scoreChart(st, subj, cps, exams){
+  var host=$("#chScore"), fr=chartFrame(host), W=fr.W, H=fr.narrow?220:250;
+  var pl=fr.narrow?30:36, pr=12, pt=14, pb=30, iw=W-pl-pr, ih=H-pt-pb;
+  var t0=pd(X0).getTime(), t1=pd(X1).getTime();
+  var x=function(d){ return pl+clamp((pd(d).getTime()-t0)/(t1-t0),0,1)*iw; };
+  var y=function(v){ return pt+ih-(v/subj.total)*ih; };
+  var s='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Баллы по пробникам: цели и результаты">';
+  var step=subj.total>50?10:10;
+  for(var v=0; v<=subj.total; v+=step){
+    s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="var(--border)"/>'+
+       '<text x="'+(pl-6)+'" y="'+(y(v)+4).toFixed(1)+'" text-anchor="end" fill="var(--muted)" style="font-family:var(--mono);font-size:10px">'+v+'</text>';
+  }
+  YEAR_MONTHS.forEach(function(ym,i){
+    var xm=x(ymd(new Date(ym[0],ym[1],15)));
+    if(!fr.narrow || i%2===0) s+='<text x="'+xm.toFixed(1)+'" y="'+(H-10)+'" text-anchor="middle" fill="var(--muted)" style="font-family:var(--mono);font-size:10px">'+MONTHS_SH[ym[1]]+'</text>';
+  });
+  var fin=st.q[4].total;
+  s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(fin).toFixed(1)+'" y2="'+y(fin).toFixed(1)+'" stroke="var(--warn)" stroke-dasharray="3 4" stroke-width="1.5"/>';
+  var tg=cps.filter(function(c){ return c.fmt==="exam" && c.total!=null; });
+  if(tg.length){
+    s+='<polyline fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="6 5" points="'+tg.map(function(c){return x(c.date).toFixed(1)+","+y(c.total).toFixed(1);}).join(" ")+'"/>';
+    tg.forEach(function(c){ s+='<circle cx="'+x(c.date).toFixed(1)+'" cy="'+y(c.total).toFixed(1)+'" r="'+(c.kind==="quarter"?4:3)+'" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"><title>'+esc(c.label)+': цель '+c.total+'</title></circle>'; });
+  }
+  if(exams.length){
+    if(exams.length>1) s+='<polyline fill="none" stroke="var(--dir)" stroke-width="2.5" stroke-linejoin="round" points="'+exams.map(function(r){return x(r.date).toFixed(1)+","+y(r.total).toFixed(1);}).join(" ")+'"/>';
+    exams.forEach(function(r){ s+='<circle cx="'+x(r.date).toFixed(1)+'" cy="'+y(r.total).toFixed(1)+'" r="5" fill="var(--dir)" stroke="var(--surface)" stroke-width="2"><title>'+fmtLong(r.date)+': '+r.total+'/'+subj.total+'</title></circle>'; });
+    var lr=exams[exams.length-1];
+    s+='<text x="'+clamp(x(lr.date),pl+10,W-pr-10).toFixed(1)+'" y="'+(y(lr.total)-10).toFixed(1)+'" text-anchor="middle" fill="var(--dir)" style="font-family:var(--mono);font-size:12px;font-weight:600">'+lr.total+'</text>';
+  }
+  var tx=x(today()); if(tx>pl && tx<W-pr) s+='<line x1="'+tx.toFixed(1)+'" x2="'+tx.toFixed(1)+'" y1="'+pt+'" y2="'+(pt+ih)+'" stroke="var(--warn)" stroke-width="1" opacity=".6"/>';
+  s+='</svg>';
+  host.innerHTML=s;
+}
+function topicsChart(st, plan){
+  var host=$("#chTopics"), fr=chartFrame(host), W=fr.W, H=fr.narrow?220:250, d=S.subj[st.id];
+  var pl=fr.narrow?30:36, pr=12, pt=14, pb=30, iw=W-pl-pr, ih=H-pt-pb, n=YEAR_MONTHS.length, N=plan.length;
+  var x=function(i){ return pl+i*iw/(n-1); }, y=function(v){ return pt+ih-(v/N)*ih; };
+  var planC=[], actC=[], cp=0;
+  for(var i=0;i<n;i++){
+    cp+=plan.filter(function(t){return t.month===i;}).length; planC.push(cp);
+    var me=monthEnd(i); actC.push(plan.filter(function(t){ return d.topics[t.id] && d.topics[t.id]<=me; }).length);
+  }
+  var cur=clamp(monthIdx(today()),0,n-1);
+  var s='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Пройденные темы: план и факт">';
+  [0, Math.round(N/2), N].forEach(function(v){
+    s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="var(--border)"/><text x="'+(pl-6)+'" y="'+(y(v)+4).toFixed(1)+'" text-anchor="end" fill="var(--muted)" style="font-family:var(--mono);font-size:10px">'+v+'</text>';
+  });
+  YEAR_MONTHS.forEach(function(ym,i){ if(!fr.narrow||i%2===0) s+='<text x="'+x(i).toFixed(1)+'" y="'+(H-10)+'" text-anchor="middle" fill="var(--muted)" style="font-family:var(--mono);font-size:10px">'+MONTHS_SH[ym[1]]+'</text>'; });
+  s+='<polyline fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="6 5" points="'+planC.map(function(v,i){return x(i).toFixed(1)+","+y(v).toFixed(1);}).join(" ")+'"/>';
+  planC.forEach(function(v,i){ s+='<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="3" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.5"><title>План к концу '+MONTHS_SH[YEAR_MONTHS[i][1]]+': '+v+'</title></circle>'; });
+  var seg=actC.slice(0,cur+1);
+  if(seg.length>1){
+    s+='<path d="M'+seg.map(function(v,i){return x(i).toFixed(1)+","+y(v).toFixed(1);}).join(" L")+' L'+x(seg.length-1).toFixed(1)+','+y(0).toFixed(1)+' L'+x(0).toFixed(1)+','+y(0).toFixed(1)+'Z" fill="var(--dir)" opacity=".1"/>';
+    s+='<polyline fill="none" stroke="var(--dir)" stroke-width="2.5" stroke-linejoin="round" points="'+seg.map(function(v,i){return x(i).toFixed(1)+","+y(v).toFixed(1);}).join(" ")+'"/>';
+  }
+  var li=seg.length-1;
+  s+='<circle cx="'+x(li).toFixed(1)+'" cy="'+y(seg[li]).toFixed(1)+'" r="5" fill="var(--dir)" stroke="var(--surface)" stroke-width="2"><title>Пройдено: '+seg[li]+'</title></circle>';
+  s+='<text x="'+clamp(x(li),pl+10,W-pr-10).toFixed(1)+'" y="'+(y(seg[li])-10).toFixed(1)+'" text-anchor="middle" fill="var(--dir)" style="font-family:var(--mono);font-size:12px;font-weight:600">'+seg[li]+'</text>';
+  s+='</svg>';
+  host.innerHTML=s;
+}
+
+function bindSubj(root, st){
+  var d=S.subj[st.id];
+  function rerender(msg){ save(); var y=window.scrollY; var open=$all(".block.open").map(function(b){ return $(".bt b",b).textContent; });
+    renderSubj($("#app"), st); $all(".block").forEach(function(b){ b.classList.toggle("open", open.indexOf($(".bt b",b).textContent)>=0); }); window.scrollTo(0,y); if(msg) toast(msg); }
+  root.addEventListener("click", function(e){
+    var el;
+    if((el=e.target.closest("[data-toggle]"))) return el.parentNode.classList.toggle("open");
+    if((el=e.target.closest("[data-skill]"))){ var n=el.getAttribute("data-skill"); if(d.skills[n]) delete d.skills[n]; else d.skills[n]=today(); return rerender(); }
+    if(e.target.closest("[data-add-res]")) return resultModal(st, null, null);
+    if((el=e.target.closest("[data-topicdone]"))){ d.topics[el.getAttribute("data-topicdone")]=today(); return rerender("Тема пройдена"); }
+    if(e.target.closest("[data-schedule]")) return scheduleModal(st);
+    if(e.target.closest("[data-add-cp]")) return cpModal(st, null);
+    if(e.target.closest("[data-edit-goaltext]")) return goalTextModal(st);
+    if((el=e.target.closest("[data-cp]"))) return cpMenu(st, el.getAttribute("data-cp"));
+    if((el=e.target.closest("[data-res]"))) return resultModal(st, el.getAttribute("data-res"), null);
+  });
+  root.addEventListener("keydown", function(e){ if((e.key==="Enter"||e.key===" ") && e.target.matches("[data-cp],[data-res]")){ e.preventDefault(); e.target.click(); } });
+  root.addEventListener("change", function(e){
+    var td=e.target.closest("[data-tdate]");
+    if(td){ var tid=td.getAttribute("data-tdate"); if(td.value) d.topicDates[tid]=td.value; else delete d.topicDates[tid]; return rerender(); }
+    var el=e.target.closest("[data-topic]"); if(!el) return;
+    var id=el.getAttribute("data-topic"); if(el.checked) d.topics[id]=today(); else delete d.topics[id];
+    rerender();
+  });
+}
+
+function cpMenu(st, cpId){
+  var subj=SUBJECTS[st.subject], cp=checkpoints(st).filter(function(c){return c.id===cpId;})[0]; if(!cp) return;
+  var r=resultFor(st,cp);
+  openModal('<div class="mh"><h2>'+esc(cp.label)+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+    '<p class="note">'+fmtLong(cp.date)+(cp.note?' · '+esc(cp.note):'')+'</p>'+
+    (cp.fmt==="module"?'<p>Цель: не меньше <b>'+cp.targetPct+'%</b></p>': (cp.total!=null?'<p>Цель: <b>'+cp.total+'/'+subj.total+'</b> ('+subj.parts.map(function(p,i){return p.short+' '+cp.parts[i]+'/'+p.max;}).join(', ')+')'+(subj.scale?' — '+secondary(subj,cp.total)+' тестовых':'')+'</p>':''))+
+    (r?'<p>Результат: <b>'+r.total+'/'+(cp.fmt==="module"?r.max:subj.total)+'</b> от '+fmtLong(r.date)+'</p>':'')+
+    '<div class="mfoot"><button class="btn ghost" id="cmEdit">Изменить цель</button><span class="sp"></span><button class="btn" id="cmRes">'+(r?'Изменить результат':'Записать результат')+'</button></div>',
+  function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="cmEdit") cpModal(st, cp.id);
+      if(e.target.id==="cmRes") resultModal(st, r?r.id:null, cp.id);
+    });
+  });
+}
+
+function resultModal(st, rid, cpId){
+  var subj=SUBJECTS[st.subject], d=S.subj[st.id], cps=checkpoints(st);
+  var r = rid ? d.results.filter(function(x){return x.id===rid;})[0] : null;
+  var isNew=!r;
+  if(isNew){
+    var cp0 = cpId ? cps.filter(function(c){return c.id===cpId;})[0] : null;
+    if(!cp0){ // ближайшая точка без результата
+      var t=today(); cp0 = cps.filter(function(c){ return !resultFor(st,c) && c.date>=addDays(t,-20); })[0];
+    }
+    r={ date:today(), cp:cp0?cp0.id:"", label:"", total:null, parts:null, max:null, fmt:cp0?cp0.fmt:"exam" };
+  }
+  var opts='<option value="">— просто пробник, без точки —</option>'+cps.map(function(c){ return '<option value="'+c.id+'" data-fmt="'+c.fmt+'"'+(c.id===r.cp?' selected':'')+'>'+fmt(c.date)+' · '+esc(c.label)+'</option>'; }).join("");
+  var h='<div class="mh"><h2>'+(isNew?'Записать результат':'Результат')+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+  '<form id="rform" style="display:flex;flex-direction:column;gap:12px">'+
+   '<div class="field"><label for="rCp">К какой работе относится</label><select id="rCp">'+opts+'</select></div>'+
+   '<div class="row"><div class="field"><label for="rDate">Дата</label><input type="date" id="rDate" required value="'+esc(r.date)+'"></div>'+
+   '<div class="field"><label for="rLab">Подпись (необязательно)</label><input type="text" id="rLab" value="'+esc(r.label||"")+'" placeholder="Пробник ФИПИ, вариант 3"></div></div>'+
+   '<div id="rExam" class="row">'+subj.parts.map(function(p,i){ return '<div class="field"><label for="rP'+i+'">'+esc(p.short)+' / '+p.max+'</label><input type="number" min="0" max="'+p.max+'" inputmode="numeric" id="rP'+i+'" value="'+(r.parts?r.parts[i]:"")+'"></div>'; }).join("")+
+     '<div class="field"><label for="rTot">итого / '+subj.total+'</label><input type="number" min="0" max="'+subj.total+'" inputmode="numeric" id="rTot" value="'+(r.total!=null && r.fmt!=="module"?r.total:"")+'" placeholder="сумма"></div></div>'+
+   '<div id="rMod" class="row"><div class="field"><label for="rMs">набрано</label><input type="number" min="0" inputmode="numeric" id="rMs" value="'+(r.fmt==="module"&&r.total!=null?r.total:"")+'"></div>'+
+     '<div class="field"><label for="rMm">из</label><input type="number" min="1" inputmode="numeric" id="rMm" value="'+(r.max||"")+'"></div></div>'+
+   '<p class="note" id="rHint"></p>'+
+   '<div class="mfoot">'+(!isNew?'<button type="button" class="btn danger" id="rDel">Удалить</button>':'')+'<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn" type="submit">Сохранить</button></div>'+
+  '</form>';
+  openModal(h, function(box){
+    function sync(){
+      var o=$("#rCp").selectedOptions[0], f=o && o.getAttribute("data-fmt") || "exam";
+      $("#rExam").style.display = f==="module"?"none":"flex"; $("#rMod").style.display = f==="module"?"flex":"none";
+      var c=cps.filter(function(x){return x.id===$("#rCp").value;})[0];
+      $("#rHint").textContent = c ? (c.fmt==="module" ? "Цель — не меньше "+c.targetPct+"%." : (c.total!=null ? "Цель — "+c.total+"/"+subj.total+"." : "Входная работа — без цели.")) : "Можно ввести обе части или только итог.";
+      if(subj.scale && f!=="module"){ var tv=num($("#rTot").value); if(tv!=null) $("#rHint").textContent += " "+tv+" первичных = "+secondary(subj,tv)+" тестовых."; }
+    }
+    function sumParts(){ var a=num($("#rP0").value), b=num($("#rP1").value); if(a!=null||b!=null){ $("#rTot").value=(a||0)+(b||0); } sync(); }
+    $("#rCp").addEventListener("change", sync); $("#rP0").addEventListener("input", sumParts); $("#rP1").addEventListener("input", sumParts); $("#rTot").addEventListener("input", sync);
+    sync();
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="rDel" && confirm("Удалить этот результат?")){ d.results=d.results.filter(function(x){return x.id!==r.id;}); save(); closeModal(); route(); }
+    });
+    $("#rform").addEventListener("submit", function(e){
+      e.preventDefault();
+      var o=$("#rCp").selectedOptions[0], f=o && o.getAttribute("data-fmt") || "exam";
+      var n={ id:r.id||uid(), date:$("#rDate").value, cp:$("#rCp").value, label:$("#rLab").value.trim(), fmt:f, kind:f==="module"?"module":"exam" };
+      if(f==="module"){ n.total=num($("#rMs").value); n.max=num($("#rMm").value); if(n.total==null||!n.max){ toast("Впиши баллы и максимум"); return; } n.parts=null; }
+      else {
+        var a=num($("#rP0").value), b=num($("#rP1").value), tv=num($("#rTot").value);
+        n.parts = (a!=null && b!=null) ? [a,b] : null;
+        n.total = n.parts ? a+b : tv;
+        if(n.total==null){ toast("Впиши баллы"); return; }
+        if(n.total>subj.total){ toast("Больше максимума "+subj.total); return; }
+      }
+      if(isNew) d.results.push(n); else { var i=d.results.indexOf(r); d.results[i]=n; }
+      save(); closeModal(); route(); toast("Результат сохранён");
+    });
+  });
+}
+
+function cpModal(st, cpId){
+  var subj=SUBJECTS[st.subject], d=S.subj[st.id];
+  var cp = cpId ? checkpoints(st).filter(function(c){return c.id===cpId;})[0] : { id:null, kind:"custom", fmt:"exam", date:today(), label:"", total:null, parts:[null,null], targetPct:70, note:"" };
+  var isNew=!cpId;
+  var h='<div class="mh"><h2>'+(isNew?'Новая контрольная точка':'Цель работы')+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+  '<form id="cform" style="display:flex;flex-direction:column;gap:12px">'+
+   (isNew?'<div class="field"><label for="cFmt">Тип</label><select id="cFmt"><option value="exam">в формате экзамена (баллы по частям)</option><option value="module">модульная / тематическая (процент)</option></select></div>':'')+
+   '<div class="field"><label for="cLab">Название</label><input type="text" id="cLab" required value="'+esc(cp.label)+'"></div>'+
+   '<div class="row"><div class="field"><label for="cDate">Дата</label><input type="date" id="cDate" required value="'+esc(cp.date)+'"></div></div>'+
+   '<div class="row" id="cExam">'+subj.parts.map(function(p,i){ return '<div class="field"><label for="cP'+i+'">цель: '+esc(p.short)+' / '+p.max+'</label><input type="number" min="0" max="'+p.max+'" id="cP'+i+'" value="'+(cp.parts&&cp.parts[i]!=null?cp.parts[i]:"")+'"></div>'; }).join("")+'</div>'+
+   '<div class="row" id="cMod"><div class="field"><label for="cPct">порог, %</label><input type="number" min="0" max="100" id="cPct" value="'+(cp.targetPct||70)+'"></div></div>'+
+   '<div class="field"><label for="cNote">Заметка</label><input type="text" id="cNote" value="'+esc(cp.note||"")+'"></div>'+
+   '<div class="mfoot">'+(!isNew?(cp.custom?'<button type="button" class="btn danger" id="cDel">Удалить</button>':(cp.edited?'<button type="button" class="btn ghost" id="cReset">Вернуть как было</button>':'')+'<button type="button" class="btn danger" id="cHide">Убрать</button>'):'')+
+   '<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn" type="submit">Сохранить</button></div></form>';
+  openModal(h, function(box){
+    function fmtNow(){ return isNew ? $("#cFmt").value : cp.fmt; }
+    function sync(){ var f=fmtNow(); $("#cExam").style.display=f==="module"?"none":"flex"; $("#cMod").style.display=f==="module"?"flex":"none"; }
+    if(isNew) $("#cFmt").addEventListener("change", sync);
+    sync();
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="cDel"){ d.cpAdd=d.cpAdd.filter(function(c){return c.id!==cp.id;}); save(); closeModal(); route(); }
+      if(e.target.id==="cReset"){ delete d.cpEdit[cp.id]; save(); closeModal(); route(); }
+      if(e.target.id==="cHide" && confirm("Убрать эту точку из плана?")){ d.cpDel[cp.id]=1; save(); closeModal(); route(); }
+    });
+    $("#cform").addEventListener("submit", function(e){
+      e.preventDefault();
+      var f=fmtNow(), n={ label:$("#cLab").value.trim(), date:$("#cDate").value, note:$("#cNote").value.trim() };
+      if(f==="module") n.targetPct=num($("#cPct").value)||70;
+      else if(cp.kind!=="entry"){ var a=num($("#cP0").value), b=num($("#cP1").value); if(a!=null && b!=null){ n.parts=[a,b]; n.total=a+b; } }
+      if(isNew){ n.id="c"+uid(); n.kind="custom"; n.fmt=f; if(f!=="module" && !n.parts){ n.parts=null; n.total=null; } d.cpAdd.push(n); }
+      else if(cp.custom){ var c=d.cpAdd.filter(function(x){return x.id===cp.id;})[0]; Object.keys(n).forEach(function(k){ c[k]=n[k]; }); }
+      else d.cpEdit[cp.id]=n;
+      save(); closeModal(); route(); toast("Сохранено");
+    });
+  });
+}
+
+function scheduleModal(st){
+  var d=S.subj[st.id], plan=topicPlan(st), nt=nextTopic(st, plan);
+  var h='<div class="mh"><h2>Расставить даты тем</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+  '<form id="sf" style="display:flex;flex-direction:column;gap:12px">'+
+   '<p class="note">Непройденные темы получат даты по порядку, начиная с выбранной, в дни занятий. Потом любую дату можно поправить вручную.</p>'+
+   '<div class="row"><div class="field"><label for="sFrom">С темы №</label><input type="number" id="sFrom" min="1" max="'+plan.length+'" value="'+(nt?nt.num:1)+'"></div>'+
+   '<div class="field"><label for="sStart">Первое занятие</label><input type="date" id="sStart" required value="'+today()+'"></div>'+
+   '<div class="field"><label for="sPer">Тем за занятие</label><input type="number" id="sPer" min="1" max="5" value="1"></div></div>'+
+   '<div class="field"><label>Дни занятий</label><div class="chips" id="sDays">'+DOW.map(function(dw,i){ return '<label class="chk" style="font-size:14px"><input type="checkbox" value="'+i+'"'+(i===0||i===2?' checked':'')+'>'+dw+'</label>'; }).join("")+'</div></div>'+
+   '<label class="chk"><input type="checkbox" id="sKeep" checked> не трогать темы, у которых дата уже стоит</label>'+
+   '<div class="mfoot"><button type="button" class="btn danger" id="sClear">Стереть все даты</button><span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Расставить</button></div></form>';
+  openModal(h, function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="sClear" && confirm("Стереть даты у всех тем?")){ d.topicDates={}; save(); closeModal(); route(); }
+    });
+    $("#sf").addEventListener("submit", function(e){
+      e.preventDefault();
+      var days=$all("#sDays input:checked").map(function(i){return +i.value;}); if(!days.length){ toast("Выбери дни занятий"); return; }
+      var from=num($("#sFrom").value)||1, per=Math.max(1, num($("#sPer").value)||1), keep=$("#sKeep").checked;
+      var list=plan.filter(function(x){ return x.num>=from && !d.topics[x.id] && !(keep && d.topicDates[x.id]); });
+      var dt=$("#sStart").value, k=0, guard=0;
+      while(k<list.length && guard<800){
+        if(days.indexOf((pd(dt).getDay()+6)%7)>=0){ for(var j=0;j<per && k<list.length;j++){ d.topicDates[list[k].id]=dt; k++; } }
+        dt=addDays(dt,1); guard++;
+      }
+      save(); closeModal(); route(); toast("Даты расставлены: "+list.length+" "+plural(list.length,"тема","темы","тем"));
+    });
+  });
+}
+
+function goalTextModal(st){
+  var d=S.subj[st.id];
+  openModal('<div class="mh"><h2>Формулировка цели</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+    '<form id="gtf" style="display:flex;flex-direction:column;gap:12px"><textarea id="gtT" style="min-height:140px">'+esc(d.goalText||st.goalText)+'</textarea>'+
+    '<div class="mfoot">'+(d.goalText?'<button type="button" class="btn ghost" id="gtR">Вернуть исходную</button>':'')+'<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Сохранить</button></div></form>',
+  function(box){
+    box.addEventListener("click", function(e){ if(e.target.closest("[data-close]")) closeModal(); if(e.target.id==="gtR"){ d.goalText=null; save(); closeModal(); route(); } });
+    $("#gtf").addEventListener("submit", function(e){ e.preventDefault(); d.goalText=$("#gtT").value.trim()||null; save(); closeModal(); route(); });
+  });
+}
+
+/* =====================================================================
+   ПОНЯТИЯ
+   ===================================================================== */
+var termUI = { q:"", mod:"", mode:"list", onlyNew:false, deck:null, pos:0, flip:false };
+function allTerms(){
+  var out=[];
+  TERMS.forEach(function(t,i){ var k="b"+i; if(S.terms.hidden[k]) return; var e=S.terms.edit[k]; out.push({ key:k, t:e?e.t:t.t, d:e?e.d:t.d, m:e?e.m:t.m, own:false }); });
+  S.terms.added.forEach(function(t){ out.push({ key:t.id, t:t.t, d:t.d, m:t.m, own:true }); });
+  return out;
+}
+function termMods(){ return SUBJECTS.obsh.modules; }
+function renderTerms(root){
+  root=freshRoot();
+  var list=allTerms(), u=termUI;
+  var q=u.q.trim().toLowerCase();
+  var f=list.filter(function(t){
+    if(u.mod && t.m!==u.mod) return false;
+    if(u.onlyNew && S.terms.known[t.key]) return false;
+    if(q && (t.t+" "+t.d).toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+  var known=list.filter(function(t){return S.terms.known[t.key];}).length;
+  var html='<header class="panel hero"><div class="eyebrow">Обществознание · словарь</div><h1>Понятия</h1>'+
+    '<p class="sub">'+list.length+' '+plural(list.length,"понятие","понятия","понятий")+', из них выучено '+known+'. Ищи, фильтруй по модулю, учи карточками и добавляй новые.</p>'+
+    '<div class="bar" style="max-width:420px"><i style="width:'+(list.length?Math.round(known/list.length*100):0)+'%"></i></div></header>';
+  html+='<section class="section"><div class="tools">'+
+    '<div class="seg"><button data-tmode="list" class="'+(u.mode==="list"?"on":"")+'">Список</button><button data-tmode="cards" class="'+(u.mode==="cards"?"on":"")+'">Карточки</button></div>'+
+    '<input type="search" id="tq" placeholder="Поиск: «инфляция», «право»…" value="'+esc(u.q)+'" aria-label="Поиск понятия">'+
+    '<select id="tm" aria-label="Модуль"><option value="">Все модули</option>'+termMods().map(function(m){ var c=list.filter(function(t){return t.m===m.id;}).length; return '<option value="'+m.id+'"'+(u.mod===m.id?' selected':'')+'>'+m.name+' ('+c+')</option>'; }).join("")+'</select>'+
+    '<label class="chk"><input type="checkbox" id="tnew"'+(u.onlyNew?' checked':'')+'> только невыученные</label>'+
+    '<button class="btn" data-addterm>+ Понятие</button></div>';
+  if(u.mode==="list"){
+    html+='<div class="panel pad"><div class="terms">';
+    if(!f.length) html+='<p class="empty">Ничего не нашлось.</p>';
+    f.slice(0,400).forEach(function(t){
+      var m=SUBJECTS.obsh.modules.filter(function(x){return x.id===t.m;})[0];
+      html+='<div class="term'+(S.terms.known[t.key]?' known':'')+'"><span class="tt">'+hl(t.t,q)+(m?'<span class="modchip" style="--m:'+col(m)+'"><i></i>'+m.name+'</span>':'')+(t.own?' <span class="tag m">добавлено</span>':'')+'</span>'+
+        '<span class="ta"><button class="iconbtn" data-known="'+t.key+'" title="'+(S.terms.known[t.key]?'Снять отметку':'Выучено')+'" aria-label="Выучено" style="'+(S.terms.known[t.key]?'color:var(--ok)':'')+'">'+(S.terms.known[t.key]?'★':'☆')+'</button><button class="iconbtn" data-editterm="'+t.key+'" title="Изменить" aria-label="Изменить">✎</button></span>'+
+        '<span class="td">'+hl(t.d,q)+'</span></div>';
+    });
+    html+='</div>'+(f.length>400?'<p class="note">Показаны первые 400 — уточни поиск.</p>':'')+'</div>';
+  } else {
+    var key=f.map(function(t){return t.key;}).join("|");
+    if(!u.deck || u.deckKey!==key){ u.deck=shuffle(f.map(function(t){return t.key;})); u.deckKey=key; u.pos=0; u.flip=false; }
+    var cur = u.deck.length ? list.filter(function(t){return t.key===u.deck[u.pos % u.deck.length];})[0] : null;
+    if(!cur) html+='<div class="panel flash"><p class="fh">Карточек нет — смени фильтр.</p></div>';
+    else {
+      html+='<div class="panel flash" data-flip><span class="eyebrow">'+((u.pos%u.deck.length)+1)+' из '+u.deck.length+'</span><div class="ft">'+esc(cur.t)+'</div>'+
+        (u.flip?'<div class="fd">'+esc(cur.d)+'</div>':'<div class="fh">вспомни определение и нажми на карточку</div>')+'</div>'+
+        '<div class="fctl"><button class="btn ghost" data-fnext="0">Ещё повторю</button><button class="btn" data-fnext="1">★ Знаю</button></div>';
+    }
+  }
+  html+='</section>'+footer();
+  root.innerHTML=html;
+  setNav([]);
+  bindTerms(root);
+}
+function hl(s, q){ var e=esc(s); if(!q) return e; var i=s.toLowerCase().indexOf(q); if(i<0) return e; return esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length)); }
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function bindTerms(root){
+  var u=termUI;
+  var tq=$("#tq");
+  tq.addEventListener("input", function(){ u.q=tq.value; var pos=tq.selectionStart; renderTerms($("#app")); var n=$("#tq"); n.focus(); try{ n.setSelectionRange(pos,pos); }catch(e){} });
+  $("#tm").addEventListener("change", function(){ u.mod=this.value; renderTerms($("#app")); });
+  $("#tnew").addEventListener("change", function(){ u.onlyNew=this.checked; renderTerms($("#app")); });
+  root.addEventListener("click", function(e){
+    var el;
+    if((el=e.target.closest("[data-tmode]"))){ u.mode=el.getAttribute("data-tmode"); return renderTerms($("#app")); }
+    if((el=e.target.closest("[data-known]"))){ var k=el.getAttribute("data-known"); if(S.terms.known[k]) delete S.terms.known[k]; else S.terms.known[k]=today(); save(); var y=window.scrollY; renderTerms($("#app")); window.scrollTo(0,y); return; }
+    if(e.target.closest("[data-flip]")){ u.flip=!u.flip; return renderTerms($("#app")); }
+    if((el=e.target.closest("[data-fnext]"))){
+      var cur=u.deck[u.pos%u.deck.length];
+      if(el.getAttribute("data-fnext")==="1"){ S.terms.known[cur]=today(); save(); if(u.onlyNew){ u.deckKey=null; } }
+      u.pos++; u.flip=false; return renderTerms($("#app"));
+    }
+    if(e.target.closest("[data-addterm]")) return termModal(null);
+    if((el=e.target.closest("[data-editterm]"))) return termModal(el.getAttribute("data-editterm"));
+  });
+}
+function termModal(key){
+  var t = key ? allTerms().filter(function(x){return x.key===key;})[0] : { t:"", d:"", m:termUI.mod||"chio", own:true };
+  var isNew=!key;
+  openModal('<div class="mh"><h2>'+(isNew?'Новое понятие':'Изменить понятие')+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+    '<form id="tf" style="display:flex;flex-direction:column;gap:12px">'+
+    '<div class="field"><label for="tT">Понятие</label><input type="text" id="tT" required value="'+esc(t.t)+'"></div>'+
+    '<div class="field"><label for="tD">Определение</label><textarea id="tD" required style="min-height:110px">'+esc(t.d)+'</textarea></div>'+
+    '<div class="field"><label for="tM">Модуль</label><select id="tM">'+termMods().map(function(m){return '<option value="'+m.id+'"'+(m.id===t.m?' selected':'')+'>'+m.name+'</option>';}).join("")+'</select></div>'+
+    '<div class="mfoot">'+(!isNew?'<button type="button" class="btn danger" id="tDel">Удалить</button>':'')+(!isNew&&!t.own&&S.terms.edit[key]?'<button type="button" class="btn ghost" id="tRes">Вернуть исходное</button>':'')+
+    '<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Сохранить</button></div></form>',
+  function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="tDel" && confirm("Удалить понятие «"+t.t+"»?")){
+        if(t.own) S.terms.added=S.terms.added.filter(function(x){return x.id!==key;}); else S.terms.hidden[key]=1;
+        save(); closeModal(); renderTerms($("#app"));
+      }
+      if(e.target.id==="tRes"){ delete S.terms.edit[key]; save(); closeModal(); renderTerms($("#app")); }
+    });
+    $("#tf").addEventListener("submit", function(e){
+      e.preventDefault();
+      var n={ t:$("#tT").value.trim(), d:$("#tD").value.trim(), m:$("#tM").value }; if(!n.t||!n.d) return;
+      if(isNew){ n.id="u"+uid(); S.terms.added.push(n); }
+      else if(t.own){ var a=S.terms.added.filter(function(x){return x.id===key;})[0]; a.t=n.t; a.d=n.d; a.m=n.m; }
+      else S.terms.edit[key]=n;
+      save(); closeModal(); var y=window.scrollY; renderTerms($("#app")); window.scrollTo(0,y); toast(isNew?"Понятие добавлено":"Сохранено");
+    });
+  });
+}
+
+/* =====================================================================
+   ГЛАВНАЯ
+   ===================================================================== */
+function renderHome(root){
+  root=freshRoot();
+  var t=today();
+  var html='<header class="panel hero"><div class="eyebrow">'+fmtLong(t)+'</div><h1>Цели и прогресс</h1>'+
+    '<p class="sub">Тьюторство, обществознание и история в одном месте. Выбери ученика — откроется его страница с целями, графиками и отметками. Всё сохраняется в этом браузере; сверяемся на уроках.</p></header>';
+  html+='<div class="dirs">';
+  // тьюторство
+  html+='<section class="panel dir"><h2>Тьюторство <b>'+TUTOR_STUDENTS.length+'</b></h2><div class="stlist">';
+  TUTOR_STUDENTS.forEach(function(st){
+    var gs=S.tutor[st.id].goals, act=gs.filter(function(g){return g.status!=="done";}), s=tutorStats(st.id);
+    var p=act.length? act.reduce(function(a,g){return a+goalProgress(g);},0)/act.length : 0;
+    html+='<a class="st" href="#/t/'+st.id+'"><span><span class="nm">'+esc(st.name)+'</span><br><span class="gr">'+(gs.length? gs.length+' '+plural(gs.length,"цель","цели","целей")+' · уровень '+s.level : 'целей пока нет')+'</span></span><span class="pc">'+(gs.length?Math.round(p*100)+'%':'—')+'</span><span class="bar"><i style="width:'+Math.round(p*100)+'%"></i></span></a>';
+  });
+  html+='</div></section>';
+  ["obsh","hist"].forEach(function(sid){
+    var subj=SUBJECTS[sid], sts=SUBJ_STUDENTS.filter(function(s){return s.subject===sid;});
+    html+='<section class="panel dir '+sid+'"><h2>'+subj.name+' <b>'+sts.length+'</b></h2><div class="stlist">';
+    sts.forEach(function(st){
+      var plan=topicPlan(st), d=S.subj[st.id], dn=plan.filter(function(x){return d.topics[x.id];}).length;
+      var ex=d.results.filter(function(r){return r.fmt!=="module"&&r.kind!=="module";}).sort(function(a,b){return a.date<b.date?-1:1;});
+      var last=ex[ex.length-1], nx=nextTopic(st, plan);
+      html+='<a class="st" href="#/s/'+st.id+'"><span><span class="nm">'+esc(st.name)+'</span> <span class="gr">'+esc(st.grade)+'</span><br><span class="gr">'+
+        'цель '+st.q[4].total+'/'+subj.total+(subj.scale?' ('+(st.goalSecondary||secondary(subj,st.q[4].total))+' т.б.)':'')+' · последний: '+(last? last.total+(subj.scale?' ('+secondary(subj,last.total)+')':''):'—')+
+        (nx?'<br>дальше: №'+nx.num+' '+esc(nx.text.length>46?nx.text.slice(0,44)+'…':nx.text)+(nx.date?' · '+fmt(nx.date):''):'')+'</span></span>'+
+        '<span class="pc">'+dn+'/'+plan.length+'</span><span class="bar"><i style="width:'+Math.round(dn/plan.length*100)+'%"></i></span></a>';
+    });
+    html+='</div>'+(sid==="obsh"?'<a class="btn ghost small" href="#/terms" style="align-self:flex-start">Понятия →</a>':'')+'</section>';
+  });
+  html+='</div>';
+
+  // ближайшее — по направлениям
+  var groups={ tutor:[], obsh:[], hist:[] }, lo=addDays(t,-7), hi=addDays(t,45);
+  SUBJ_STUDENTS.forEach(function(st){
+    var nx=nextTopic(st);
+    if(nx) groups[st.subject].push({ date:nx.date||"", label:'Тема №'+nx.num+': '+nx.text, who:st.name, href:"#/s/"+st.id, kind:"topic", late:nx.date && nx.date<t });
+    checkpoints(st).forEach(function(c){
+      if(c.kind==="entry") return;
+      if(c.date>=lo && c.date<=hi && !resultFor(st,c)) groups[st.subject].push({ date:c.date, label:c.label, who:st.name, href:"#/s/"+st.id, kind:c.kind, late:c.date<t });
+    });
+  });
+  TUTOR_STUDENTS.forEach(function(st){
+    S.tutor[st.id].goals.forEach(function(g){
+      if(g.status==="done") return;
+      if(g.deadline && g.deadline>=lo && g.deadline<=hi) groups.tutor.push({ date:g.deadline, label:g.title, who:st.short, href:"#/t/"+st.id, kind:"goal", late:g.deadline<t });
+      g.tasks.forEach(function(tk){ if(!tk.done && tk.due && tk.due>=lo && tk.due<=hi) groups.tutor.push({ date:tk.due, label:tk.text, who:st.short, href:"#/t/"+st.id, kind:"task", late:tk.due<t }); });
+    });
+  });
+  html+='<section class="section"><div class="section-head"><h2>Ближайшие сроки</h2><span class="note">по направлениям · на полтора месяца вперёд</span></div><div class="dirs">';
+  [["tutor","Тьюторство",""],["obsh","Обществознание","obsh"],["hist","История","hist"]].forEach(function(gr){
+    var list=groups[gr[0]].sort(function(a,b){ if(!a.date) return 1; if(!b.date) return -1; return a.date<b.date?-1:a.date>b.date?1:0; });
+    html+='<div class="panel dir '+gr[2]+'"><h3>'+gr[1]+'</h3><div class="upcoming">';
+    if(!list.length) html+='<p class="empty">Ближайших сроков нет.</p>';
+    list.forEach(function(x){
+      var tag = x.kind==="quarter"?'<span class="tag q">четвертная</span>':x.kind==="module"?'<span class="tag m">модульная</span>':x.kind==="goal"?'<span class="tag ok">цель</span>':x.kind==="task"?'<span class="tag">задача</span>':x.kind==="topic"?'<span class="tag m">тема</span>':'<span class="tag">работа</span>';
+      html+='<a class="up up2" href="'+x.href+'"><span class="dt"'+(x.late?' style="color:var(--bad)"':'')+'>'+(x.date?fmt(x.date):'без даты')+'</span><span>'+tag+' <b class="who2">'+esc(x.who)+'</b><br>'+esc(x.label)+'</span></a>';
+    });
+    html+='</div></div>';
+  });
+  html+='</div></section>';
+  html+=footer();
+  root.innerHTML=html;
+  setNav([]);
+}
+
+/* ---------------- подвал: резервная копия ---------------- */
+function footer(){
+  return '<footer class="foot"><span>Данные хранятся в этом браузере. Чтобы перенести на другое устройство — сохрани копию и загрузи её там.<br><span class="mono" id="saveState" style="font-size:11px">'+(canSave?'сохранение работает':'браузер не даёт сохранять (приватный режим?)')+'</span></span>'+
+    '<span class="btns"><button class="btn small ghost" data-export>⬇ Сохранить копию</button><label class="btn small ghost" style="cursor:pointer">⬆ Загрузить копию<input type="file" accept=".json,application/json" data-import hidden></label></span></footer>';
+}
+document.addEventListener("click", function(e){
+  if(e.target.closest("[data-export]")){
+    var blob=new Blob([JSON.stringify(S,null,1)], {type:"application/json"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="celi-kopiya-"+today()+".json";
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    toast("Копия сохранена в загрузки");
+  }
+  var sn=e.target.closest("[data-scroll]");
+  if(sn){ e.preventDefault(); var el=document.getElementById(sn.getAttribute("data-scroll")); if(el) el.scrollIntoView({behavior:"smooth", block:"start"}); }
+});
+document.addEventListener("change", function(e){
+  if(!e.target.matches("[data-import]")) return;
+  var file=e.target.files[0]; if(!file) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try {
+      var o=JSON.parse(rd.result);
+      if(!o || typeof o!=="object" || !o.tutor || !o.subj) throw new Error("не похоже на копию с этого сайта");
+      if(!confirm("Заменить все данные в этом браузере данными из файла?")) return;
+      S=o; normalize(); save(); route(); toast("Копия загружена");
+    } catch(err){ toast("Не получилось: "+err.message); }
+  };
+  rd.readAsText(file);
+  e.target.value="";
+});
+
+function setNav(items){
+  var sub=$("#subnav");
+  sub.innerHTML=items.map(function(it){ return '<a href="#" data-scroll="'+it[0]+'">'+it[1]+'</a>'; }).join("");
+}
+
+/* ---------------- старт ---------------- */
+load();
+route();
+var rT; window.addEventListener("resize", function(){ clearTimeout(rT); rT=setTimeout(function(){ if(/^#\/s\//.test(location.hash)) { var st=subjStudent(location.hash.split("/")[2]); if(st){ scoreChart(st, SUBJECTS[st.subject], checkpoints(st), S.subj[st.id].results.filter(function(r){return r.fmt!=="module"&&r.kind!=="module";}).sort(function(a,b){return a.date<b.date?-1:1;})); topicsChart(st, topicPlan(st)); } } }, 200); });
+if(window.matchMedia) try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", route); } catch(e){}
+})();
+
+</script>
+</body>
+</html>
