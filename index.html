@@ -392,6 +392,37 @@ mark{background:var(--warn-soft); color:inherit; border-radius:3px; padding:0 1p
 .tdate.late{color:var(--bad); border-color:var(--bad-soft)}
 @media (max-width:620px){ .trow2{flex-wrap:wrap; gap:0 10px; padding-bottom:6px} .trow2 .topic{flex:1 1 100%} .trow2 .dt{margin-left:36px} .trow2 .tdate{margin-left:36px; flex:0 0 150px!important; width:150px!important} }
 
+.h1row{display:flex; align-items:center; gap:8px}
+.h1row .iconbtn{font-size:18px}
+.dirfoot{display:flex; gap:8px; flex-wrap:wrap; margin-top:auto}
+.linkbtn{background:none; border:0; padding:0; color:var(--dir); text-decoration:underline; cursor:pointer; font-size:inherit}
+.nbadge{display:inline-flex; min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:var(--bad); color:#fff; font-size:11px; font-weight:700; align-items:center; justify-content:center; font-family:var(--mono); vertical-align:1px}
+.notescols{display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start}
+@media (max-width:860px){ .notescols{grid-template-columns:1fr} }
+.remadd{display:flex; flex-direction:column; gap:10px}
+.rgroup{display:flex; flex-direction:column; gap:8px}
+.rgroup h3{font-size:15px}
+.rgroup h3.bad{color:var(--bad)}
+.rems{display:flex; flex-direction:column}
+.rem{display:flex; gap:10px; align-items:flex-start; padding:8px 2px}
+.rem+.rem{border-top:1px solid var(--border)}
+.rem input{appearance:none; -webkit-appearance:none; flex:none; width:20px; height:20px; margin:1px 0 0; border:1.5px solid var(--border2); border-radius:50%; background:var(--surface); cursor:pointer; position:relative}
+.rem input:checked{background:var(--ok); border-color:var(--ok)}
+.rem input:checked::after{content:""; position:absolute; left:6px; top:2px; width:5px; height:10px; border:solid var(--surface); border-width:0 2px 2px 0; transform:rotate(43deg)}
+.rem .rtx{flex:1; min-width:0; cursor:pointer; font-size:14.5px; line-height:1.4; word-break:break-word}
+.rem .rtx small{display:block; color:var(--muted); font-size:12.5px; font-family:var(--mono)}
+.rem.late .rtx small{color:var(--bad)}
+.rem.done .rtx{color:var(--muted); text-decoration:line-through}
+.ngrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px}
+.ncard{padding:14px 16px; display:flex; flex-direction:column; gap:6px; cursor:pointer; position:relative; border-top:3px solid var(--border2)}
+.ncard.pinned{border-top-color:var(--warn)}
+.ncard .pin{position:absolute; top:8px; right:10px; font-size:13px}
+.ncard h3{font-size:15.5px; padding-right:18px}
+.ncard .ntext{font-size:14px; color:var(--ink2); white-space:pre-wrap; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient:vertical; overflow:hidden; word-break:break-word}
+@media (hover:hover){ .ncard:hover{border-color:var(--border2)} }
+.remhome{border-left:4px solid var(--bad)}
+input[type=time]{font:inherit; font-size:15px; padding:8px 10px; border:1px solid var(--border); border-radius:9px; background:var(--surface); color:var(--ink); width:100%}
+
 </style>
 </head>
 <body>
@@ -401,6 +432,7 @@ mark{background:var(--warn-soft); color:inherit; border-radius:3px; padding:0 1p
   <div class="navlinks" style="margin-left:0">
     <a href="#/" data-r="home">Ученики</a>
     <a href="#/terms" data-r="terms">Понятия</a>
+    <a href="#/notes" data-r="notes">Заметки</a>
   </div>
 </div></nav>
 <main class="wrap" id="app"></main>
@@ -1036,7 +1068,8 @@ function toast(msg){
 var LS_KEY = "uchet-celey-v1";
 var S, canSave = true;
 
-function blank(){ return { v:1, tutor:{}, subj:{}, terms:{ added:[], edit:{}, hidden:{}, known:{} } }; }
+function blank(){ return { v:1, tutor:{}, subj:{}, terms:{ added:[], edit:{}, hidden:{}, known:{} },
+  custom:{ tutor:[], subj:[] }, removed:{}, stEdit:{}, notes:[], reminders:[] }; }
 function load(){
   var st=null;
   try { var raw=localStorage.getItem(LS_KEY); if(raw) st=JSON.parse(raw); } catch(e){ canSave=false; }
@@ -1047,6 +1080,7 @@ function normalize(){
   var b=blank();
   Object.keys(b).forEach(function(k){ if(!S[k]) S[k]=b[k]; });
   ["added","edit","hidden","known"].forEach(function(k){ if(!S.terms[k]) S.terms[k]=b.terms[k]; });
+  if(!S.custom.tutor) S.custom.tutor=[]; if(!S.custom.subj) S.custom.subj=[];
   seed();
 }
 function freshRoot(){ var old=$("#app"), n=old.cloneNode(false); old.parentNode.replaceChild(n, old); return n; }
@@ -1055,7 +1089,7 @@ function save(){
   var el=$("#saveState"); if(el) el.textContent = canSave ? "сохранено в этом браузере · "+new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}) : "браузер не даёт сохранять (приватный режим?)";
 }
 function seed(){
-  TUTOR_STUDENTS.forEach(function(st){
+  tutorList().forEach(function(st){
     if(!S.tutor[st.id]){
       S.tutor[st.id] = { goals:(TUTOR_SEED[st.id]||[]).map(function(g){
         var c=JSON.parse(JSON.stringify(g));
@@ -1065,7 +1099,7 @@ function seed(){
       }) };
     }
   });
-  SUBJ_STUDENTS.forEach(function(st){
+  subjList().forEach(function(st){
     if(!S.subj[st.id]){
       S.subj[st.id] = { topics:{}, results:(st.seedResults||[]).map(function(r){ var c=JSON.parse(JSON.stringify(r)); c.id=uid(); c.cp=""; return c; }),
         skills:{}, cpEdit:{}, cpAdd:[], cpDel:{}, goalText:null };
@@ -1093,20 +1127,25 @@ function route(){
   $all(".navlinks a").forEach(function(a){ a.classList.toggle("on", a.getAttribute("data-r")===(view||"home")); });
   var root=$("#app");
   try {
-    if(view==="t" && TUTOR_STUDENTS.some(function(s){return s.id===id;})) { document.body.className="d-tutor"; renderTutor(root, id); }
-    else if(view==="s" && SUBJ_STUDENTS.some(function(s){return s.id===id;})) { var st=subjStudent(id); document.body.className="d-"+st.subject; renderSubj(root, st); }
+    if(view==="t" && tutorStudent(id)) { document.body.className="d-tutor"; renderTutor(root, id); }
+    else if(view==="s" && subjStudent(id)) { var st=subjStudent(id); document.body.className="d-"+st.subject; renderSubj(root, st); }
     else if(view==="terms") { document.body.className="d-obsh"; renderTerms(root); }
+    else if(view==="notes") { document.body.className="d-hist"; renderNotes(root); }
     else { document.body.className="d-tutor"; renderHome(root); }
   } catch(err){
     root.innerHTML='<p class="failnote">Что-то сломалось при отрисовке: <code>'+esc(err && err.message)+'</code>. Покажи это сообщение — починю.</p>';
     if(window.console) console.error(err);
   }
+  updateNavBadge();
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange", route);
 
-function subjStudent(id){ return SUBJ_STUDENTS.filter(function(s){ return s.id===id; })[0]; }
-function tutorStudent(id){ return TUTOR_STUDENTS.filter(function(s){ return s.id===id; })[0]; }
+function withEdit(st){ var e=S.stEdit[st.id]; if(!e) return st; var n={}; Object.keys(st).forEach(function(k){ n[k]=st[k]; }); Object.keys(e).forEach(function(k){ if(e[k]) n[k]=e[k]; }); return n; }
+function tutorList(){ return TUTOR_STUDENTS.filter(function(s){ return !S.removed[s.id]; }).concat(S.custom.tutor).map(withEdit); }
+function subjList(){ return SUBJ_STUDENTS.filter(function(s){ return !S.removed[s.id]; }).concat(S.custom.subj).map(withEdit); }
+function subjStudent(id){ return subjList().filter(function(s){ return s.id===id; })[0]; }
+function tutorStudent(id){ return tutorList().filter(function(s){ return s.id===id; })[0]; }
 
 /* =====================================================================
    ТЬЮТОРСТВО
@@ -1230,7 +1269,7 @@ function renderTutor(root, id){
   html+='<header class="shead">'+
     '<div class="panel main">'+
       '<div class="eyebrow">Тьюторство · здоровье · саморазвитие · развитие</div>'+
-      '<h1>'+esc(st.name)+'</h1>'+
+      '<div class="h1row"><h1>'+esc(st.name)+'</h1><button class="iconbtn" data-st-edit="t:'+st.id+'" title="Ученик: имя, удалить" aria-label="Настройки ученика">⚙</button></div>'+
       '<p class="goaltext">'+ (goals.length ? (active.length+' '+plural(active.length,"цель","цели","целей")+' в работе, '+stats.goalsDone+' '+plural(stats.goalsDone,"достигнута","достигнуты","достигнуто")+'. Отмечай привычки в календаре, записывай замеры и закрывай задачи — за всё начисляется опыт.')
         : 'Целей пока нет. Начни с одной цели в любой сфере: что именно, к какому сроку и как поймём, что получилось.') +'</p>'+
       '<div class="row">'+ SPHERES.map(function(s){ return '<button class="btn small ghost" data-add-goal="'+s.id+'">+ '+s.name.toLowerCase()+'</button>'; }).join("")+'</div>'+
@@ -1261,9 +1300,10 @@ function renderTutor(root, id){
     BADGES.map(function(b){ var got=b.ok(stats); return '<div class="badge'+(got?' got':'')+'"><span class="ic">'+b.ic+'</span><span><b>'+b.name+'</b><small>'+b.d+'</small></span></div>'; }).join("")+
   '</div><p class="note">Опыт: +10 за поставленную цель, +10 за отметку привычки, +15 за задачу, +5 за замер, +100 за достигнутую цель.</p></section>';
 
+  html+=studentNotesBlock('t:'+id);
   html+=footer();
   root.innerHTML=html;
-  setNav([["sec-goals","Цели"],["sec-cal","Календарь"],["sec-badges","Достижения"]]);
+  setNav([["sec-goals","Цели"],["sec-cal","Календарь"],["sec-badges","Достижения"],["sec-notes","Заметки"]]);
 
   if(!calState[id]){ var t=pd(today()); calState[id]={ y:t.getFullYear(), m:t.getMonth(), sel:today() }; }
   renderTCal(id);
@@ -1591,7 +1631,7 @@ function renderSubj(root, st){
 
   var html='<header class="shead"><div class="panel main">'+
     '<div class="eyebrow">'+esc(subj.name)+' · '+esc(st.grade)+'</div>'+
-    '<h1>'+esc(st.name)+'</h1>'+
+    '<div class="h1row"><h1>'+esc(st.name)+'</h1><button class="iconbtn" data-st-edit="s:'+st.id+'" title="Ученик: имя, класс, удалить" aria-label="Настройки ученика">⚙</button></div>'+
     '<p class="goaltext">'+esc(d.goalText||st.goalText)+' <button class="iconbtn" data-edit-goaltext title="Изменить формулировку" aria-label="Изменить формулировку цели" style="width:26px;height:26px;font-size:13px;vertical-align:-6px">✎</button></p>'+
     '<div class="countdown"><span class="cd-num">'+daysLeft.toLocaleString("ru-RU")+'</span><span class="cd-cap">'+plural(daysLeft,"день","дня","дней")+' до '+fmtLong(st.goalDate)+' · ≈ '+Math.floor(daysLeft/7)+' нед.</span></div>'+
   '</div><div class="panel ringbox">'+ring(done, plan.length)+'<div class="lbl"><b>'+done+' из '+plan.length+' тем</b>'+(nt?'дальше — тема №'+nt.num+':<br><span style="color:var(--ink)">'+esc(nt.text)+'</span><br>'+(nt.date?'<span class="mono">'+fmtLong(nt.date)+'</span>':'дата не назначена'):'весь план пройден')+'</div></div></header>';
@@ -1682,9 +1722,10 @@ function renderSubj(root, st){
   });
   html+='</div></div></section>';
   if(st.subject==="obsh") html+='<p class="note">Понятия по обществознанию — в разделе <a href="#/terms">«Понятия»</a>.</p>';
+  html+=studentNotesBlock('s:'+st.id);
   html+=footer();
   root.innerHTML=html;
-  setNav([["sec-goal","Цель"],["sec-charts","Графики"],["sec-cps","Точки"],["sec-res","Результаты"],["sec-topics","Темы"]]);
+  setNav([["sec-goal","Цель"],["sec-charts","Графики"],["sec-cps","Точки"],["sec-res","Результаты"],["sec-topics","Темы"],["sec-notes","Заметки"]]);
   scoreChart(st, subj, cps, exams);
   topicsChart(st, plan);
   bindSubj(root, st);
@@ -2076,17 +2117,19 @@ function renderHome(root){
   var t=today();
   var html='<header class="panel hero"><div class="eyebrow">'+fmtLong(t)+'</div><h1>Цели и прогресс</h1>'+
     '<p class="sub">Тьюторство, обществознание и история в одном месте. Выбери ученика — откроется его страница с целями, графиками и отметками. Всё сохраняется в этом браузере; сверяемся на уроках.</p></header>';
+  var tl=tutorList();
+  html+=homeReminders();
   html+='<div class="dirs">';
   // тьюторство
-  html+='<section class="panel dir"><h2>Тьюторство <b>'+TUTOR_STUDENTS.length+'</b></h2><div class="stlist">';
-  TUTOR_STUDENTS.forEach(function(st){
+  html+='<section class="panel dir"><h2>Тьюторство <b>'+tl.length+'</b></h2><div class="stlist">';
+  tl.forEach(function(st){
     var gs=S.tutor[st.id].goals, act=gs.filter(function(g){return g.status!=="done";}), s=tutorStats(st.id);
     var p=act.length? act.reduce(function(a,g){return a+goalProgress(g);},0)/act.length : 0;
     html+='<a class="st" href="#/t/'+st.id+'"><span><span class="nm">'+esc(st.name)+'</span><br><span class="gr">'+(gs.length? gs.length+' '+plural(gs.length,"цель","цели","целей")+' · уровень '+s.level : 'целей пока нет')+'</span></span><span class="pc">'+(gs.length?Math.round(p*100)+'%':'—')+'</span><span class="bar"><i style="width:'+Math.round(p*100)+'%"></i></span></a>';
   });
-  html+='</div></section>';
+  html+='</div>'+dirFoot("tutor")+'</section>';
   ["obsh","hist"].forEach(function(sid){
-    var subj=SUBJECTS[sid], sts=SUBJ_STUDENTS.filter(function(s){return s.subject===sid;});
+    var subj=SUBJECTS[sid], sts=subjList().filter(function(s){return s.subject===sid;});
     html+='<section class="panel dir '+sid+'"><h2>'+subj.name+' <b>'+sts.length+'</b></h2><div class="stlist">';
     sts.forEach(function(st){
       var plan=topicPlan(st), d=S.subj[st.id], dn=plan.filter(function(x){return d.topics[x.id];}).length;
@@ -2097,13 +2140,13 @@ function renderHome(root){
         (nx?'<br>дальше: №'+nx.num+' '+esc(nx.text.length>46?nx.text.slice(0,44)+'…':nx.text)+(nx.date?' · '+fmt(nx.date):''):'')+'</span></span>'+
         '<span class="pc">'+dn+'/'+plan.length+'</span><span class="bar"><i style="width:'+Math.round(dn/plan.length*100)+'%"></i></span></a>';
     });
-    html+='</div>'+(sid==="obsh"?'<a class="btn ghost small" href="#/terms" style="align-self:flex-start">Понятия →</a>':'')+'</section>';
+    html+='</div>'+dirFoot(sid)+'</section>';
   });
   html+='</div>';
 
   // ближайшее — по направлениям
   var groups={ tutor:[], obsh:[], hist:[] }, lo=addDays(t,-7), hi=addDays(t,45);
-  SUBJ_STUDENTS.forEach(function(st){
+  subjList().forEach(function(st){
     var nx=nextTopic(st);
     if(nx) groups[st.subject].push({ date:nx.date||"", label:'Тема №'+nx.num+': '+nx.text, who:st.name, href:"#/s/"+st.id, kind:"topic", late:nx.date && nx.date<t });
     checkpoints(st).forEach(function(c){
@@ -2111,7 +2154,7 @@ function renderHome(root){
       if(c.date>=lo && c.date<=hi && !resultFor(st,c)) groups[st.subject].push({ date:c.date, label:c.label, who:st.name, href:"#/s/"+st.id, kind:c.kind, late:c.date<t });
     });
   });
-  TUTOR_STUDENTS.forEach(function(st){
+  tl.forEach(function(st){
     S.tutor[st.id].goals.forEach(function(g){
       if(g.status==="done") return;
       if(g.deadline && g.deadline>=lo && g.deadline<=hi) groups.tutor.push({ date:g.deadline, label:g.title, who:st.short, href:"#/t/"+st.id, kind:"goal", late:g.deadline<t });
@@ -2134,6 +2177,299 @@ function renderHome(root){
   root.innerHTML=html;
   setNav([]);
 }
+
+
+/* =====================================================================
+   УЧЕНИКИ: добавить, изменить, убрать
+   ===================================================================== */
+function dirFoot(dir){
+  var hidden = (dir==="tutor"?TUTOR_STUDENTS:SUBJ_STUDENTS.filter(function(s){return s.subject===dir;})).filter(function(s){ return S.removed[s.id]; });
+  var h='<div class="dirfoot"><button class="btn small ghost" data-st-add="'+dir+'">+ ученик</button>'+
+    (dir==="obsh"?'<a class="btn ghost small" href="#/terms">Понятия →</a>':'')+'</div>';
+  if(hidden.length) h+='<p class="note">Убраны: '+hidden.map(function(s){ return esc(s.name)+' <button class="linkbtn" data-st-restore="'+s.id+'">вернуть</button>'; }).join(", ")+'</p>';
+  return h;
+}
+function stKeyName(key){
+  if(!key) return "";
+  var p=key.split(":"), st = p[0]==="t" ? tutorStudent(p[1]) : subjStudent(p[1]);
+  if(!st) return "";
+  return st.name + (p[0]==="t" ? " · тьюторство" : " · "+SUBJECTS[st.subject].short);
+}
+function stOptions(sel){
+  var o='<option value="">— без ученика —</option><optgroup label="Тьюторство">'+tutorList().map(function(s){ return '<option value="t:'+s.id+'"'+(sel==="t:"+s.id?' selected':'')+'>'+esc(s.name)+'</option>'; }).join("")+'</optgroup>';
+  ["obsh","hist"].forEach(function(sid){
+    o+='<optgroup label="'+SUBJECTS[sid].name+'">'+subjList().filter(function(s){return s.subject===sid;}).map(function(s){ return '<option value="s:'+s.id+'"'+(sel==="s:"+s.id?' selected':'')+'>'+esc(s.name)+'</option>'; }).join("")+'</optgroup>';
+  });
+  return o;
+}
+
+/* типовые параметры для нового ученика по предмету */
+function defaultPlan(sid){
+  if(sid==="obsh") return { plan:[ {mods:["chio","dk"], from:0, to:1}, {mods:["econ","soc"], from:2, to:3}, {mods:["pol"], from:4, to:5}, {mods:["law"], from:6, to:7} ],
+    qMods:[["chio","dk"],["chio","dk","econ","soc"],["chio","dk","econ","soc","pol"],["chio","dk","econ","soc","pol","law"],["chio","dk","econ","soc","pol","law"]],
+    qTasks:[[17,18,21,22],[17,18,21,22,24],[17,18,19,21,22,24,25],[17,18,19,20,21,22,24,25],[17,18,19,20,21,22,24,25]],
+    modWorks:[ {date:"2026-10-21", mods:["chio","dk"]}, {date:"2026-12-09", mods:["econ"]}, {date:"2026-12-16", mods:["soc"]}, {date:"2027-02-17", mods:["pol"]}, {date:"2027-04-14", mods:["law"]} ] };
+  return { plan:[ {mods:["h1"], from:0, to:1}, {mods:["h2"], from:2, to:3}, {mods:["h3","h4"], from:4, to:5}, {mods:["h5","h6"], from:6, to:7}, {mods:["h7"], from:8, to:8} ],
+    qMods:[["h1"],["h1","h2"],["h1","h2","h3","h4"],["h1","h2","h3","h4","h5","h6"],["h1","h2","h3","h4","h5","h6","h7"]],
+    qTasks:[[1,2,3,5,7],[1,2,3,4,5,7,8,9,10,11],[1,2,3,4,5,6,7,8,9,10,11,12,13,14],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,20],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20]],
+    modWorks:[ {date:"2026-10-21", mods:["h1"]}, {date:"2026-12-16", mods:["h2"]}, {date:"2027-01-27", mods:["h3"]}, {date:"2027-02-17", mods:["h4"]}, {date:"2027-03-17", mods:["h5"]}, {date:"2027-04-14", mods:["h6"]} ] };
+}
+function makeSubjStudent(o){
+  var subj=SUBJECTS[o.subject], dp=defaultPlan(o.subject);
+  var fin=clamp(Math.round(o.final),1,subj.total), start=clamp(Math.round(o.start||0),0,fin);
+  var share = o.subject==="obsh" ? 28/58 : 0.6;
+  var q=[];
+  for(var i=1;i<=5;i++){
+    var tot=Math.round(start+(fin-start)*i/5);
+    var p1=Math.min(subj.parts[0].max, Math.round(tot*share)), p2=Math.min(subj.parts[1].max, tot-p1); p1=tot-p2;
+    q.push({ total:tot, parts:[p1,p2], mods:dp.qMods[i-1], tasks:dp.qTasks[i-1] });
+  }
+  var sec = subj.scale ? secondary(subj, fin) : null;
+  return { id:"c"+uid(), subject:o.subject, name:o.name, grade:o.grade||"", goalDate:o.goalDate||"2027-05-15",
+    goalSecondary: subj.scale ? (o.secondary||sec) : null,
+    goalText: o.goalText || ("Цель к "+fmtLong(o.goalDate||"2027-05-15")+": "+fin+"/"+subj.total+" первичных"+(subj.scale?" ("+(o.secondary||sec)+" тестовых)":"")+". Цели по четвертям рассчитаны равномерно — их можно поправить в «Контрольных точках»."),
+    plan:dp.plan, q:q, modWorks:dp.modWorks, custom:true };
+}
+
+function addStudentModal(dir){
+  var isT = dir==="tutor", subj = isT?null:SUBJECTS[dir];
+  var h='<div class="mh"><h2>Новый ученик · '+(isT?'тьюторство':subj.name.toLowerCase())+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+  '<form id="af" style="display:flex;flex-direction:column;gap:12px">'+
+   '<div class="row"><div class="field"><label for="aName">Имя</label><input type="text" id="aName" required placeholder="Например: Петя К."></div>'+
+   (isT?'':'<div class="field"><label for="aGrade">Класс</label><input type="text" id="aGrade" placeholder="10 класс"></div>')+'</div>';
+  if(!isT){
+    h+='<div class="row"><div class="field"><label for="aDate">Цель к дате</label><input type="date" id="aDate" value="2027-05-15"></div>';
+    if(subj.scale) h+='<div class="field"><label for="aSec">Цель, тестовых баллов</label><input type="number" id="aSec" min="1" max="100" value="60"></div>'+
+      '<div class="field"><label for="aStart">Сейчас, тестовых</label><input type="number" id="aStart" min="0" max="100" value="0"></div>';
+    else h+='<div class="field"><label for="aFin">Цель, баллов из '+subj.total+'</label><input type="number" id="aFin" min="1" max="'+subj.total+'" value="40"></div>'+
+      '<div class="field"><label for="aStart">Сейчас, баллов</label><input type="number" id="aStart" min="0" max="'+subj.total+'" value="15"></div>';
+    h+='</div><p class="note" id="aHint">Цели по четвертям, промежуточные и модульные работы появятся сами — их потом можно поправить.</p>';
+  } else h+='<p class="note">Цели ученик поставит на своей странице — кнопками «+ здоровье / саморазвитие / развитие».</p>';
+  h+='<div class="mfoot"><span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Добавить</button></div></form>';
+  openModal(h, function(box){
+    box.addEventListener("click", function(e){ if(e.target.closest("[data-close]")) closeModal(); });
+    if(subj && subj.scale){ var upd=function(){ var v=num($("#aSec").value); if(v!=null) $("#aHint").textContent=v+" тестовых ≈ "+primFor(subj,v)+" первичных из "+subj.total+". Цели по четвертям рассчитаются равномерно — потом можно поправить."; }; $("#aSec").addEventListener("input",upd); upd(); }
+    $("#af").addEventListener("submit", function(e){
+      e.preventDefault();
+      var name=$("#aName").value.trim(); if(!name) return;
+      var id;
+      if(isT){ id="c"+uid(); S.custom.tutor.push({ id:id, name:name, short:name.split(" ")[0], custom:true }); seed(); save(); closeModal(); location.hash="#/t/"+id; }
+      else {
+        var o={ subject:dir, name:name, grade:$("#aGrade").value.trim(), goalDate:$("#aDate").value||"2027-05-15" };
+        if(subj.scale){ o.secondary=num($("#aSec").value)||50; o.final=primFor(subj,o.secondary); var sv=num($("#aStart").value)||0; o.start=sv?primFor(subj,sv):0; }
+        else { o.final=num($("#aFin").value)||40; o.start=num($("#aStart").value)||0; }
+        var st=makeSubjStudent(o); S.custom.subj.push(st); seed(); save(); closeModal(); location.hash="#/s/"+st.id;
+      }
+      toast("Ученик добавлен");
+    });
+  });
+}
+
+function editStudentModal(key){
+  var p=key.split(":"), isT=p[0]==="t", st=isT?tutorStudent(p[1]):subjStudent(p[1]);
+  if(!st) return;
+  var h='<div class="mh"><h2>'+esc(st.name)+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+  '<form id="ef" style="display:flex;flex-direction:column;gap:12px">'+
+   '<div class="row"><div class="field"><label for="eName">Имя</label><input type="text" id="eName" required value="'+esc(st.name)+'"></div>'+
+   (isT?'':'<div class="field"><label for="eGrade">Класс</label><input type="text" id="eGrade" value="'+esc(st.grade||"")+'"></div>')+'</div>'+
+   (isT?'':'<div class="field"><label for="eDate">Дата цели (отсчёт)</label><input type="date" id="eDate" value="'+esc(st.goalDate)+'"></div>')+
+   '<p class="note">'+(st.custom?'Удаление сотрёт все отметки и результаты этого ученика.':'Ученик из исходного списка: «Убрать» спрячет его, отметки сохранятся — вернуть можно на главной.')+'</p>'+
+   '<div class="mfoot"><button type="button" class="btn danger" id="eDel">'+(st.custom?'Удалить ученика':'Убрать ученика')+'</button><span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Сохранить</button></div></form>';
+  openModal(h, function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="eDel"){
+        if(!confirm((st.custom?"Удалить ":"Убрать ")+st.name+"?")) return;
+        if(st.custom){
+          if(isT){ S.custom.tutor=S.custom.tutor.filter(function(x){return x.id!==st.id;}); delete S.tutor[st.id]; }
+          else { S.custom.subj=S.custom.subj.filter(function(x){return x.id!==st.id;}); delete S.subj[st.id]; }
+          delete S.stEdit[st.id];
+        } else S.removed[st.id]=1;
+        save(); closeModal(); location.hash="#/"; route(); toast("Готово");
+      }
+    });
+    $("#ef").addEventListener("submit", function(e){
+      e.preventDefault();
+      var ed={ name:$("#eName").value.trim()||st.name };
+      if(isT) ed.short=ed.name.split(" ")[0];
+      else { ed.grade=$("#eGrade").value.trim(); ed.goalDate=$("#eDate").value||st.goalDate; }
+      S.stEdit[st.id]=ed; save(); closeModal(); route(); toast("Сохранено");
+    });
+  });
+}
+
+/* =====================================================================
+   ЗАМЕТКИ И НАПОМИНАНИЯ
+   ===================================================================== */
+var notesUI={ q:"", who:"", showDone:false };
+function remBucket(r){
+  var t=today();
+  if(r.done) return "done";
+  if(r.date<t) return "late";
+  if(r.date===t) return "today";
+  if(r.date===addDays(t,1)) return "tomorrow";
+  if(r.date<=addDays(t,7)) return "week";
+  return "later";
+}
+var BUCKETS=[["late","Просрочено"],["today","Сегодня"],["tomorrow","Завтра"],["week","На неделе"],["later","Позже"],["done","Выполнено"]];
+function dueCount(){ return (S.reminders||[]).filter(function(r){ var b=remBucket(r); return b==="late"||b==="today"; }).length; }
+function updateNavBadge(){
+  var a=$('.navlinks a[data-r="notes"]'); if(!a) return;
+  var n=dueCount(); a.innerHTML='Заметки'+(n?' <span class="nbadge">'+n+'</span>':'');
+}
+function remRow(r, showWho){
+  var b=remBucket(r), rep=r.repeat==="daily"?"каждый день":r.repeat==="weekly"?"каждую неделю":"";
+  return '<div class="rem'+(r.done?' done':'')+(b==="late"?' late':'')+'"><input type="checkbox" data-rem-done="'+r.id+'"'+(r.done?' checked':'')+' aria-label="Выполнено">'+
+    '<span class="rtx" data-rem-open="'+r.id+'" role="button" tabindex="0">'+esc(r.text)+'<small>'+(r.date?fmt(r.date):'')+(r.time?' '+esc(r.time):'')+(rep?' · ↻ '+rep:'')+(showWho&&r.who&&stKeyName(r.who)?' · '+esc(stKeyName(r.who)):'')+'</small></span></div>';
+}
+function noteCard(n, showWho){
+  return '<article class="panel ncard'+(n.pinned?' pinned':'')+'" data-note-open="'+n.id+'" role="button" tabindex="0">'+
+    (n.pinned?'<span class="pin" title="Закреплено">📌</span>':'')+
+    (n.title?'<h3>'+esc(n.title)+'</h3>':'')+'<p class="ntext">'+esc(n.text)+'</p>'+
+    '<span class="note">'+fmt(n.updated||n.created)+(showWho&&n.who&&stKeyName(n.who)?' · '+esc(stKeyName(n.who)):'')+'</span></article>';
+}
+function sortNotes(list){ return list.slice().sort(function(a,b){ if(!!b.pinned!==!!a.pinned) return b.pinned?1:-1; return (b.updated||b.created)<(a.updated||a.created)?-1:1; }); }
+function sortRems(list){ return list.slice().sort(function(a,b){ return (a.date+(a.time||"99"))<(b.date+(b.time||"99"))?-1:1; }); }
+
+function homeReminders(){
+  var due=sortRems((S.reminders||[]).filter(function(r){ var b=remBucket(r); return b==="late"||b==="today"; }));
+  if(!due.length) return '';
+  return '<section class="panel pad remhome"><div class="section-head"><h2>Напоминания на сегодня</h2><a class="note" href="#/notes">все заметки →</a></div><div class="rems">'+
+    due.map(function(r){ return remRow(r,true); }).join("")+'</div></section>';
+}
+
+function studentNotesBlock(key){
+  var ns=sortNotes((S.notes||[]).filter(function(n){return n.who===key;}));
+  var rs=sortRems((S.reminders||[]).filter(function(r){return r.who===key && !r.done;}));
+  var h='<section class="section" id="sec-notes"><div class="section-head"><h2>Заметки и напоминания</h2><span class="row">'+
+    '<button class="btn small ghost" data-add-rem="'+key+'">+ напоминание</button><button class="btn small" data-add-note="'+key+'">+ заметка</button></span></div>';
+  if(!ns.length && !rs.length) h+='<p class="empty">Пока пусто. Заметки и напоминания об этом ученике будут здесь и на странице «Заметки».</p>';
+  if(rs.length) h+='<div class="panel pad"><div class="rems">'+rs.map(function(r){return remRow(r,false);}).join("")+'</div></div>';
+  if(ns.length) h+='<div class="ngrid">'+ns.map(function(n){return noteCard(n,false);}).join("")+'</div>';
+  return h+'</section>';
+}
+
+function renderNotes(root){
+  root=freshRoot();
+  var u=notesUI, q=u.q.trim().toLowerCase();
+  var rems=(S.reminders||[]).filter(function(r){ return (!u.who || r.who===u.who) && (!q || r.text.toLowerCase().indexOf(q)>=0); });
+  var notes=(S.notes||[]).filter(function(n){ return (!u.who || n.who===u.who) && (!q || ((n.title||"")+" "+n.text).toLowerCase().indexOf(q)>=0); });
+  var html='<header class="panel hero"><div class="eyebrow">заметки · напоминания</div><h1>Заметки</h1>'+
+    '<p class="sub">Что не забыть к уроку, договорённости с учениками, мысли по ходу. Напоминания на сегодня и просроченные видны на главной и в счётчике сверху.</p></header>';
+  html+='<div class="tools"><input type="search" id="nq" placeholder="Поиск по заметкам и напоминаниям" value="'+esc(u.q)+'" aria-label="Поиск">'+
+    '<select id="nw" aria-label="Ученик"><option value="">Все ученики</option>'+stOptions(u.who).replace('<option value="">— без ученика —</option>','')+'</select></div>';
+  html+='<div class="notescols">';
+  // напоминания
+  html+='<section class="section"><div class="section-head"><h2>Напоминания</h2><label class="chk note"><input type="checkbox" id="nDone"'+(u.showDone?' checked':'')+'> выполненные</label></div>'+
+    '<form class="panel pad remadd" id="remQuick"><input type="text" id="rqText" placeholder="Напомнить: принести пробники 11 классу…" aria-label="Текст напоминания" required>'+
+    '<div class="row"><div class="field"><label for="rqDate">Когда</label><input type="date" id="rqDate" value="'+today()+'"></div>'+
+    '<div class="field"><label for="rqTime">Время</label><input type="time" id="rqTime"></div>'+
+    '<div class="field"><label for="rqWho">Ученик</label><select id="rqWho">'+stOptions(u.who)+'</select></div>'+
+    '<button class="btn">Добавить</button></div></form>';
+  var any=false;
+  BUCKETS.forEach(function(bk){
+    if(bk[0]==="done" && !u.showDone) return;
+    var list=sortRems(rems.filter(function(r){return remBucket(r)===bk[0];}));
+    if(bk[0]==="done") list.reverse();
+    if(!list.length) return; any=true;
+    html+='<div class="rgroup"><h3 class="'+(bk[0]==="late"?'bad':'')+'">'+bk[1]+' <span class="mono note">'+list.length+'</span></h3><div class="panel pad"><div class="rems">'+list.map(function(r){return remRow(r,!u.who);}).join("")+'</div></div></div>';
+  });
+  if(!any) html+='<p class="empty">Напоминаний нет.</p>';
+  html+='</section>';
+  // заметки
+  html+='<section class="section"><div class="section-head"><h2>Заметки</h2><button class="btn small" data-add-note="'+esc(u.who)+'">+ заметка</button></div>';
+  if(!notes.length) html+='<p class="empty">Заметок нет.</p>';
+  else html+='<div class="ngrid">'+sortNotes(notes).map(function(n){return noteCard(n,!u.who);}).join("")+'</div>';
+  html+='</section></div>';
+  html+=footer();
+  root.innerHTML=html;
+  setNav([]);
+  var nq=$("#nq");
+  nq.addEventListener("input", function(){ u.q=nq.value; var pos=nq.selectionStart; renderNotes(); var n2=$("#nq"); n2.focus(); try{ n2.setSelectionRange(pos,pos); }catch(e){} });
+  $("#nw").addEventListener("change", function(){ u.who=this.value; renderNotes(); });
+  $("#nDone").addEventListener("change", function(){ u.showDone=this.checked; renderNotes(); });
+  $("#remQuick").addEventListener("submit", function(e){
+    e.preventDefault(); var tx=$("#rqText").value.trim(); if(!tx) return;
+    S.reminders.push({ id:uid(), text:tx, date:$("#rqDate").value||today(), time:$("#rqTime").value||"", who:$("#rqWho").value, repeat:"", done:null, created:today() });
+    save(); renderNotes(); updateNavBadge(); toast("Напоминание добавлено");
+  });
+}
+
+function noteModal(id, who){
+  var n = id ? S.notes.filter(function(x){return x.id===id;})[0] : { title:"", text:"", who:who||"", pinned:false };
+  var isNew=!id;
+  openModal('<div class="mh"><h2>'+(isNew?'Новая заметка':'Заметка')+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+    '<form id="nf" style="display:flex;flex-direction:column;gap:12px">'+
+    '<div class="field"><label for="nT">Заголовок</label><input type="text" id="nT" value="'+esc(n.title||"")+'" placeholder="необязательно"></div>'+
+    '<div class="field"><label for="nX">Текст</label><textarea id="nX" required style="min-height:160px">'+esc(n.text)+'</textarea></div>'+
+    '<div class="row"><div class="field"><label for="nW">Ученик</label><select id="nW">'+stOptions(n.who)+'</select></div>'+
+    '<label class="chk" style="padding-bottom:10px"><input type="checkbox" id="nP"'+(n.pinned?' checked':'')+'> 📌 закрепить</label></div>'+
+    '<div class="mfoot">'+(!isNew?'<button type="button" class="btn danger" id="nDel">Удалить</button>':'')+'<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Сохранить</button></div></form>',
+  function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="nDel" && confirm("Удалить заметку?")){ S.notes=S.notes.filter(function(x){return x.id!==n.id;}); save(); closeModal(); route(); }
+    });
+    $("#nf").addEventListener("submit", function(e){
+      e.preventDefault(); var tx=$("#nX").value.trim(); if(!tx) return;
+      n.title=$("#nT").value.trim(); n.text=tx; n.who=$("#nW").value; n.pinned=$("#nP").checked; n.updated=today();
+      if(isNew){ n.id=uid(); n.created=today(); S.notes.push(n); }
+      save(); closeModal(); keepScroll(route); toast("Сохранено");
+    });
+  });
+}
+function remModal(id, who){
+  var r = id ? S.reminders.filter(function(x){return x.id===id;})[0] : { text:"", date:today(), time:"", who:who||"", repeat:"", done:null };
+  var isNew=!id;
+  openModal('<div class="mh"><h2>'+(isNew?'Новое напоминание':'Напоминание')+'</h2><button class="iconbtn" data-close aria-label="Закрыть">✕</button></div>'+
+    '<form id="rf" style="display:flex;flex-direction:column;gap:12px">'+
+    '<div class="field"><label for="rT">Что напомнить</label><input type="text" id="rT" required value="'+esc(r.text)+'"></div>'+
+    '<div class="row"><div class="field"><label for="rD">Дата</label><input type="date" id="rD" required value="'+esc(r.date)+'"></div>'+
+    '<div class="field"><label for="rTm">Время</label><input type="time" id="rTm" value="'+esc(r.time||"")+'"></div>'+
+    '<div class="field"><label for="rR">Повтор</label><select id="rR"><option value="">не повторять</option><option value="daily"'+(r.repeat==="daily"?' selected':'')+'>каждый день</option><option value="weekly"'+(r.repeat==="weekly"?' selected':'')+'>каждую неделю</option></select></div></div>'+
+    '<div class="field"><label for="rW">Ученик</label><select id="rW">'+stOptions(r.who)+'</select></div>'+
+    '<div class="mfoot">'+(!isNew?'<button type="button" class="btn danger" id="rmDel">Удалить</button>':'')+'<span class="sp"></span><button type="button" class="btn ghost" data-close>Отмена</button><button class="btn">Сохранить</button></div></form>',
+  function(box){
+    box.addEventListener("click", function(e){
+      if(e.target.closest("[data-close]")) closeModal();
+      if(e.target.id==="rmDel"){ S.reminders=S.reminders.filter(function(x){return x.id!==r.id;}); save(); closeModal(); keepScroll(route); }
+    });
+    $("#rf").addEventListener("submit", function(e){
+      e.preventDefault(); var tx=$("#rT").value.trim(); if(!tx) return;
+      r.text=tx; r.date=$("#rD").value||today(); r.time=$("#rTm").value; r.repeat=$("#rR").value; r.who=$("#rW").value;
+      if(isNew){ r.id=uid(); r.created=today(); S.reminders.push(r); }
+      save(); closeModal(); keepScroll(route); toast("Сохранено");
+    });
+  });
+}
+function keepScroll(fn){ var y=window.scrollY; fn(); window.scrollTo(0,y); }
+function toggleRem(id){
+  var r=S.reminders.filter(function(x){return x.id===id;})[0]; if(!r) return;
+  if(r.done){ r.done=null; }
+  else if(r.repeat){
+    var step=r.repeat==="daily"?1:7, d=r.date;
+    do { d=addDays(d,step); } while(d<=today());
+    r.date=d; toast("Следующее — "+fmt(d));
+  } else { r.done=today(); toast("Выполнено"); }
+  save(); keepScroll(route);
+}
+/* общие обработчики: работают на любой странице */
+document.addEventListener("click", function(e){
+  var el;
+  if((el=e.target.closest("[data-st-add]"))) return addStudentModal(el.getAttribute("data-st-add"));
+  if((el=e.target.closest("[data-st-edit]"))) return editStudentModal(el.getAttribute("data-st-edit"));
+  if((el=e.target.closest("[data-st-restore]"))){ delete S.removed[el.getAttribute("data-st-restore")]; seed(); save(); route(); return toast("Ученик возвращён"); }
+  if((el=e.target.closest("[data-add-note]"))) return noteModal(null, el.getAttribute("data-add-note"));
+  if((el=e.target.closest("[data-add-rem]"))) return remModal(null, el.getAttribute("data-add-rem"));
+  if((el=e.target.closest("[data-note-open]"))) return noteModal(el.getAttribute("data-note-open"));
+  if((el=e.target.closest("[data-rem-open]"))) return remModal(el.getAttribute("data-rem-open"));
+});
+document.addEventListener("change", function(e){
+  var el=e.target.closest("[data-rem-done]"); if(el) toggleRem(el.getAttribute("data-rem-done"));
+});
+document.addEventListener("keydown", function(e){
+  if((e.key==="Enter"||e.key===" ") && e.target.matches && e.target.matches("[data-note-open],[data-rem-open]")){ e.preventDefault(); e.target.click(); }
+});
 
 /* ---------------- подвал: резервная копия ---------------- */
 function footer(){
